@@ -9,7 +9,7 @@ public class Reviews
     [BsonRepresentation(BsonType.ObjectId)]
     public string? Id { get; set; }
     public float Value { get; set; }
-    public Restaurants Restaurants { get; set; }
-    public Users Users { get; set; }
+    public Restaurants Restaurant { get; set; }
+    public Users User { get; set; }
     public Comments? Comment { get; set; }
 }
