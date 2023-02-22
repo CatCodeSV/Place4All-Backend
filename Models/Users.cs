@@ -1,20 +1,20 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 
-namespace WebApi.Modelos
+namespace WebApi.Models
 {
-    public class Usuario
+    public class Users
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
-        public string Nombre { get; set; } = "";
-        public string Apellido { get; set; } = "";
-        public string Genero { get; set; } = "";
-        public int Edad { get; set; }
-        public Direccion Direccion { get; set; }
-        public bool TieneDiscapacidad { get; set; } = false;
-        public decimal? GradoDiscapacidad { get; set; }
+        public string Name { get; set; } = "";
+        public string LastName { get; set; } = "";
+        public string Gender { get; set; } = "";
+        public int Age { get; set; }
+        public Addresses Addresses { get; set; }
+        public bool HasDisability { get; set; } = false;
+        public decimal? DisabilityDegree { get; set; }
         public string Email { get; set; } = "";
         public string Password { get; set; } = "";
 

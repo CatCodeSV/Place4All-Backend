@@ -1,4 +1,4 @@
-namespace WebApi.Modelos
+namespace WebApi.Models
 {
     public class DatabaseSettings : IDatabaseSettings
     {

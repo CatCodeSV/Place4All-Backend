@@ -4,53 +4,53 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using WebApi.Modelos;
-using WebApi.Servicios;
+using WebApi.Models;
+using WebApi.Services;
 
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("Usuario")]
-    public class UsuarioControlador : ControllerBase
+    [Route("UsersUsers")]
+    public class UsersController : ControllerBase
     {
-        private readonly UsuarioServicio _usuarioServicio;
-        private readonly DireccionServicio _direccionServicio;
+        private readonly UsersService _usersService;
+        private readonly AddressesService _addressesService;
         private readonly IConfiguration _configuration;
 
-        public UsuarioControlador(UsuarioServicio usuarioServicio, DireccionServicio direccionServicio, IConfiguration config)
+        public UsersController(UsersService usersService, AddressesService addressesService, IConfiguration config)
         {
-            _usuarioServicio = usuarioServicio;
-            _direccionServicio = direccionServicio;
+            _usersService = usersService;
+            _addressesService = addressesService;
             _configuration = config;
         }
         
         [HttpGet]
-        public ActionResult<List<Usuario>> Get() => _usuarioServicio.Get();
+        public ActionResult<List<Users>> Get() => _usersService.Get();
 
         [HttpGet("{id:length(24)}")]
-        public ActionResult<Usuario> Get(string id) => _usuarioServicio.Get(id);
+        public ActionResult<Users> Get(string id) => _usersService.Get(id);
 
         [HttpPost]
-        public ActionResult<Usuario> Create(Usuario usuario)
+        public ActionResult<Users> Create(Users users)
         {
-            var usuarioD = HasDireccion(usuario);
-            var usuarioCreada = _usuarioServicio.Create(usuarioD);
+            var usuarioD = HasDireccion(users);
+            var usuarioCreada = _usersService.Create(usuarioD);
 
-            return CreatedAtRoute("", new { id = usuario.Id }, usuarioCreada);
+            return CreatedAtRoute("", new { id = users.Id }, usuarioCreada);
         }
 
         [HttpPut("{id:length(24)}")]
-        public IActionResult Put(string id, Usuario usuarioInf)
+        public IActionResult Put(string id, Users usersInf)
         {
-            var usuario = _usuarioServicio.Get(id);
+            var usuario = _usersService.Get(id);
 
             if (usuario == null)
             {
                 return NotFound();
             }
 
-            usuarioInf.Id = usuario.Id;
-            _usuarioServicio.Update(id, usuarioInf);
+            usersInf.Id = usuario.Id;
+            _usersService.Update(id, usersInf);
 
             return NoContent();
         }
@@ -58,7 +58,7 @@ namespace WebApi.Controllers
         [HttpDelete("{id:length(24)}")]
         public IActionResult Delete(string id)
         {
-            var usuario = _usuarioServicio.Get(id);
+            var usuario = _usersService.Get(id);
 
 
             if (usuario == null)
@@ -66,34 +66,34 @@ namespace WebApi.Controllers
                 return NotFound();
             }
             DeleteDireccion(usuario);
-            _usuarioServicio.Remove(usuario);
+            _usersService.Remove(usuario);
 
             return NoContent();
         }
-        private Usuario HasDireccion(Usuario usuario)
+        private Users HasDireccion(Users users)
         {
             
-            if (usuario.Direccion.Id == null)
+            if (users.Addresses.Id == null)
             {
-                var direccionD = _direccionServicio.Create(usuario.Direccion);
-                usuario.Direccion = direccionD;
-                return usuario;
+                var direccionD = _addressesService.Create(users.Addresses);
+                users.Addresses = direccionD;
+                return users;
             }
 
-            var direccion = _direccionServicio.Get(usuario.Direccion.Id);
+            var direccion = _addressesService.Get(users.Addresses.Id);
             if (direccion == null)
             {
-                direccion = _direccionServicio.Create(usuario.Direccion);
-                usuario.Direccion = direccion;
-                return usuario;
+                direccion = _addressesService.Create(users.Addresses);
+                users.Addresses = direccion;
+                return users;
             }
 
-            return usuario;
+            return users;
         }
 
-        private void DeleteDireccion(Usuario usuario)
+        private void DeleteDireccion(Users users)
         {
-            _direccionServicio.Remove(usuario.Direccion);
+            _addressesService.Remove(users.Addresses);
         }
         
         [HttpPost("login")]
@@ -112,7 +112,7 @@ namespace WebApi.Controllers
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                         new Claim("Id", user.Id),
-                        new Claim("DisplayName", $"{user.Nombre} {user.Apellido}"),
+                        new Claim("DisplayName", $"{user.Name} {user.LastName}"),
                         new Claim("Email", user.Email)
                     };
 
@@ -128,7 +128,7 @@ namespace WebApi.Controllers
                     var response = new LoginResponse
                     {
                         Token= new JwtSecurityTokenHandler().WriteToken(token),
-                        Usuario = user
+                        Users = user
                     };
                     return Ok(response);
                 }
@@ -143,12 +143,12 @@ namespace WebApi.Controllers
             }
         }
 
-        private async Task<Usuario> GetUser(string email, string password) => _usuarioServicio.Login(email, password);
+        private async Task<Users> GetUser(string email, string password) => _usersService.Login(email, password);
     }
 }
 
 public class LoginResponse
 {
     public string Token { get; set; }
-    public Usuario Usuario { get; set; }
+    public Users Users { get; set; }
 }

@@ -1,19 +1,19 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace WebApi.Modelos
+namespace WebApi.Models
 {
-    public class Restaurante
+    public class Restaurants
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
-        public string Nombre { get; set; } = "";
-        public Direccion Direccion { get; set; }
+        public string Name { get; set; } = "";
+        public Addresses Addresses { get; set; }
         public string Descripcion { get; set; } = "";
-        public string Telefono { get; set; } = "";
-        public string Imagen { get; set; } = "";
-        public List<Servicio> Servicio { get; set; } = new List<Servicio>();
+        public string PhoneNumber { get; set; } = "";
+        public string Image { get; set; } = "";
+        public List<Features> Servicio { get; set; } = new List<Features>();
 
     }
 
