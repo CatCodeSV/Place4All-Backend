@@ -12,7 +12,7 @@ namespace WebApi.Models
         public string LastName { get; set; } = "";
         public string Gender { get; set; } = "";
         public int Age { get; set; }
-        public Addresses Addresses { get; set; }
+        public Addresses Address { get; set; }
         public bool HasDisability { get; set; } = false;
         public decimal? DisabilityDegree { get; set; }
         public string Email { get; set; } = "";
