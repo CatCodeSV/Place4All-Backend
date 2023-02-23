@@ -9,7 +9,7 @@ namespace WebApi.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
         public string Name { get; set; } = "";
-        public Addresses Addresses { get; set; }
+        public Addresses Address { get; set; }
         public string Descripcion { get; set; } = "";
         public string PhoneNumber { get; set; } = "";
         public string Image { get; set; } = "";
