@@ -1,10 +1,12 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using WebApi.Modelos;
-using WebApi.Servicios;
+using WebApi.Models;
+using WebApi.Services;
 
 namespace WebApi
 {
@@ -12,7 +14,7 @@ namespace WebApi
     {
         public static void Main(string[] args)
         {
-            //Nombre de la politica
+            //Name de la politica
             var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
             //Creación del contenedor de la aplicación llamado builder
             var builder = WebApplication.CreateBuilder(args);
@@ -41,12 +43,12 @@ namespace WebApi
             //Permite el acceso de los servicios a la base de datos
             builder.Services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
-            //Añadir cada servicio de la siguiente manera: services.AddSingleton<{Nombre del servicio}>();
-            builder.Services.AddSingleton<ServicioServicio>();
-            builder.Services.AddSingleton<DireccionServicio>();
-            builder.Services.AddSingleton<UsuarioServicio>();
-            builder.Services.AddSingleton<RestauranteServicio>();
-            builder.Services.AddSingleton<ReservaServicio>();
+            //Añadir cada servicio de la siguiente manera: services.AddSingleton<{Name del servicio}>();
+            builder.Services.AddSingleton<FeaturesService>();
+            builder.Services.AddSingleton<AddressesService>();
+            builder.Services.AddSingleton<UsersService>();
+            builder.Services.AddSingleton<RestaurantsService>();
+            builder.Services.AddSingleton<ReservationsService>();
             
             //Añade los controladores de los servicios
             builder.Services.AddControllers();
