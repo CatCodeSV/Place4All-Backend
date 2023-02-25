@@ -1,4 +1,5 @@
-using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using WebApi.Models;
@@ -20,7 +21,7 @@ public class ReservationsService
     public async Task<List<Reservations>> Get() => await _reservas.Find(reserva => true).ToListAsync();
 
     public async Task<List<Reservations>> GetUserReserva(string usuarioId) =>
-      await  _reservas.Find(reserva => reserva.Users.Id == usuarioId).ToListAsync();
+      await  _reservas.Find(reserva => reserva.User.Id == usuarioId).ToListAsync();
 
     public async Task<Reservations> Get(string id) => await _reservas.Find<Reservations>(reserva => reserva.Id == id).FirstOrDefaultAsync();
 

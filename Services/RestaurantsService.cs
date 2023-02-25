@@ -1,4 +1,6 @@
-﻿using MongoDB.Bson;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using WebApi.Models;
 
@@ -41,6 +43,6 @@ namespace WebApi.Services
         public void Delete(Restaurants restaurant) => _restaurantes.DeleteOne(restaurante => restaurante.Id == restaurant.Id);
 
         public Task<List<Restaurants>> Search(IBuscaCiudad busqueda) => _restaurantes
-            .Find(restaurante => restaurante.Addresses.City.ToLower() == busqueda.Ciudad.ToLower()).ToListAsync();
+            .Find(restaurante => restaurante.Address.City.ToLower() == busqueda.Ciudad.ToLower()).ToListAsync();
     }
 }

@@ -1,8 +1,12 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WebApi.Models;
 using WebApi.Services;
@@ -73,18 +77,18 @@ namespace WebApi.Controllers
         private Users HasDireccion(Users users)
         {
             
-            if (users.Addresses.Id == null)
+            if (users.Address.Id == null)
             {
-                var direccionD = _addressesService.Create(users.Addresses);
-                users.Addresses = direccionD;
+                var direccionD = _addressesService.Create(users.Address);
+                users.Address = direccionD;
                 return users;
             }
 
-            var direccion = _addressesService.Get(users.Addresses.Id);
+            var direccion = _addressesService.Get(users.Address.Id);
             if (direccion == null)
             {
-                direccion = _addressesService.Create(users.Addresses);
-                users.Addresses = direccion;
+                direccion = _addressesService.Create(users.Address);
+                users.Address = direccion;
                 return users;
             }
 
@@ -93,7 +97,7 @@ namespace WebApi.Controllers
 
         private void DeleteDireccion(Users users)
         {
-            _addressesService.Remove(users.Addresses);
+            _addressesService.Remove(users.Address);
         }
         
         [HttpPost("login")]

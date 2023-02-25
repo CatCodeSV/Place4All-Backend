@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using WebApi.Models;
@@ -21,11 +23,11 @@ public class ReviewsService
     
     //Recoge todas las reviews por restaurante
     public async Task<List<Reviews>> GetByRestaurant(string restaurantId) =>
-        await _reviews.Find(review => review.Restaurants.Id == restaurantId).ToListAsync();
+        await _reviews.Find(review => review.Restaurant.Id == restaurantId).ToListAsync();
     
     //Recoge todas las reviews por usuario
     public async Task<List<Reviews>> GetByUser(string userId) =>
-        await _reviews.Find(review => review.Users.Id == userId).ToListAsync();
+        await _reviews.Find(review => review.User.Id == userId).ToListAsync();
     
     //Busca una review por ID
     public async Task<Reviews> GetById(string reviewId) =>

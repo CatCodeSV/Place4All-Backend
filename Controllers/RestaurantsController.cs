@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 using WebApi.Services;
 
@@ -82,25 +84,25 @@ namespace WebApi.Controllers
         
         private Restaurants HasDireccion (Restaurants restaurant)
         {
-            if(restaurant.Addresses.Id == null)
+            if(restaurant.Address.Id == null)
             {
-                var DireccionD = _addressesService.Create(restaurant.Addresses);
-                restaurant.Addresses = DireccionD;
+                var DireccionD = _addressesService.Create(restaurant.Address);
+                restaurant.Address = DireccionD;
                 return restaurant;
             }
 
-            var direccion = _addressesService.Get(restaurant.Addresses.Id);
+            var direccion = _addressesService.Get(restaurant.Address.Id);
             if (direccion != null) return restaurant;
             
-            direccion = _addressesService.Create(restaurant.Addresses);
-            restaurant.Addresses = direccion;
+            direccion = _addressesService.Create(restaurant.Address);
+            restaurant.Address = direccion;
             return restaurant;
 
         }
 
         private void DeleteDireccion (Restaurants restaurant)
         {
-            _addressesService.Remove(restaurant.Addresses);
+            _addressesService.Remove(restaurant.Address);
         }
     }
 }
