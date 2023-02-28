@@ -20,13 +20,13 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Features>> Get() => _featuresService.Get();
+        public async Task<ActionResult<List<Features>>> Get() => await _featuresService.Get();
 
         //Se pasa por la URL un id que tiene que tener 24 caracteres ya que el BSON.Id tiene ese formato.
         [HttpGet("{id:length(24)}")]
-        public ActionResult<Features> Get(string id)
+        public async Task<ActionResult<Features>> Get(string id)
         {
-            var servicio = _featuresService.Get(id);
+            var servicio = await _featuresService.Get(id);
 
             if (servicio == null)
             {
@@ -37,17 +37,17 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Features> Create(Features feature)
+        public async Task<ActionResult<Features>> Create(Features feature)
         {
-            var servicioCreado =  _featuresService.Create(feature);
+            var servicioCreado = await  _featuresService.Create(feature);
 
             return CreatedAtRoute("", new { id = feature.Id }, servicioCreado);
         }
 
         [HttpPut( "{id:length(24)}")]
-        public IActionResult Put(string id, Features feature)
+        public async Task<IActionResult> Put(string id, Features feature)
         {
-            var servicio = _featuresService.Get(id);
+            var servicio = await _featuresService.Get(id);
             
             if (servicio == null)
             {
@@ -61,9 +61,9 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id:length(24)}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var servicio = _featuresService.Get(id);
+            var servicio = await _featuresService.Get(id);
             
             
             if (servicio == null)
