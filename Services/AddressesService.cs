@@ -32,6 +32,9 @@ namespace WebApi.Services
 
         public void Remove(Addresses address) => _direcciones.DeleteOne(direccion => direccion.Id == address.Id);
 
-
+        internal Task<List<Addresses>> GetAddressesAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
