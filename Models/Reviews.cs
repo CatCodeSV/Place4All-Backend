@@ -3,11 +3,9 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace WebApi.Models;
 
-public class Reviews
+public class Reviews : Document
 {
-    [BsonId]
-    [BsonRepresentation(BsonType.ObjectId)]
-    public string? Id { get; set; }
+
     public float Value { get; set; }
     public Restaurants Restaurant { get; set; }
     public Users User { get; set; }

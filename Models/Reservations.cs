@@ -2,9 +2,8 @@ using System.Collections.Generic;
 
 namespace WebApi.Models;
 
-public class Reservations
+public class Reservations : Document
 {
-    public string? Id { get; set; }
     public Users User { get; set; }
     public Restaurants Restaurant { get; set; }
     public int Personas { get; set; }

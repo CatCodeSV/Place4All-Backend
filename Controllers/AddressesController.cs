@@ -13,7 +13,7 @@ namespace WebApi.Controllers
 
     public AddressesController(AddressesService addressesService)
     {
-        _addressesService = addressesService;
+    _addressesService = addressesService;
     }
 
     [HttpGet]

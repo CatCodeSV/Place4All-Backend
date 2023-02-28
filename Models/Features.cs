@@ -3,11 +3,9 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace WebApi.Models
 {
-    public class Features
+    public class Features : Document
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string? Id { get; set; }
+
         public string Name { get; set; } = "";
         public string? Description { get; set; }
         
