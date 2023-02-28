@@ -20,29 +20,29 @@ namespace WebApi.Services
         }
 
         //Método que recoge todos los objetos restaurant de la base de datos y los devuelve en forma de lista
-        public List<Restaurants> Get() => _restaurantes.Find(restaurante => true).ToList();
+        public async Task<List<Restaurants>> Get() => await _restaurantes.Find(restaurante => true).ToListAsync();
 
-        //Método que busca en la base de datos y devuelve el objeto restaurant con la id introducida por parámetro
-        public Restaurants Get(string id) => _restaurantes.Find(restaurante => restaurante.Id == id).FirstOrDefault();
+        //Método que busca en la base dTask<e> datos y devuelve el objeto restaurant con la id introducida por parámetro
+        public async Task<Restaurants> Get(string id) => await  _restaurantes.Find(restaurante => restaurante.Id == id).FirstOrDefaultAsync();
 
         //Método que crea un objeto restaurant
-        public Restaurants Create(Restaurants restaurant)
+        public async Task<Restaurants> Create(Restaurants restaurant)
         {
             //Comprobación, si el restaurant nuevo no contiene un Id (al crearse en el constructor nulo), entonces se genera uno nuevo y se le asigna
             restaurant.Id ??= new BsonObjectId(ObjectId.GenerateNewId()).ToString();
             //Inserta un objeto restaurant en el listado de todos los restaurantes de la bd
-            _restaurantes.InsertOne(restaurant);
+           await   _restaurantes.InsertOneAsync(restaurant);
             //Devuelve el restaurant recién creado
             return restaurant;
         }
 
         //Actualizamos la lista de restaurantes al insertar nuevo restaurant
-        public void Update(string id, Restaurants restaurant) => _restaurantes.ReplaceOne(Builders<Restaurants>.Filter.Eq(r => r.Id, id), restaurant);
+        public async Task Update(string id, Restaurants restaurant) =>  await _restaurantes.ReplaceOneAsync(Builders<Restaurants>.Filter.Eq(r => r.Id, id), restaurant);
 
         //Borramos el restaurant pasado como parámetro de entrada de la lista de restaurantes de la bd identificándolo mediante su Id
-        public void Delete(Restaurants restaurant) => _restaurantes.DeleteOne(restaurante => restaurante.Id == restaurant.Id);
+        public async Task Delete(Restaurants restaurant) => await  _restaurantes.DeleteOneAsync(restaurante => restaurante.Id == restaurant.Id);
 
-        public Task<List<Restaurants>> Search(IBuscaCiudad busqueda) => _restaurantes
+        public async Task<List<Restaurants>> Search(IBuscaCiudad busqueda) => await  _restaurantes
             .Find(restaurante => restaurante.Address.City.ToLower() == busqueda.Ciudad.ToLower()).ToListAsync();
     }
 }
