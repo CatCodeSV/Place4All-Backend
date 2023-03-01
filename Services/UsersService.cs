@@ -1,4 +1,11 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using WebApi.Models;
 
@@ -8,6 +15,8 @@ namespace WebApi.Services
     {
         //Damos a la lista Usuarios el nombre de _usuarios
         private readonly IMongoCollection<Users> _usuarios;
+
+        private readonly string key;
 
         //Conectamos la base de datos con usuarios
         public UsersService(IDatabaseSettings settings)
@@ -39,5 +48,35 @@ namespace WebApi.Services
 
         //Borramos un users de la lista comparando el users con su IP¿
         public async Task Remove(Users usersIn) => await _usuarios.DeleteOneAsync(usuario => usuario.Id == usersIn.Id);
+
+        //Método Authenticate . Este método tomará el correo electrónico y la contraseña pasados ​​desde el formulario de inicio de sesión o, en nuestro caso, el cuerpo de la solicitud, y verificará si las credenciales son válidas y, de ser así, creará el token con los datos que queremos dentro
+        public async Task <string> Authenticate (string email, string password)
+        {
+            var user = this._usuarios.Find(x => x.Email == email && x.Password == password).FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenKey = Encoding.ASCII.GetBytes(key);
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Email, email),
+                }),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new SigningCredentials(
+                        new SymmetricSecurityKey(tokenKey),
+                        SecurityAlgorithms.HmacSha256Signature
+                    )
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
     }
 }

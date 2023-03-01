@@ -1,14 +1,16 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt; //Quitar, está en servicios
+using System.Security.Claims; //Quitar, está en servicios
+using System.Text; //Quitar, está en servicios
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Tokens; //Quitar, está en servicios
 using WebApi.Models;
 using WebApi.Services;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("UsersUsers")]
     public class UsersController : ControllerBase

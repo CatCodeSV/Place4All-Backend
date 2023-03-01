@@ -2,6 +2,16 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using WebApi.Models;
 using WebApi.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using WebApi.Entities;
+using WebApi.Persistence;
+using System.Runtime.CompilerServices;
 
 namespace WebApi
 {
@@ -13,6 +23,30 @@ namespace WebApi
             var  myAllowSpecificOrigins = "_myAllowSpecificOrigins";
             //Creación del contenedor de la aplicación llamado builder
             var builder = WebApplication.CreateBuilder(args);
+
+            //builder.Services
+            //    .AddSqlite<MyDbContext>(builder.Configuration.GetConnectionString("Default"))
+            //    .AddIdentityCore<Entities.User>()
+            //    .AddRoles<IdentityRole>();
+            //    .AddEntityFrameworkStores<MyDbContext>();
+
+            builder.Services
+                .AddHttpContextAccessor()
+                .AddAuthorization()
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(optiens =>
+                {
+                    optiens.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                        ValidAudience = builder.Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    };
+                });
 
             //Creamos la politica de CORS
             builder.Services.AddCors(options =>
@@ -27,6 +61,24 @@ namespace WebApi
             });
             //Configuración de la base de datos en el contenedor builder
             builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection(nameof(DatabaseSettings)));
+
+            builder.Services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(ConfigurationBinder.GetSection("JwtKey").ToString())),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                    };
+                });
 
             //Para evitar errores en la ejecución de la API
             builder.Services.AddMvc(options =>
@@ -54,8 +106,14 @@ namespace WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
             });
 
+            //TODO (Autentificación JWT)
+            builder.Services.AddScoped<UsersService>();
+
             //Tras realizar los pasos anteriores se ejecuta el builder
             var app = builder.Build();
+
+            //TODO (Autentificación JWT)
+            app.UseAuthentication();
             
             //Configuración de las peticiones con HTTP
             if (builder.Environment.IsDevelopment())
