@@ -16,5 +16,5 @@ namespace WebApi.Repositories
         {
             return await _addresses.GetAddressesAsync();
         }
-    }
+}
 }
