@@ -1,8 +1,3 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using WebApi.Models;
@@ -15,7 +10,7 @@ namespace WebApi
         public static void Main(string[] args)
         {
             //Name de la politica
-            var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+            var  myAllowSpecificOrigins = "_myAllowSpecificOrigins";
             //Creación del contenedor de la aplicación llamado builder
             var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +18,7 @@ namespace WebApi
             builder.Services.AddCors(options =>
             {
                 //Le añadimos un el nombre que hemos creado arriba
-                options.AddPolicy(name: MyAllowSpecificOrigins, policy =>
+                options.AddPolicy(name: myAllowSpecificOrigins, policy =>
                 {
                     //Todos los headers, todos los métodos y todos los origines
                     //TODO Restringir el origen de las llamadas
@@ -74,7 +69,7 @@ namespace WebApi
 
             app.UseRouting();
 
-            app.UseCors(MyAllowSpecificOrigins);
+            app.UseCors(myAllowSpecificOrigins);
 
             app.UseAuthorization();
 

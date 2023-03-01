@@ -17,20 +17,20 @@ namespace WebApi.Services
             _direcciones = database.GetCollection<Addresses>("Addresses");
         }
 
-        public List<Addresses> Get() => _direcciones.Find(direccion => true).ToList();
+        public async Task<List<Addresses>> Get() => await _direcciones.Find(direccion => true).ToListAsync();
 
-        public Addresses Get(string id) => _direcciones.Find<Addresses>(direccion => direccion.Id == id).FirstOrDefault();
+        public async Task<Addresses> Get(string id) => await _direcciones.Find<Addresses>(direccion => direccion.Id == id).FirstOrDefaultAsync();
 
-        public Addresses Create(Addresses address)
+        public async Task<Addresses> Create(Addresses address)
         {
             address.Id ??= new BsonObjectId(ObjectId.GenerateNewId()).ToString();
-            _direcciones.InsertOne(address);
+            await _direcciones.InsertOneAsync(address);
             return address;
         }
 
-        public void Update(string id, Addresses address) => _direcciones.ReplaceOne(Builders<Addresses>.Filter.Eq(s => s.Id, id), address);
+        public async void Update(string id, Addresses address) => await _direcciones.ReplaceOneAsync(Builders<Addresses>.Filter.Eq(s => s.Id, id), address);
 
-        public void Remove(Addresses address) => _direcciones.DeleteOne(direccion => direccion.Id == address.Id);
+        public async void Remove(Addresses address) => await _direcciones.DeleteOneAsync(direccion => direccion.Id == address.Id);
 
         internal Task<List<Addresses>> GetAddressesAsync()
         {

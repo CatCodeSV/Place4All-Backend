@@ -16,26 +16,26 @@ namespace WebApi.Services
         _servicios = database.GetCollection<Features>("Features");
     }
 
-    public List<Features> Get() =>
-        _servicios.Find(servicio => true).ToList();
+    public async Task<List<Features>> Get() =>
+       await _servicios.Find(servicio => true).ToListAsync();
 
-    public Features Get(string id) =>
-        _servicios.Find<Features>(servicio => servicio.Id == id).FirstOrDefault();
+    public async Task<Features> Get(string id) =>
+        await _servicios.Find<Features>(servicio => servicio.Id == id).FirstOrDefaultAsync();
 
-    public Features Create(Features feature)
+    public async Task<Features> Create(Features feature)
     {
         //Preguntar donde debería ir esta lógica
         feature.Id ??= new BsonObjectId(ObjectId.GenerateNewId()).ToString();
-        _servicios.InsertOne(feature);
+        await _servicios.InsertOneAsync(feature);
         return feature;
     }
 
-    public void Update(string id, Features feature)
+    public async void Update(string id, Features feature)
     {
-        _servicios.ReplaceOne(Builders<Features>.Filter.Eq(s => s.Id, id), feature);
+        await _servicios.ReplaceOneAsync(Builders<Features>.Filter.Eq(s => s.Id, id), feature);
     }
 
-    public void Remove(Features feature) =>
-        _servicios.DeleteOne(servicio => servicio.Id == feature.Id);
+    public async void Remove(Features feature) =>
+        await _servicios.DeleteOneAsync(servicio => servicio.Id == feature.Id);
 }
 }

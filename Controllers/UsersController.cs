@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WebApi.Models;
 using WebApi.Services;
@@ -29,24 +25,24 @@ namespace WebApi.Controllers
         }
         
         [HttpGet]
-        public ActionResult<List<Users>> Get() => _usersService.Get();
+        public async Task<ActionResult<List<Users>>> Get() => await _usersService.Get();
 
         [HttpGet("{id:length(24)}")]
-        public ActionResult<Users> Get(string id) => _usersService.Get(id);
+        public async Task<ActionResult<Users>> Get(string id) => await _usersService.Get(id);
 
         [HttpPost]
-        public ActionResult<Users> Create(Users users)
+        public async Task<ActionResult<Users>> Create(Users users)
         {
-            var usuarioD = HasDireccion(users);
-            var usuarioCreada = _usersService.Create(usuarioD);
+            var usuarioD = await HasDireccion(users);
+            var usuarioCreada = await _usersService.Create(usuarioD);
 
             return CreatedAtRoute("", new { id = users.Id }, usuarioCreada);
         }
 
         [HttpPut("{id:length(24)}")]
-        public IActionResult Put(string id, Users usersInf)
+        public async Task<IActionResult> Put(string id, Users usersInf)
         {
-            var usuario = _usersService.Get(id);
+            var usuario =await _usersService.Get(id);
 
             if (usuario == null)
             {
@@ -54,15 +50,15 @@ namespace WebApi.Controllers
             }
 
             usersInf.Id = usuario.Id;
-            _usersService.Update(id, usersInf);
+           await _usersService.Update(id, usersInf);
 
             return NoContent();
         }
 
         [HttpDelete("{id:length(24)}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var usuario = _usersService.Get(id);
+            var usuario = await _usersService.Get(id);
 
 
             if (usuario == null)
@@ -70,24 +66,24 @@ namespace WebApi.Controllers
                 return NotFound();
             }
             DeleteDireccion(usuario);
-            _usersService.Remove(usuario);
+           await _usersService.Remove(usuario);
 
             return NoContent();
         }
-        private Users HasDireccion(Users users)
+        private async Task<Users> HasDireccion(Users users)
         {
             
             if (users.Address.Id == null)
             {
-                var direccionD = _addressesService.Create(users.Address);
+                var direccionD = await _addressesService.Create(users.Address);
                 users.Address = direccionD;
                 return users;
             }
 
-            var direccion = _addressesService.Get(users.Address.Id);
+            var direccion = await _addressesService.Get(users.Address.Id);
             if (direccion == null)
             {
-                direccion = _addressesService.Create(users.Address);
+                direccion = await _addressesService.Create(users.Address);
                 users.Address = direccion;
                 return users;
             }
@@ -95,7 +91,7 @@ namespace WebApi.Controllers
             return users;
         }
 
-        private void DeleteDireccion(Users users)
+        private async void DeleteDireccion(Users users)
         {
             _addressesService.Remove(users.Address);
         }
@@ -147,7 +143,7 @@ namespace WebApi.Controllers
             }
         }
 
-        private async Task<Users> GetUser(string email, string password) => _usersService.Login(email, password);
+        private async Task<Users> GetUser(string email, string password) => await _usersService.Login(email, password);
     }
 }
 

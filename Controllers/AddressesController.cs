@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 using WebApi.Services;
@@ -17,23 +16,23 @@ namespace WebApi.Controllers
     }
 
     [HttpGet]
-    public ActionResult<List<Addresses>> Get() => _addressesService.Get();
+    public async Task<ActionResult<List<Addresses>>> Get() => await _addressesService.Get();
 
     [HttpGet("{id:length(24)}")]
-    public ActionResult<Addresses> Get(string id) => _addressesService.Get(id);
+    public async Task<ActionResult<Addresses>> Get(string id) => await _addressesService.Get(id);
 
     [HttpPost]
-    public ActionResult<Addresses> Create(Addresses address)
+    public async Task<ActionResult<Addresses>> Create(Addresses address)
     {
-        var direccionCreada =  _addressesService.Create(address);
+        var direccionCreada =  await _addressesService.Create(address);
 
         return CreatedAtRoute("", new { id = address.Id }, direccionCreada);
     }
     
     [HttpPut( "{id:length(24)}")]
-    public IActionResult Put(string id, Addresses address)
+    public async Task<IActionResult> Put(string id, Addresses address)
     {
-        var direccion = _addressesService.Get(id);
+        var direccion = await _addressesService.Get(id);
             
         if (direccion == null)
         {
@@ -47,9 +46,9 @@ namespace WebApi.Controllers
     }
 
     [HttpDelete("{id:length(24)}")]
-    public IActionResult Delete(string id)
+    public async Task<IActionResult> Delete(string id)
     {
-        var direccion = _addressesService.Get(id);
+        var direccion = await _addressesService.Get(id);
             
             
         if (direccion == null)
