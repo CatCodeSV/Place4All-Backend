@@ -7,7 +7,7 @@ namespace WebApi.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.String)]
-        string Id { get; set; }
+        ObjectId? Id { get; set; }
 
         DateTime CreatedAt { get; }
     }

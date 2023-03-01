@@ -3,36 +3,33 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using WebApi.Models;
+using WebApi.Repositories;
 
 namespace WebApi.Services;
 
-public class ReservationsService
+public class ReservationsService: IReservationsService
 {
-    private readonly IMongoCollection<Reservations> _reservas;
+    private readonly IMongoRepository<Reservations> _reservas;
 
-    public ReservationsService(IDatabaseSettings settings)
+    public ReservationsService(IMongoRepository<Reservations> settings)
     {
-        var client = new MongoClient(settings.ConnectionString);
-        var database = client.GetDatabase(settings.DatabaseName);
-
-        _reservas = database.GetCollection<Reservations>("Reservations");
+        _reservas = settings;
     }
 
-    public async Task<List<Reservations>> Get() => await _reservas.Find(reserva => true).ToListAsync();
+    public List<Reservations> Get() => _reservas.AsQueryable().ToList();
 
-    public async Task<List<Reservations>> GetUserReserva(string usuarioId) =>
-      await  _reservas.Find(reserva => reserva.User.Id == usuarioId).ToListAsync();
+    public List<Reservations> GetUserReserva(string usuarioId) =>
+        _reservas.FilterBy(reserva => reserva.User.Id.ToString() == usuarioId).ToList();
 
-    public async Task<Reservations> Get(string id) => await _reservas.Find<Reservations>(reserva => reserva.Id == id).FirstOrDefaultAsync();
+    public async Task<Reservations> Get(string id) => await _reservas.FindByIdAsync(id);
 
     public async Task Create(Reservations reservation)
     {
-        reservation.Id ??= new BsonObjectId(ObjectId.GenerateNewId()).ToString();
+        reservation.Id ??= new BsonObjectId(ObjectId.GenerateNewId()).AsObjectId;
         await _reservas.InsertOneAsync(reservation);
-        return;
     }
 
-    public async Task Update(string id, Reservations reservation) => await _reservas.ReplaceOneAsync(Builders<Reservations>.Filter.Eq(s => s.Id, id), reservation);
+    public async Task Update(Reservations reservation) => await _reservas.ReplaceOneAsync(reservation);
 
     public async void Remove(Reservations reservationInf) => await _reservas.DeleteOneAsync(reserva => reserva.Id == reservationInf.Id);
     

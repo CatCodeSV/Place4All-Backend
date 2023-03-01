@@ -2,10 +2,10 @@
 
 namespace WebApi.Models
 {
-    public class Document
+    public class Document: IDocument
     {
-        public string? Id { get; set; }
+        public ObjectId? Id { get; set; }
 
-        public DateTime CreatedAt => DateTime.Now;
+        public DateTime CreatedAt => Id.Value.CreationTime;
     }
 }

@@ -1,8 +1,10 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using WebApi.Repositories;
 
 namespace WebApi.Models
 {
+    [BsonCollection("Addresses")]
     public class Addresses : Document
     {
         public string Street { get; set; } = "";

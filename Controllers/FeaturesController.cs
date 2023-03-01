@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -12,15 +13,15 @@ namespace WebApi.Controllers
     public class FeaturesController : ControllerBase
     {
 
-        private readonly FeaturesService _featuresService;
+        private readonly IFeaturesService _featuresService;
 
-        public FeaturesController(FeaturesService featuresService)
+        public FeaturesController(IFeaturesService featuresService)
         {
             _featuresService = featuresService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Features>>> Get() => await _featuresService.Get();
+        public async Task<ActionResult<List<Features>>> Get() => _featuresService.Get();
 
         //Se pasa por la URL un id que tiene que tener 24 caracteres ya que el BSON.Id tiene ese formato.
         [HttpGet("{id:length(24)}")]
@@ -55,7 +56,7 @@ namespace WebApi.Controllers
             }
 
             feature.Id = servicio.Id;
-            _featuresService.Update(id, feature);
+            _featuresService.Update(feature);
 
             return NoContent();
         }

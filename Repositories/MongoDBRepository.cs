@@ -1,6 +1,10 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using WebApi.Models;
 
 namespace WebApi.Repositories
@@ -9,25 +13,18 @@ namespace WebApi.Repositories
     {
         private readonly IMongoCollection<TDocument> _collection;
 
-        public MongoClient client;
-        public IMongoDatabase db;
-
         public MongoDBRepository(IDatabaseSettings settings)
         {
-            //var client = new MongoClient(settings.ConnectionString);
-            //var db = client.GetDatabase(settings.DatabaseName);
-
             var db = new MongoClient(settings.ConnectionString).GetDatabase(settings.DatabaseName);
-            _collection = db.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));//repasar
-
+            _collection = db.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
         }
 
-        private protected string GetCollectionName(Type documentType)//revisar
+        private protected string GetCollectionName(Type documentType) //revisar
         {
-            return ((IDatabaseSettings)documentType.GetCustomAttributes(
-                    typeof(IDatabaseSettings),
-                    true)
-                .FirstOrDefault())?.CollectionName;
+        return ((BsonCollectionAttribute) documentType.GetCustomAttributes(
+                typeof(BsonCollectionAttribute),
+                true)
+            .FirstOrDefault())?.CollectionName;
         }
 
         public virtual IQueryable<TDocument> AsQueryable()
