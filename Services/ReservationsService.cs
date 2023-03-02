@@ -25,7 +25,7 @@ public class ReservationsService: IReservationsService
 
     public async Task Create(Reservations reservation)
     {
-        reservation.Id ??= new BsonObjectId(ObjectId.GenerateNewId()).AsObjectId;
+       
         await _reservas.InsertOneAsync(reservation);
     }
 

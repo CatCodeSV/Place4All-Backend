@@ -1,8 +1,10 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
+using WebApi.Repositories;
 
 namespace WebApi.Models
 {
+    [BsonCollection("Users")]
     public class Users :Document
     {
 

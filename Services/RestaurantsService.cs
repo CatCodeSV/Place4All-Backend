@@ -29,7 +29,7 @@ namespace WebApi.Services
         public async Task<Restaurants> Create(Restaurants restaurant)
         {
             //Comprobación, si el restaurant nuevo no contiene un Id (al crearse en el constructor nulo), entonces se genera uno nuevo y se le asigna
-            restaurant.Id ??= new BsonObjectId(ObjectId.GenerateNewId()).AsObjectId;
+           
             //Inserta un objeto restaurant en el listado de todos los restaurantes de la bd
            await   _restaurantes.InsertOneAsync(restaurant);
             //Devuelve el restaurant recién creado

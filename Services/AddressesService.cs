@@ -20,7 +20,6 @@ namespace WebApi.Services
 
         public async Task<Addresses> Create(Addresses address)
         {
-            address.Id ??= new BsonObjectId(ObjectId.GenerateNewId()).AsObjectId;
             await _direcciones.InsertOneAsync(address);
             return address;
         }

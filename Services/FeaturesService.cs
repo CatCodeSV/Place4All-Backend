@@ -26,7 +26,6 @@ namespace WebApi.Services
     public async Task<Features> Create(Features feature)
     {
         //Preguntar donde debería ir esta lógica
-        feature.Id ??= new BsonObjectId(ObjectId.GenerateNewId()).AsObjectId;
         await _servicios.InsertOneAsync(feature);
         return feature;
     }

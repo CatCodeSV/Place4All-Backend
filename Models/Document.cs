@@ -4,8 +4,8 @@ namespace WebApi.Models
 {
     public class Document: IDocument
     {
-        public ObjectId? Id { get; set; }
+        public ObjectId Id { get; set; }
 
-        public DateTime CreatedAt => Id.Value.CreationTime;
+        public DateTime CreatedAt => Id.CreationTime;
     }
 }

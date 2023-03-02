@@ -33,7 +33,7 @@ public class ReviewsService: IReviewsService
 
     public async Task<Reviews> Create(Reviews review)
     {
-        review.Id ??= new BsonObjectId(ObjectId.GenerateNewId()).AsObjectId;
+        
         await _reviews.InsertOneAsync(review);
         return review;
     }

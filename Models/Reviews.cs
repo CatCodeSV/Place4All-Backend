@@ -1,8 +1,9 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using WebApi.Repositories;
 
 namespace WebApi.Models;
-
+[BsonCollection("Reviews")]
 public class Reviews : Document
 {
 
