@@ -21,7 +21,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Features>>> Get() => _featuresService.Get();
+        public ActionResult<List<Features>> Get() => _featuresService.Get();
 
         //Se pasa por la URL un id que tiene que tener 24 caracteres ya que el BSON.Id tiene ese formato.
         [HttpGet("{id:length(24)}")]

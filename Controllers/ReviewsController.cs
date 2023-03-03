@@ -20,7 +20,7 @@ public class ReviewsController : ControllerBase
     }
 
     [HttpGet("/restaurants/{id:length(24)}")]
-    public async Task<ActionResult<List<Reviews>>> GetByRestaurant(string id)
+    public ActionResult<List<Reviews>> GetByRestaurant(string id)
     {
         var reviews = _reviewsService.GetByRestaurant(id);
         if (reviews == null || !reviews.Any())

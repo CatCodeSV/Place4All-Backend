@@ -80,7 +80,7 @@ namespace WebApi.Controllers
         }
         
         [HttpPost("search")]
-        public async Task Search(IBuscaCiudad ciudad) => _servicioRestaurante.Search(ciudad);
+        public Search(IBuscaCiudad ciudad) => _servicioRestaurante.Search(ciudad);
         
         private async Task<Restaurants> HasDireccion (Restaurants restaurant)
         {

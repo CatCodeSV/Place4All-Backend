@@ -16,7 +16,7 @@ public class ReservationsController : Controller
     }
 
     [HttpGet]
-    public async Task<List<Reservations>> Get() => _reservationsService.Get();
+    public List<Reservations> Get() => _reservationsService.Get();
 
     [HttpGet("user/{usuarioId}")]
     public async Task<List<Reservations>> GetUserReserva(string usuarioId) =>

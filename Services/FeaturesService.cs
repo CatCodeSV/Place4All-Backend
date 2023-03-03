@@ -30,7 +30,7 @@ namespace WebApi.Services
         return feature;
     }
 
-    public void Update(Features feature)
+    public async void Update(Features feature)
     {
         _servicios.ReplaceOneAsync(feature);
     }
