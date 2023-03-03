@@ -14,7 +14,7 @@ using WebApi.Services;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("UsersUsers")]
+    [Route("Users")]
     public class UsersController : ControllerBase
     {
         private readonly IUsersService _usersService;
