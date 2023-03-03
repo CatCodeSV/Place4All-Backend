@@ -29,7 +29,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Users>>> Get() => _usersService.Get();
+        public ActionResult<List<Users>> Get() => _usersService.Get();
 
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Users>> Get(string id) => await _usersService.Get(id);
