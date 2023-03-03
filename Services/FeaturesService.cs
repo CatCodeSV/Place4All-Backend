@@ -1,38 +1,38 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using WebApi.Models;
+using WebApi.Repositories;
 
 namespace WebApi.Services
 {
-    public class FeaturesService
+    public class FeaturesService: IFeaturesService
 {
-    private readonly IMongoCollection<Features> _servicios;
-    public FeaturesService(IDatabaseSettings settings)
+    private readonly IMongoRepository<Features> _servicios;
+    public FeaturesService(IMongoRepository<Features> repository)
     {
-        var client = new MongoClient(settings.ConnectionString);
-        var database = client.GetDatabase(settings.DatabaseName);
-        _servicios = database.GetCollection<Features>("Features");
+
+        _servicios = repository;
     }
 
-    public async Task<List<Features>> Get() =>
-       await _servicios.Find(servicio => true).ToListAsync();
+    public List<Features> Get() =>
+        _servicios.AsQueryable().ToList();
 
     public async Task<Features> Get(string id) =>
-        await _servicios.Find<Features>(servicio => servicio.Id == id).FirstOrDefaultAsync();
+        await _servicios.FindByIdAsync(id);
 
     public async Task<Features> Create(Features feature)
     {
         //Preguntar donde debería ir esta lógica
-        feature.Id ??= new BsonObjectId(ObjectId.GenerateNewId()).ToString();
         await _servicios.InsertOneAsync(feature);
         return feature;
     }
 
-    public async void Update(string id, Features feature)
+    public async void Update(Features feature)
     {
-        await _servicios.ReplaceOneAsync(Builders<Features>.Filter.Eq(s => s.Id, id), feature);
+        _servicios.ReplaceOneAsync(feature);
     }
 
     public async void Remove(Features feature) =>

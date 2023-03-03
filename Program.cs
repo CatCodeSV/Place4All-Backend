@@ -1,6 +1,10 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using WebApi.Models;
+using WebApi.Repositories;
 using WebApi.Services;
 
 namespace WebApi
@@ -39,11 +43,12 @@ namespace WebApi
             builder.Services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
             //Añadir cada servicio de la siguiente manera: services.AddSingleton<{Name del servicio}>();
-            builder.Services.AddSingleton<FeaturesService>();
-            builder.Services.AddSingleton<AddressesService>();
-            builder.Services.AddSingleton<UsersService>();
-            builder.Services.AddSingleton<RestaurantsService>();
-            builder.Services.AddSingleton<ReservationsService>();
+            builder.Services.AddTransient<IFeaturesService, FeaturesService>();
+            builder.Services.AddTransient<IUsersService, UsersService>();
+            builder.Services.AddTransient<IRestaurantsService, RestaurantsService>();
+            builder.Services.AddTransient<IReservationsService, ReservationsService>();
+            builder.Services.AddTransient<IAddressesService,AddressesService>();
+            builder.Services.AddTransient(typeof(IMongoRepository<>), typeof(MongoDBRepository<>));
             
             //Añade los controladores de los servicios
             builder.Services.AddControllers();

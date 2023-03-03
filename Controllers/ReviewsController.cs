@@ -12,17 +12,17 @@ namespace WebApi.Controllers;
 [Route("Reviews")]
 public class ReviewsController : ControllerBase
 {
-    private readonly ReviewsService _reviewsService;
+    private readonly IReviewsService _reviewsService;
 
-    public ReviewsController(ReviewsService reviewsService)
+    public ReviewsController(IReviewsService reviewsService)
     {
         _reviewsService = reviewsService;
     }
 
     [HttpGet("/restaurants/{id:length(24)}")]
-    public async Task<ActionResult<List<Reviews>>> GetByRestaurant(string id)
+    public ActionResult<List<Reviews>> GetByRestaurant(string id)
     {
-        var reviews = await _reviewsService.GetByRestaurant(id);
+        var reviews = _reviewsService.GetByRestaurant(id);
         if (reviews == null || !reviews.Any())
         {
             return NotFound();
@@ -32,9 +32,9 @@ public class ReviewsController : ControllerBase
     }
     
     [HttpGet("/users/{id:length(24)}")]
-    public async Task<ActionResult<List<Reviews>>> GetByUser(string id)
+    public ActionResult<List<Reviews>> GetByUser(string id)
     {
-        var reviews = await _reviewsService.GetByUser(id);
+        var reviews = _reviewsService.GetByUser(id);
         if (reviews == null || !reviews.Any())
         {
             return NotFound();

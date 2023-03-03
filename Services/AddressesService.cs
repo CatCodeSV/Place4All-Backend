@@ -1,37 +1,32 @@
-﻿using System.Collections.Generic;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using WebApi.Models;
-using MongoDB.Driver;
+using WebApi.Repositories;
 
 namespace WebApi.Services
 {
-    public class AddressesService
+    public class AddressesService : IAddressesService
     {
-        private readonly IMongoCollection<Addresses> _direcciones;
+        private readonly IMongoRepository<Addresses> _direcciones;
         
-        public AddressesService(IDatabaseSettings settings)
+        public AddressesService(IMongoRepository<Addresses> addressRepository)
         {
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
 
-            _direcciones = database.GetCollection<Addresses>("Addresses");
+            _direcciones = addressRepository;
         }
 
-        public async Task<List<Addresses>> Get() => await _direcciones.Find(direccion => true).ToListAsync();
+        public  List<Addresses> Get() =>  _direcciones.AsQueryable().ToList();
 
-        public async Task<Addresses> Get(string id) => await _direcciones.Find<Addresses>(direccion => direccion.Id == id).FirstOrDefaultAsync();
+        public async Task<Addresses> Get(string id) => await _direcciones.FindByIdAsync(id);
 
         public async Task<Addresses> Create(Addresses address)
         {
-            address.Id ??= new BsonObjectId(ObjectId.GenerateNewId()).ToString();
             await _direcciones.InsertOneAsync(address);
             return address;
         }
 
-        public async void Update(string id, Addresses address) => await _direcciones.ReplaceOneAsync(Builders<Addresses>.Filter.Eq(s => s.Id, id), address);
+        public async void Update(Addresses address) => await _direcciones.ReplaceOneAsync(address);
 
-        public async void Remove(Addresses address) => await _direcciones.DeleteOneAsync(direccion => direccion.Id == address.Id);
-
-
+        public async void Remove(Addresses address) =>
+            await _direcciones.DeleteOneAsync(direccion => direccion.Id == address.Id);
     }
 }

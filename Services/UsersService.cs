@@ -1,43 +1,50 @@
-﻿using MongoDB.Bson;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using WebApi.Models;
+using WebApi.Repositories;
 
 namespace WebApi.Services
 {
-    public class  UsersService
+    public class  UsersService: IUsersService
     {
         //Damos a la lista Usuarios el nombre de _usuarios
-        private readonly IMongoCollection<Users> _usuarios;
+        private readonly IMongoRepository<Users> _usuarios;
+        private readonly IMongoRepository<Addresses> _addresses;
 
         //Conectamos la base de datos con usuarios
-        public UsersService(IDatabaseSettings settings)
+        public UsersService(IMongoRepository<Users> usersRepository, IMongoRepository<Addresses> addressesRepository)
         {
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
-
-            _usuarios = database.GetCollection<Users>("Users");
+            _usuarios = usersRepository;
+            _addresses = addressesRepository;
         }
 
         //Recoge todos los usuarios que estan en la base de datos
-        public async Task<List<Users>> Get() => await _usuarios.Find(usuario => true).ToListAsync();
+        public List<Users> Get() => _usuarios.AsQueryable().ToList();
 
         //Cogemos el id del users y comparamos el users con el id de users
-        public async Task<Users> Get(string id) => await _usuarios.Find(usuario => usuario.Id == id).FirstOrDefaultAsync();
+        public async Task<Users> Get(string id) => await _usuarios.FindByIdAsync(id);
 
-        public async Task<Users> Login(string email, string password) =>
-             await _usuarios.Find(u => u.Email == email && u.Password == password).FirstOrDefaultAsync();
+        public Users Login(string email, string password) =>
+            _usuarios.FilterBy(u => u.Email == email && u.Password == password).FirstOrDefault();
         //Creamos un nuevo users, si ese users no tienen ID se crea un nuevo ID y se inserta en la base de datos
-        public async Task<Users> Create(Users users)
+        public async Task<Users> Create(Users user)
         {
-            users.Id ??= new BsonObjectId(ObjectId.GenerateNewId()).ToString();
-            await _usuarios.InsertOneAsync(users);
-            return users;
+          //  await _addresses.InsertOneAsync(user.Address);
+            await _usuarios.InsertOneAsync(user);
+            return user;
         }
 
         //Actualizamos la lista de usuarios al insertar nuevo users
-        public async Task Update(string id, Users usersIn) => await _usuarios.ReplaceOneAsync(Builders<Users>.Filter.Eq(s => s.Id, id), usersIn);
+        public async Task Update(Users usersIn) => await _usuarios.ReplaceOneAsync(usersIn);
 
         //Borramos un users de la lista comparando el users con su IP¿
-        public async Task Remove(Users usersIn) => await _usuarios.DeleteOneAsync(usuario => usuario.Id == usersIn.Id);
+        public async Task Remove(Users usersIn)
+        {
+            await _addresses.DeleteByIdAsync(usersIn.Address.Id.ToString());
+            await _usuarios.DeleteByIdAsync(usersIn.Id.ToString());
+            
+        }
     }
 }
