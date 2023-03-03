@@ -19,7 +19,7 @@ public class ReservationsController : Controller
     public List<Reservations> Get() => _reservationsService.Get();
 
     [HttpGet("user/{usuarioId}")]
-    public async Task<List<Reservations>> GetUserReserva(string usuarioId) =>
+    public List<Reservations> GetUserReserva(string usuarioId) =>
          _reservationsService.GetUserReserva(usuarioId);
 
     [HttpGet("{id:length(24)}")]
