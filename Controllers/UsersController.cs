@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt; //Quitar, está en servicios
-using System.Security.Claims; //Quitar, está en servicios
-using System.Text; //Quitar, está en servicios
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens; //Quitar, está en servicios
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using WebApi.Models;
 using WebApi.Services;
 
@@ -12,22 +15,22 @@ namespace WebApi.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("UsersUsers")]
+    [Route("Users")]
     public class UsersController : ControllerBase
     {
-        private readonly UsersService _usersService;
-        private readonly AddressesService _addressesService;
+        private readonly IUsersService _usersService;
+        private readonly IAddressesService _addressesService;
         private readonly IConfiguration _configuration;
 
-        public UsersController(UsersService usersService, AddressesService addressesService, IConfiguration config)
+        public UsersController(IUsersService usersService, IAddressesService addressesService, IConfiguration config)
         {
             _usersService = usersService;
             _addressesService = addressesService;
             _configuration = config;
         }
-        
+
         [HttpGet]
-        public async Task<ActionResult<List<Users>>> Get() => await _usersService.Get();
+        public ActionResult<List<Users>> Get() => _usersService.Get();
 
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Users>> Get(string id) => await _usersService.Get(id);
@@ -52,7 +55,7 @@ namespace WebApi.Controllers
             }
 
             usersInf.Id = usuario.Id;
-           await _usersService.Update(id, usersInf);
+           await _usersService.Update(usersInf);
 
             return NoContent();
         }
@@ -82,7 +85,7 @@ namespace WebApi.Controllers
                 return users;
             }
 
-            var direccion = await _addressesService.Get(users.Address.Id);
+            var direccion = await _addressesService.Get(users.Address.Id.ToString());
             if (direccion == null)
             {
                 direccion = await _addressesService.Create(users.Address);
@@ -105,7 +108,7 @@ namespace WebApi.Controllers
         {
             if (login.Email != null && login.Password != null)
             {
-                var user = await GetUser(login.Email, login.Password);
+                var user = GetUser(login.Email, login.Password);
 
                 if (user != null)
                 {
@@ -114,7 +117,7 @@ namespace WebApi.Controllers
                         new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                        new Claim("Id", user.Id),
+                        new Claim("Id", user.Id.ToString()),
                         new Claim("DisplayName", $"{user.Name} {user.LastName}"),
                         new Claim("Email", user.Email)
                     };
@@ -146,7 +149,7 @@ namespace WebApi.Controllers
             }
         }
 
-        private async Task<Users> GetUser(string email, string password) => await _usersService.Login(email, password);
+        private Users GetUser(string email, string password) => _usersService.Login(email, password);
     }
 }
 

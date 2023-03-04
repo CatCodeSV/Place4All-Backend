@@ -8,15 +8,15 @@ namespace WebApi.Controllers
     [Route("Addresses")]
     public class AddressesController : ControllerBase
 {
-    private readonly AddressesService _addressesService;
+    private readonly IAddressesService _addressesService;
 
-    public AddressesController(AddressesService addressesService)
+    public AddressesController(IAddressesService addressesService)
     {
         _addressesService = addressesService;
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<Addresses>>> Get() => await _addressesService.Get();
+    public ActionResult<List<Addresses>> Get() => _addressesService.Get();
 
     [HttpGet("{id:length(24)}")]
     public async Task<ActionResult<Addresses>> Get(string id) => await _addressesService.Get(id);
@@ -40,7 +40,7 @@ namespace WebApi.Controllers
         }
 
         address.Id = direccion.Id;
-        _addressesService.Update(id, address);
+        _addressesService.Update(address);
 
         return NoContent();
     }

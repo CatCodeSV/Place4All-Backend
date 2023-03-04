@@ -8,19 +8,19 @@ namespace WebApi.Controllers;
 [ApiController, Route("Reservations")]
 public class ReservationsController : Controller
 {
-    private readonly ReservationsService _reservationsService;
+    private readonly IReservationsService _reservationsService;
 
-    public ReservationsController(ReservationsService reservationsService)
+    public ReservationsController(IReservationsService reservationsService)
     {
         _reservationsService = reservationsService;
     }
 
     [HttpGet]
-    public async Task<List<Reservations>> Get() => await _reservationsService.Get();
+    public List<Reservations> Get() => _reservationsService.Get();
 
     [HttpGet("user/{usuarioId}")]
-    public async Task<List<Reservations>> GetUserReserva(string usuarioId) =>
-        await _reservationsService.GetUserReserva(usuarioId);
+    public List<Reservations> GetUserReserva(string usuarioId) =>
+         _reservationsService.GetUserReserva(usuarioId);
 
     [HttpGet("{id:length(24)}")]
     public async Task<Reservations> Get(string id) => await _reservationsService.Get(id);
@@ -43,7 +43,7 @@ public class ReservationsController : Controller
         }
 
         reservationInf.Id = reserva.Id;
-        await _reservationsService.Update(id, reserva);
+        await _reservationsService.Update(reserva);
 
         return NoContent();
     }
@@ -51,7 +51,7 @@ public class ReservationsController : Controller
     [HttpDelete("{id:length(24)}")]
     public async Task<IActionResult> Remove(Reservations reservation)
     {
-        var reservaChecked = await _reservationsService.Get(reservation.Id);
+        var reservaChecked = await _reservationsService.Get(reservation.Id.ToString());
         if (reservaChecked == null)
         {
             return NoContent();

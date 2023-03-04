@@ -12,17 +12,17 @@ namespace WebApi.Controllers
     public class RestaurantsController : ControllerBase
     {
 
-        private readonly RestaurantsService _servicioRestaurante;
-        private readonly AddressesService _addressesService;
+        private readonly IRestaurantsService _servicioRestaurante;
+        private readonly IAddressesService _addressesService;
 
-        public RestaurantsController(RestaurantsService servicioRestaurante, AddressesService addressesService)
+        public RestaurantsController(IRestaurantsService servicioRestaurante, IAddressesService addressesService)
         {
             _servicioRestaurante = servicioRestaurante;
             _addressesService = addressesService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Restaurants>>> Get() =>await _servicioRestaurante.Get();
+        public ActionResult<List<Restaurants>> Get() => _servicioRestaurante.Get();
 
         //Se pasa por la URL un id que tiene que tener 24 caracteres ya que el BSON.Id tiene ese formato.
         [HttpGet("{id:length(24)}")]
@@ -58,7 +58,7 @@ namespace WebApi.Controllers
             }
 
             restaurant.Id = restaurante.Id;
-            _servicioRestaurante.Update(id, restaurant);
+            _servicioRestaurante.Update(restaurant);
 
             return NoContent();
         }
@@ -80,7 +80,7 @@ namespace WebApi.Controllers
         }
         
         [HttpPost("search")]
-        public async Task Search(IBuscaCiudad ciudad) => await _servicioRestaurante.Search(ciudad);
+        public Search(IBuscaCiudad ciudad) => _servicioRestaurante.Search(ciudad);
         
         private async Task<Restaurants> HasDireccion (Restaurants restaurant)
         {
@@ -91,7 +91,7 @@ namespace WebApi.Controllers
                 return restaurant;
             }
 
-            var direccion =await _addressesService.Get(restaurant.Address.Id);
+            var direccion =await _addressesService.Get(restaurant.Address.Id.ToString());
             if (direccion != null) return restaurant;
             
             direccion = await _addressesService.Create(restaurant.Address);
