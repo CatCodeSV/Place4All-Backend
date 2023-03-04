@@ -13,8 +13,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using WebApi.Entities;
-using WebApi.Persistence;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 
@@ -38,20 +36,20 @@ namespace WebApi
             builder.Services
                 .AddHttpContextAccessor()
                 .AddAuthorization()
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(optiens =>
-                {
-                    optiens.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                        ValidAudience = builder.Configuration["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"].ToString()))
-                    };
-                });
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
+                //.AddJwtBearer(optiens =>
+                //{
+                //    optiens.TokenValidationParameters = new TokenValidationParameters
+                //    {
+                //        ValidateIssuer = true,
+                //        ValidateAudience = true,
+                //        ValidateLifetime = true,
+                //        ValidateIssuerSigningKey = true,
+                //        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                //        ValidAudience = builder.Configuration["Jwt:Audience"],
+                //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"].ToString()))
+                //    };
+                //});
 
             //Creamos la politica de CORS
             builder.Services.AddCors(options =>
