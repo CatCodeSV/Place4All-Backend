@@ -35,6 +35,19 @@ namespace WebApi.Controllers
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Users>> Get(string id) => await _usersService.Get(id);
 
+        [AllowAnonymous]
+        [Route("authenticate")]
+        [HttpPost]
+        public ActionResult Login([FromBody] Users user)
+        {
+            var token = _usersService.Authenticate(user.Email, user.Password);
+            if(token == null)
+            {
+                return Unauthorized();
+            }
+            return Ok(new { token, user });
+        }
+
         [HttpPost]
         public async Task<ActionResult<Users>> Create(Users users)
         {
