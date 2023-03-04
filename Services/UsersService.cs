@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using WebApi.Models;
@@ -47,6 +51,41 @@ namespace WebApi.Services
             await _addresses.DeleteByIdAsync(usersIn.Address.Id.ToString());
             await _usuarios.DeleteByIdAsync(usersIn.Id.ToString());
             
+        }
+
+        public string Authenticate(string email, string password)
+        {
+            
+            var user = this._usuarios.FindOne(x => x.Email == email && x.Password == password); //TODO: Añadir un FirstOrDefault para que devuelva nulo en caso de no encontrar coincidencias en la BD
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenKey = Encoding.UTF8.GetBytes(key);
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Email, email),
+                }),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(tokenKey),
+                    SecurityAlgorithms.HmacSha256Signature
+                    )
+            };
+            
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
+        }
+
+        object IUsersService.Authenticate(string email, string password)
+        {
+            throw new NotImplementedException();
         }
     }
 }

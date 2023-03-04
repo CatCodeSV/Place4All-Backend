@@ -19,4 +19,5 @@ public interface IUsersService
 
     //Borramos un users de la lista comparando el users con su IP¿
     Task Remove(Users usersIn);
+    object Authenticate(string email, string password);
 }
