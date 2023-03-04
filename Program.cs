@@ -12,6 +12,7 @@ using System.Text;
 using WebApi.Entities;
 using WebApi.Persistence;
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Configuration;
 
 namespace WebApi
 {
@@ -44,7 +45,7 @@ namespace WebApi
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = builder.Configuration["Jwt:Issuer"],
                         ValidAudience = builder.Configuration["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"].ToString()))
                     };
                 });
 
@@ -74,7 +75,7 @@ namespace WebApi
                     x.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(ConfigurationBinder.GetSection("JwtKey").ToString())),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
                         ValidateIssuer = false,
                         ValidateAudience = false,
                     };
