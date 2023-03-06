@@ -5,20 +5,20 @@ namespace WebApi.Services;
 
 public interface IUsersService
 {
-    List<Users> Get();
+    List<UserDetails> Get();
 
     //Cogemos el id del users y comparamos el users con el id de users
-    Task<Users> Get(string id);
+    Task<UserDetails> Get(string id);
 
-    Users Login(string email, string password);
+    UserDetails Login(string email, string password);
     //Creamos un nuevo users, si ese users no tienen ID se crea un nuevo ID y se inserta en la base de datos
-    Task<Users> Create(Users users);
+    Task<UserDetails> Create(UserDetails users);
 
     //Actualizamos la lista de usuarios al insertar nuevo users
-    Task Update(Users usersIn);
+    Task Update(UserDetails usersIn);
 
     //Borramos un users de la lista comparando el users con su IP¿
-    Task Remove(Users usersIn);
+    Task Remove(UserDetails usersIn);
 
     //Creamos el objeto Authenticate para generar el token
     string Authenticate(string email, string password);

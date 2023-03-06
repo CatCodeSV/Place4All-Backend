@@ -30,7 +30,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Users>> Get() => _usersService.Get();
+        public ActionResult<List<UserDetails>> Get() => _usersService.Get();
 
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Users>> Get(string id) => await _usersService.Get(id);
@@ -38,7 +38,7 @@ namespace WebApi.Controllers
         [AllowAnonymous]
         [Route("authenticate")]
         [HttpPost]
-        public ActionResult Login([FromBody] Users user)
+        public ActionResult Login([FromBody] UserDetails user)
         {
             var token = _usersService.Authenticate(user.Email, user.Password);
             if(token == null)
@@ -49,7 +49,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Users>> Create(Users users)
+        public async Task<ActionResult<UserDetails>> Create(UserDetails users)
         {
             var usuarioD = await HasDireccion(users);
             var usuarioCreada = await _usersService.Create(usuarioD);
@@ -58,7 +58,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("{id:length(24)}")]
-        public async Task<IActionResult> Put(string id, Users usersInf)
+        public async Task<IActionResult> Put(string id, UserDetails usersInf)
         {
             var usuario =await _usersService.Get(id);
 
@@ -88,7 +88,7 @@ namespace WebApi.Controllers
 
             return NoContent();
         }
-        private async Task<Users> HasDireccion(Users users)
+        private async Task<UserDetails> HasDireccion(UserDetails users)
         {
             
             if (users.Address.Id == null)
