@@ -19,5 +19,7 @@ public interface IUsersService
 
     //Borramos un users de la lista comparando el users con su IP¿
     Task Remove(Users usersIn);
-    object Authenticate(string email, string password);
+
+    //Creamos el objeto Authenticate para generar el token
+    string Authenticate(string email, string password);
 }
