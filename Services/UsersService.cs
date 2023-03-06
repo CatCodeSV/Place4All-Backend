@@ -32,8 +32,11 @@ namespace WebApi.Services
         //Cogemos el id del users y comparamos el users con el id de users
         public async Task<Users> Get(string id) => await _usuarios.FindByIdAsync(id);
 
-        public Users Login(string email, string password) =>
-            _usuarios.FilterBy(u => u.Email == email && u.Password == password).FirstOrDefault();
+        public Users Login(string email, string password)
+        {
+            return _usuarios.FilterBy(u => u.Email == email && u.Password == password).FirstOrDefault();
+        }
+
         //Creamos un nuevo users, si ese users no tienen ID se crea un nuevo ID y se inserta en la base de datos
         public async Task<Users> Create(Users user)
         {
@@ -53,7 +56,7 @@ namespace WebApi.Services
             
         }
 
-        public string Authenticate(string email, string password)
+        string? IUsersService.Authenticate(string email, string password)
         {
             
             var user = this._usuarios.FindOne(x => x.Email == email && x.Password == password); //TODO: Añadir un FirstOrDefault para que devuelva nulo en caso de no encontrar coincidencias en la BD
@@ -83,9 +86,5 @@ namespace WebApi.Services
             return tokenHandler.WriteToken(token);
         }
 
-        object IUsersService.Authenticate(string email, string password)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
