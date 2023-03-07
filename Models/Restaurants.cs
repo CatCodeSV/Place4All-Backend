@@ -16,10 +16,6 @@ namespace WebApi.Models
         public string Image { get; set; } = "";
         public List<Features> Servicio { get; set; } = new List<Features>();
 
-        internal List<Restaurants> FirstOrDefault()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class IBuscaCiudad
