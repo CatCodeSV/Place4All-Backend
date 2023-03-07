@@ -42,7 +42,7 @@ namespace WebApi.Controllers
         public async Task<ActionResult<Restaurants>> Create(Restaurants restaurant)
         {
             var restauranteD = await HasDireccion(restaurant);
-            var restauranteCreado = await _servicioRestaurante.Create(restauranteD.FirstOrDefault());
+            var restauranteCreado = await _servicioRestaurante.Create(restauranteD);
 
             return CreatedAtRoute("", new { id = restaurant.Id }, restauranteCreado);
         }
@@ -82,21 +82,21 @@ namespace WebApi.Controllers
         [HttpPost("search")]
         public async Task Search(IBuscaCiudad ciudad) => _servicioRestaurante.Search(ciudad);
         
-        private async Task<List<Restaurants>> HasDireccion (Restaurants restaurant)
+        private async Task<Restaurants> HasDireccion (Restaurants restaurant)
         {
             if(restaurant.Address.Id == null)
             {
                 var DireccionD =await _addressesService.Create(restaurant.Address);
                 restaurant.Address = DireccionD;
-                return restaurant.FirstOrDefault();
+                return restaurant;
             }
 
             var direccion =await _addressesService.Get(restaurant.Address.Id.ToString());
-            if (direccion != null) return restaurant.FirstOrDefault();
+            if (direccion != null) return restaurant;
             
             direccion = await _addressesService.Create(restaurant.Address);
             restaurant.Address = direccion;
-            return restaurant.FirstOrDefault();
+            return restaurant;
 
         }
 
