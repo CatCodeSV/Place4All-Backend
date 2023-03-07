@@ -27,29 +27,11 @@ namespace WebApi
             //Creación del contenedor de la aplicación llamado builder
             var builder = WebApplication.CreateBuilder(args);
 
-            //builder.Services
-            //    .AddSqlite<MyDbContext>(builder.Configuration.GetConnectionString("Default"))
-            //    .AddIdentityCore<Entities.User>()
-            //    .AddRoles<IdentityRole>();
-            //    .AddEntityFrameworkStores<MyDbContext>();
 
             builder.Services
                 .AddHttpContextAccessor()
                 .AddAuthorization()
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
-                //.AddJwtBearer(optiens =>
-                //{
-                //    optiens.TokenValidationParameters = new TokenValidationParameters
-                //    {
-                //        ValidateIssuer = true,
-                //        ValidateAudience = true,
-                //        ValidateLifetime = true,
-                //        ValidateIssuerSigningKey = true,
-                //        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                //        ValidAudience = builder.Configuration["Jwt:Audience"],
-                //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"].ToString()))
-                //    };
-                //});
 
             //Creamos la politica de CORS
             builder.Services.AddCors(options =>
