@@ -56,34 +56,42 @@ namespace WebApi.Services
             
         }
 
-        string? IUsersService.Authenticate(string email, string password)
+        public AuthObject? Authenticate(string email, string password)
         {
-            
-            var user = this._usuarios.FindOne(x => x.Email == email && x.Password == password); //TODO: Añadir un FirstOrDefault para que devuelva nulo en caso de no encontrar coincidencias en la BD
+            try
+            {
+                var user = this._usuarios.FindOne(x => x.Email == email && x.Password == password);
 
-            if (user == null)
+                if (user == null)
+                {
+                    return null;
+                }
+
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var tokenKey = Encoding.UTF8.GetBytes(key);
+                var tokenDescriptor = new SecurityTokenDescriptor()
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                    new Claim(ClaimTypes.Email, email),
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(1),
+                    SigningCredentials = new SigningCredentials(
+                        new SymmetricSecurityKey(tokenKey),
+                        SecurityAlgorithms.HmacSha256Signature
+                        )
+                };
+
+                //var token = tokenHandler.CreateToken(tokenDescriptor);
+                string token = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+
+                return new AuthObject(token, user);
+            }
+            catch (Exception ex)
             {
                 return null;
             }
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var tokenKey = Encoding.UTF8.GetBytes(key);
-            var tokenDescriptor = new SecurityTokenDescriptor()
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Email, email),
-                }),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(tokenKey),
-                    SecurityAlgorithms.HmacSha256Signature
-                    )
-            };
             
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return tokenHandler.WriteToken(token);
         }
 
     }

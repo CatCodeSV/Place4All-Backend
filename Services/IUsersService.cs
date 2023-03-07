@@ -21,5 +21,5 @@ public interface IUsersService
     Task Remove(Users usersIn);
 
     //Creamos el objeto Authenticate para generar el token
-    string Authenticate(string email, string password);
+    AuthObject? Authenticate(string email, string password);
 }
