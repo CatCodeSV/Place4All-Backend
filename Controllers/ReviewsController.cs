@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 using WebApi.Services;
@@ -55,6 +56,7 @@ public class ReviewsController : ControllerBase
         return review;
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<Reviews>> Create(Reviews review)
     {
