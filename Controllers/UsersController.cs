@@ -38,17 +38,18 @@ namespace WebApi.Controllers
         [AllowAnonymous]
         [Route("authenticate")]
         [HttpPost]
-        public ActionResult Login([FromBody] Users user)
+        public ActionResult Login(string email, string password)
         {
-            var token = _usersService.Authenticate(user.Email, user.Password);
-            if(token == null)
+            var response = _usersService.Authenticate(email, password);
+            if(response == null)
             {
                 return Unauthorized();
             }
-            return Ok(new { token, user });
+            return Ok(response);
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<Users>> Create(Users users)
         {
             var usuarioD = await HasDireccion(users);
@@ -114,60 +115,6 @@ namespace WebApi.Controllers
             _addressesService.Remove(users.Address);
         }
 
-        
-        [HttpPost("login")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Post(Login login)
-        {
-            if (login.Email != null && login.Password != null)
-            {
-                var user = GetUser(login.Email, login.Password);
-
-                if (user != null)
-                {
-                    //create claims details based on the user information
-                    var claims = new[] {
-                        new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                        new Claim("Id", user.Id.ToString()),
-                        new Claim("DisplayName", $"{user.Name} {user.LastName}"),
-                        new Claim("Email", user.Email)
-                    };
-
-                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-                    var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                    var token = new JwtSecurityToken(
-                        _configuration["Jwt:Issuer"],
-                        _configuration["Jwt:Audience"],
-                        claims,
-                        expires: DateTime.UtcNow.AddMinutes(10),
-                        signingCredentials: signIn);
-
-                    var response = new LoginResponse
-                    {
-                        Token= new JwtSecurityTokenHandler().WriteToken(token),
-                        Users = user
-                    };
-                    return Ok(response);
-                }
-                else
-                {
-                    return BadRequest("Invalid credentials");
-                }
-            }
-            else
-            {
-                return Unauthorized();
-            }
-        }
-
         private Users GetUser(string email, string password) => _usersService.Login(email, password);
     }
-}
-
-public class LoginResponse
-{
-    public string Token { get; set; }
-    public Users Users { get; set; }
 }
