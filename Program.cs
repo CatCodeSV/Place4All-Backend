@@ -31,7 +31,19 @@ namespace WebApi
             builder.Services
                 .AddHttpContextAccessor()
                 .AddAuthorization()
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                    };
+                });
 
             //Creamos la politica de CORS
             builder.Services.AddCors(options =>
@@ -46,24 +58,6 @@ namespace WebApi
             });
             //Configuración de la base de datos en el contenedor builder
             builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection(nameof(DatabaseSettings)));
-
-            builder.Services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                .AddJwtBearer(x =>
-                {
-                    x.RequireHttpsMetadata = false;
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                    };
-                });
 
             //Para evitar errores en la ejecución de la API
             builder.Services.AddMvc(options =>
@@ -89,16 +83,26 @@ namespace WebApi
             //Añade un documento swagger para controlar la API
             builder.Services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                var securitySchema = new OpenApiSecurityScheme()
                 {
+                    Description =
+                        "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "JWT Authentication",
                     In = ParameterLocation.Header,
-                    Description = "Please enter a valid token",
-                    Name = "Authorization",
                     Type = SecuritySchemeType.Http,
-                    BearerFormat = "JWT",
-                    Scheme = "Bearer"
+                    Scheme = JwtBearerDefaults.AuthenticationScheme,
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+                c.AddSecurityDefinition(securitySchema.Reference.Id, securitySchema);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    { securitySchema, Array.Empty<string>() }
                 });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
             });
 
             //TODO (Autentificación JWT)

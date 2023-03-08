@@ -16,14 +16,16 @@ namespace WebApi.Services
         //Damos a la lista Usuarios el nombre de _usuarios
         private readonly IMongoRepository<UserDetails> _usuarios;
         private readonly IMongoRepository<Addresses> _addresses;
+        private readonly IConfiguration _configuration;
 
         private readonly string key;
 
         //Conectamos la base de datos con usuarios
-        public UsersService(IMongoRepository<UserDetails> usersRepository, IMongoRepository<Addresses> addressesRepository)
+        public UsersService(IMongoRepository<UserDetails> usersRepository, IMongoRepository<Addresses> addressesRepository, IConfiguration configuration)
         {
             _usuarios = usersRepository;
             _addresses = addressesRepository;
+            _configuration = configuration;
         }
 
         //Recoge todos los usuarios que estan en la base de datos
@@ -66,23 +68,22 @@ namespace WebApi.Services
                     return null;
                 }
 
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var tokenKey = Encoding.UTF8.GetBytes("This is a sample secret key - please don't use in production environment"); //Lo correcto es llamar a Jwt:Key de appsettings
-                var tokenDescriptor = new SecurityTokenDescriptor()
+                var claims = new List<Claim>
                 {
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                    new Claim(ClaimTypes.Email, email),
-                    }),
-                    Expires = DateTime.UtcNow.AddDays(1),
-                    SigningCredentials = new SigningCredentials(
-                        new SymmetricSecurityKey(tokenKey),
-                        SecurityAlgorithms.HmacSha256Signature
-                        )
+                    new Claim(ClaimTypes.Sid, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.Name),
+                    new Claim(ClaimTypes.Surname, user.LastName)
                 };
-
-                //var token = tokenHandler.CreateToken(tokenDescriptor);
-                string token = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+                var tokenDescriptor = new JwtSecurityToken(
+                    issuer: _configuration["Jwt:Issuer"],
+                    audience: _configuration["Jwt:Audience"],
+                    claims: claims,
+                    expires: DateTime.Now.AddDays(1),
+                    signingCredentials: credentials
+                );
+                var token = new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
 
                 return new AuthObject(token, user);
             }
