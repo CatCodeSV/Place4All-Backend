@@ -78,10 +78,10 @@ namespace WebApi.Controllers
 
             return NoContent();
         }
-        
+
         [HttpPost("search")]
-        public Search(IBuscaCiudad ciudad) => _servicioRestaurante.Search(ciudad);
-        
+        public List<Restaurants> Search(IBuscaCiudad ciudad) => _servicioRestaurante.Search(ciudad);
+
         private async Task<Restaurants> HasDireccion (Restaurants restaurant)
         {
             if(restaurant.Address.Id == null)
