@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using WebApi.Repositories;
 
 namespace WebApi.Models;
+
 [BsonCollection("Reservations")]
 public class Reservations : Document
 {

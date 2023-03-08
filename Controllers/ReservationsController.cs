@@ -1,10 +1,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 using WebApi.Services;
 
 namespace WebApi.Controllers;
+
+[Authorize]
 [ApiController, Route("Reservations")]
 public class ReservationsController : Controller
 {

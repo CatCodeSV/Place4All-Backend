@@ -1,11 +1,12 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
+using WebApi.Models;
 using WebApi.Repositories;
 
 namespace WebApi.Models
 {
     [BsonCollection("Users")]
-    public class Users :Document
+    public class Users : Document
     {
 
         public string Name { get; set; } = "";
@@ -16,13 +17,10 @@ namespace WebApi.Models
         public bool HasDisability { get; set; } = false;
         public decimal? DisabilityDegree { get; set; }
         public string Email { get; set; } = "";
-        public string Password { get; set; } = "";
-
     }
-
-    public class Login
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
+}
+[BsonCollection("Users")]
+public class UserDetails : Users
+{
+    public string Password { get; set; } = "";
 }

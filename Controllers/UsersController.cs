@@ -13,6 +13,7 @@ using WebApi.Services;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("Users")]
     public class UsersController : ControllerBase
@@ -29,13 +30,28 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Users>> Get() => _usersService.Get();
+        public ActionResult<List<UserDetails>> Get() => _usersService.Get();
 
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Users>> Get(string id) => await _usersService.Get(id);
 
+        
+        [Route("authenticate")]
         [HttpPost]
-        public async Task<ActionResult<Users>> Create(Users users)
+        [AllowAnonymous]
+        public ActionResult Login(string email, string password)
+        {
+            var response = _usersService.Authenticate(email, password);
+            if(response == null)
+            {
+                return Unauthorized();
+            }
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult<UserDetails>> Create(UserDetails users)
         {
             var usuarioD = await HasDireccion(users);
             var usuarioCreada = await _usersService.Create(usuarioD);
@@ -44,7 +60,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("{id:length(24)}")]
-        public async Task<IActionResult> Put(string id, Users usersInf)
+        public async Task<IActionResult> Put(string id, UserDetails usersInf)
         {
             var usuario =await _usersService.Get(id);
 
@@ -74,7 +90,7 @@ namespace WebApi.Controllers
 
             return NoContent();
         }
-        private async Task<Users> HasDireccion(Users users)
+        private async Task<UserDetails> HasDireccion(UserDetails users)
         {
             
             if (users.Address.Id == null)
@@ -99,60 +115,5 @@ namespace WebApi.Controllers
         {
             _addressesService.Remove(users.Address);
         }
-        
-        [HttpPost("login")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Post(Login login)
-        {
-            if (login.Email != null && login.Password != null)
-            {
-                var user = GetUser(login.Email, login.Password);
-
-                if (user != null)
-                {
-                    //create claims details based on the user information
-                    var claims = new[] {
-                        new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                        new Claim("Id", user.Id.ToString()),
-                        new Claim("DisplayName", $"{user.Name} {user.LastName}"),
-                        new Claim("Email", user.Email)
-                    };
-
-                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-                    var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                    var token = new JwtSecurityToken(
-                        _configuration["Jwt:Issuer"],
-                        _configuration["Jwt:Audience"],
-                        claims,
-                        expires: DateTime.UtcNow.AddMinutes(10),
-                        signingCredentials: signIn);
-
-                    var response = new LoginResponse
-                    {
-                        Token= new JwtSecurityTokenHandler().WriteToken(token),
-                        Users = user
-                    };
-                    return Ok(response);
-                }
-                else
-                {
-                    return BadRequest("Invalid credentials");
-                }
-            }
-            else
-            {
-                return Unauthorized();
-            }
-        }
-
-        private Users GetUser(string email, string password) => _usersService.Login(email, password);
     }
-}
-
-public class LoginResponse
-{
-    public string Token { get; set; }
-    public Users Users { get; set; }
 }

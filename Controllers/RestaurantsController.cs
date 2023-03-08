@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 using WebApi.Services;
@@ -38,6 +39,7 @@ namespace WebApi.Controllers
             return restaurante;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Restaurants>> Create(Restaurants restaurant)
         {
@@ -47,6 +49,7 @@ namespace WebApi.Controllers
             return CreatedAtRoute("", new { id = restaurant.Id }, restauranteCreado);
         }
 
+        [Authorize]
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> Put(string id, Restaurants restaurant)
         {
@@ -78,10 +81,10 @@ namespace WebApi.Controllers
 
             return NoContent();
         }
-
+        
         [HttpPost("search")]
-        public List<Restaurants> Search(IBuscaCiudad ciudad) => _servicioRestaurante.Search(ciudad);
-
+        public async Task Search(IBuscaCiudad ciudad) => _servicioRestaurante.Search(ciudad);
+        
         private async Task<Restaurants> HasDireccion (Restaurants restaurant)
         {
             if(restaurant.Address.Id == null)

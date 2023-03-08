@@ -6,6 +6,15 @@ using Microsoft.OpenApi.Models;
 using WebApi.Models;
 using WebApi.Repositories;
 using WebApi.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Configuration;
 
 namespace WebApi
 {
@@ -17,6 +26,24 @@ namespace WebApi
             var  myAllowSpecificOrigins = "_myAllowSpecificOrigins";
             //Creación del contenedor de la aplicación llamado builder
             var builder = WebApplication.CreateBuilder(args);
+
+
+            builder.Services
+                .AddHttpContextAccessor()
+                .AddAuthorization()
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                    };
+                });
 
             //Creamos la politica de CORS
             builder.Services.AddCors(options =>
@@ -56,11 +83,36 @@ namespace WebApi
             //Añade un documento swagger para controlar la API
             builder.Services.AddSwaggerGen(c =>
             {
+                var securitySchema = new OpenApiSecurityScheme()
+                {
+                    Description =
+                        "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "JWT Authentication",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = JwtBearerDefaults.AuthenticationScheme,
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+                c.AddSecurityDefinition(securitySchema.Reference.Id, securitySchema);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    { securitySchema, Array.Empty<string>() }
+                });
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
             });
 
+            //TODO (Autentificación JWT)
+            builder.Services.AddScoped<UsersService>();
+
             //Tras realizar los pasos anteriores se ejecuta el builder
             var app = builder.Build();
+
+            //TODO (Autentificación JWT)
+            app.UseAuthentication();
             
             //Configuración de las peticiones con HTTP
             if (builder.Environment.IsDevelopment())
