@@ -13,7 +13,6 @@ namespace WebApi.Models
         public Addresses Address { get; set; }
         public string Descripcion { get; set; } = "";
         public string PhoneNumber { get; set; } = "";
-        //public string Image { get; set; } = "";
         public List<string> Image { get; set; } = new List<string>();
         public List<Features> Servicio { get; set; } = new List<Features>();
 
