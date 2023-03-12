@@ -10,5 +10,7 @@ namespace WebApi.Models
         ObjectId Id { get; set; }
 
         DateTime CreatedAt { get; }
+        
+        string StringId { get; }
     }
 }

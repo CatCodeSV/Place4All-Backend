@@ -58,19 +58,18 @@ namespace WebApi.Repositories
         public virtual TDocument FindById(string id)
         {
             var objectId = new ObjectId(id);
-            //var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, objectId);
             var filter = Builders<TDocument>.Filter.Eq(id, objectId);
             return _collection.Find(filter).SingleOrDefault();
         }
 
         public virtual Task<TDocument> FindByIdAsync(string id)
         {
-            return Task.Run(() =>
+            return Task.Run(async () =>
             {
                 var objectId = new ObjectId(id);
-                //var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, objectId);
-                var filter = Builders<TDocument>.Filter.Eq(id, objectId);
-                return _collection.Find(filter).SingleOrDefaultAsync();
+                var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, objectId);
+                var res = await _collection.Find(filter).SingleOrDefaultAsync();
+                return res;
             });
         }
 

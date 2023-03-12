@@ -20,7 +20,7 @@ public class ReviewsController : ControllerBase
         _reviewsService = reviewsService;
     }
 
-    [HttpGet("/restaurants/{id:length(24)}")]
+    [HttpGet("restaurants/{id:length(24)}")]
     public ActionResult<List<Reviews>> GetByRestaurant(string id)
     {
         var reviews = _reviewsService.GetByRestaurant(id);
@@ -32,7 +32,7 @@ public class ReviewsController : ControllerBase
         return reviews;
     }
     
-    [HttpGet("/users/{id:length(24)}")]
+    [HttpGet("users/{id:length(24)}")]
     public ActionResult<List<Reviews>> GetByUser(string id)
     {
         var reviews = _reviewsService.GetByUser(id);

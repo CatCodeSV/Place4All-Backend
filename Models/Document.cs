@@ -7,5 +7,7 @@ namespace WebApi.Models
         public ObjectId Id { get; set; }
 
         public DateTime CreatedAt => Id.CreationTime;
+
+        public string StringId => Id.ToString();
     }
 }
