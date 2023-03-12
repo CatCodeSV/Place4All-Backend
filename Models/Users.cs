@@ -24,3 +24,9 @@ public class UserDetails : Users
 {
     public string Password { get; set; } = "";
 }
+
+public interface Login
+{
+    public string email { get; set; }
+    public string password { get; set; }
+}
