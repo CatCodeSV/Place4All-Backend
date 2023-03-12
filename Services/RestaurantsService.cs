@@ -11,11 +11,12 @@ namespace WebApi.Services
     {
         //Damos a la lista de Restaurantes el nombre de _restaurantes
         private readonly IMongoRepository<Restaurants> _restaurantes;
+        private readonly IMongoRepository<Reviews> _reviews;
 
         //Conexión de la base de datos con los objetos restaurantes
-        public RestaurantsService(IMongoRepository<Restaurants> settings)
+        public RestaurantsService(IMongoRepository<Restaurants> settings, IMongoRepository<Reviews> reviews)
         {
-
+            _reviews = reviews;
             _restaurantes = settings;
         }
 

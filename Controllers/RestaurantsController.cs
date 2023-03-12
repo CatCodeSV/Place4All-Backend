@@ -15,15 +15,52 @@ namespace WebApi.Controllers
 
         private readonly IRestaurantsService _servicioRestaurante;
         private readonly IAddressesService _addressesService;
+        private readonly IReviewsService _reviewsService;
 
-        public RestaurantsController(IRestaurantsService servicioRestaurante, IAddressesService addressesService)
+        public RestaurantsController(IRestaurantsService servicioRestaurante, IAddressesService addressesService, IReviewsService reviewsService)
         {
             _servicioRestaurante = servicioRestaurante;
             _addressesService = addressesService;
+            _reviewsService = reviewsService;
         }
 
         [HttpGet]
-        public ActionResult<List<Restaurants>> Get() => _servicioRestaurante.Get();
+        public ActionResult<List<RestaurantReviews>> Get()
+        {
+            var restaurants = _servicioRestaurante.Get();
+            List<RestaurantReviews> lists = new List<RestaurantReviews>();
+            foreach (var restaurant in restaurants)
+            {
+                var reviews = _reviewsService.GetByRestaurant(restaurant.Id.ToString());
+                double reviewsSum = 0.0;
+                double reviewsAverage = 0;
+                reviews.ForEach(review =>
+                {
+                    reviewsSum += review.Value;
+                });
+                if (reviews.Count != 0 && reviewsSum != 0)
+                {
+                    reviewsAverage = reviewsSum / reviews.Count;
+                }
+                
+                lists.Add(
+                        new RestaurantReviews
+                        {
+                            Id = restaurant.Id,
+                            Name = restaurant.Name,
+                            Address = restaurant.Address,
+                            Descripcion = restaurant.Descripcion,
+                            Image = restaurant.Image,
+                            PhoneNumber = restaurant.PhoneNumber,
+                            Servicio = restaurant.Servicio,
+                            ReviewsAverage = reviewsAverage,
+                            ReviewsNumber = reviews.Count
+                        }
+                    );
+            }
+
+            return lists;
+        }
 
         //Se pasa por la URL un id que tiene que tener 24 caracteres ya que el BSON.Id tiene ese formato.
         [HttpGet("{id:length(24)}")]

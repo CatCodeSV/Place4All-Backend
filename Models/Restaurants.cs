@@ -22,4 +22,10 @@ namespace WebApi.Models
     {
         public string Ciudad { get; set; }
     }
+
+    public class RestaurantReviews : Restaurants
+    {
+        public int ReviewsNumber { get; set; }
+        public double ReviewsAverage { get; set; }
+    }
 }

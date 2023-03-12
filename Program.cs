@@ -75,6 +75,7 @@ namespace WebApi
             builder.Services.AddTransient<IRestaurantsService, RestaurantsService>();
             builder.Services.AddTransient<IReservationsService, ReservationsService>();
             builder.Services.AddTransient<IAddressesService,AddressesService>();
+            builder.Services.AddTransient<IReviewsService, ReviewsService>();
             builder.Services.AddTransient(typeof(IMongoRepository<>), typeof(MongoDBRepository<>));
             
             //Añade los controladores de los servicios
