@@ -39,7 +39,7 @@ namespace WebApi.Controllers
         [Route("authenticate")]
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Login(string email, string password)
+        public ActionResult Login([FromBody] string email, string password)
         {
             var response = _usersService.Authenticate(email, password);
             if(response == null)
