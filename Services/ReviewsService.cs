@@ -21,11 +21,11 @@ public class ReviewsService: IReviewsService
     
     //Recoge todas las reviews por restaurante
     public List<Reviews> GetByRestaurant(string restaurantId) =>
-        _reviews.AsQueryable().ToList();
+        _reviews.FilterBy((review => review.Restaurant.StringId == restaurantId)).ToList();
     
     //Recoge todas las reviews por usuario
     public List<Reviews> GetByUser(string userId) =>
-        _reviews.FilterBy(review => review.User.Id.ToString() == userId).ToList();
+        _reviews.FilterBy(review => review.User.StringId == userId).ToList();
     
     //Busca una review por ID
     public async Task<Reviews> GetById(string reviewId) =>
