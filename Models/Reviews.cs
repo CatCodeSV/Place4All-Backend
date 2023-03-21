@@ -10,5 +10,5 @@ public class Reviews : Document
     public float Value { get; set; }
     public Restaurants Restaurant { get; set; }
     public Users User { get; set; }
-    public Comments? Comment { get; set; }
+    public Comments? Comments { get; set; }
 }

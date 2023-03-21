@@ -11,5 +11,6 @@ public class Comments : Document
 
     public string? Title { get; set; }
     public int? InformationAccuracy { get; set; }
+    public string? Comment { get; set; }
     public List<Features> HasFeatures { get; set; }
 }
