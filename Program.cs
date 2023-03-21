@@ -1,20 +1,12 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using WebApi.Models;
 using WebApi.Repositories;
 using WebApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
-using System.Runtime.CompilerServices;
-using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace WebApi
 {
@@ -26,8 +18,17 @@ namespace WebApi
             var  myAllowSpecificOrigins = "_myAllowSpecificOrigins";
             //Creación del contenedor de la aplicación llamado builder
             var builder = WebApplication.CreateBuilder(args);
+            // Logger
+            var configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json")
+                    .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true)
+                    .Build();
 
+            var logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
 
+            logger.ForContext<Program>().Information("Logs init");
+           
             builder.Services
                 .AddHttpContextAccessor()
                 .AddAuthorization()
@@ -136,10 +137,10 @@ namespace WebApi
                 endpoints.MapControllers();
             });
 
+            Log.CloseAndFlush();
             app.Run();
         }
-        
-        
+
     }
 }
 
