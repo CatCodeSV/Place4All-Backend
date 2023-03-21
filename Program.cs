@@ -15,6 +15,11 @@ using System.Security.Claims;
 using System.Text;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
+using Serilog;
+using Serilog.Configuration;
+using Serilog.Core;
+using Serilog.Events;
+using Serilog.Formatting.Json;
 
 namespace WebApi
 {
@@ -26,8 +31,17 @@ namespace WebApi
             var  myAllowSpecificOrigins = "_myAllowSpecificOrigins";
             //Creación del contenedor de la aplicación llamado builder
             var builder = WebApplication.CreateBuilder(args);
+            // Logger
+            var configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json")
+                    .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true)
+                    .Build();
 
+            var logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
 
+            logger.ForContext<Program>().Information("Logs init");
+           
             builder.Services
                 .AddHttpContextAccessor()
                 .AddAuthorization()
@@ -136,10 +150,10 @@ namespace WebApi
                 endpoints.MapControllers();
             });
 
+            Log.CloseAndFlush();
             app.Run();
         }
-        
-        
+
     }
 }
 
