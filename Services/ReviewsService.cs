@@ -21,7 +21,7 @@ public class ReviewsService: IReviewsService
     
     //Recoge todas las reviews por restaurante
     public List<Reviews> GetByRestaurant(string restaurantId) =>
-        _reviews.FilterBy((review => review.Restaurant.StringId == restaurantId)).ToList();
+        _reviews.AsQueryable().ToList();
     
     //Recoge todas las reviews por usuario
     public List<Reviews> GetByUser(string userId) =>
