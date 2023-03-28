@@ -26,9 +26,7 @@ namespace WebApi
                     .Build();
 
             var logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
-
-            logger.ForContext<Program>().Information("Logs init");
-           
+            builder.Host.UseSerilog();
             builder.Services
                 .AddHttpContextAccessor()
                 .AddAuthorization()
