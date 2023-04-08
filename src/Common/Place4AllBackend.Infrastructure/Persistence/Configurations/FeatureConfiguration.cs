@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Place4AllBackendAyti.Domain.Entities;
+using Place4AllBackend.Domain.Entities;
 
 namespace Place4AllBackend.Infrastructure.Persistence.Configurations;
 

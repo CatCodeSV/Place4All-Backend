@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Place4AllBackend.Infrastructure.Identity;
 using Place4AllBackend.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using Place4AllBackendAyti.Domain.Entities;
 
 namespace Place4AllBackend.Infrastructure.Persistence
 {
@@ -131,10 +130,29 @@ namespace Place4AllBackend.Infrastructure.Persistence
 
                 await context.SaveChangesAsync();
             }
+        }
 
+        public static async Task SeedSampleRestaurantsAsync(ApplicationDbContext context)
+        {
             if (!context.Restaurants.Any())
             {
-               
+                context.Restaurants.Add(new Restaurant()
+                {
+                    Name = "El Granero",
+                    Address = new Address
+                    {
+                        Street = "Calle Bernardo",
+                        Number = 120,
+                        City = "Madrid",
+                        ZipCode = "28015",
+                        Province = "Madrid"
+                    },
+                    Description = "Comida tradicional española en un ambiente acogedor.",
+                    PhoneNumber = "911234567",
+                   
+                });
+
+                await context.SaveChangesAsync();
             }
         }
     }

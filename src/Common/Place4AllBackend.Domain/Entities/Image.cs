@@ -1,6 +1,6 @@
 using Place4AllBackend.Domain.Common;
 
-namespace Place4AllBackendAyti.Domain.Entities
+namespace Place4AllBackend.Domain.Entities
 {
     public class Image : AuditableEntity
     {

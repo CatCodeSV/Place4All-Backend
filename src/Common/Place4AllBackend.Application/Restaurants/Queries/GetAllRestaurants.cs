@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Place4AllBackend.Application.Common.Interfaces;
 using Place4AllBackend.Application.Common.Models;
 using Place4AllBackend.Application.Dto;
-using Place4AllBackendAyti.Domain.Entities;
+using Place4AllBackend.Domain.Entities;
 
 namespace Place4AllBackend.Application.Restaurants.Queries
 {
@@ -38,15 +38,14 @@ namespace Place4AllBackend.Application.Restaurants.Queries
             List<RestaurantDto> list = new List<RestaurantDto>();
             try
             {
-                list = await _context.Restaurants
-                    .Include(x => x.Address)
-                    .Include(x => x.Features)
-                    .ProjectToType<RestaurantDto>(_mapper.Config)
-                    .ToListAsync(cancellationToken);
+                var list1 = _context.Restaurants.Include(x => x.Address);
+                var list2 = list1.ProjectToType<RestaurantDto>(_mapper.Config);
+                list = await list2.ToListAsync(cancellationToken);
             }
             catch (Exception e)
             {
                 _logger.LogError(e, e.Message);
+                throw;
             }
 
             return list.Count > 0

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Place4AllBackend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Place4AllBackendAyti.Domain.Entities;
+using Place4AllBackend.Domain.Entities;
 
 namespace Place4AllBackend.Application.Common.Interfaces
 {

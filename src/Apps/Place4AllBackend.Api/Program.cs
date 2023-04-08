@@ -42,6 +42,7 @@ namespace Place4AllBackend.Api
 
                     await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager, roleManager);
                     await ApplicationDbContextSeed.SeedSampleCityDataAsync(context);
+                    await ApplicationDbContextSeed.SeedSampleRestaurantsAsync(context);
                 }
                 catch (Exception ex)
                 {

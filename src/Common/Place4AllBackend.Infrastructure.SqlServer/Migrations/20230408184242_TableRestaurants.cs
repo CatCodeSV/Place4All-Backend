@@ -5,13 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 {
-    public partial class AddedRestaurant : Migration
+    public partial class TableRestaurants : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
             migrationBuilder.CreateTable(
-                name: "Address",
+                name: "Addresses",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -28,11 +27,11 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Address", x => x.Id);
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Feature",
+                name: "Features",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -46,7 +45,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Feature", x => x.Id);
+                    table.PrimaryKey("PK_Features", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -68,7 +67,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Restaurant",
+                name: "Restaurants",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -84,17 +83,17 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Restaurant", x => x.Id);
+                    table.PrimaryKey("PK_Restaurants", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Restaurant_Address_AddressId",
+                        name: "FK_Restaurants_Addresses_AddressId",
                         column: x => x.AddressId,
-                        principalTable: "Address",
+                        principalTable: "Addresses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Image",
+                name: "Images",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -108,11 +107,11 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Image", x => x.Id);
+                    table.PrimaryKey("PK_Images", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Image_Restaurant_RestaurantId",
+                        name: "FK_Images_Restaurants_RestaurantId",
                         column: x => x.RestaurantId,
-                        principalTable: "Restaurant",
+                        principalTable: "Restaurants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -128,15 +127,15 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                 {
                     table.PrimaryKey("PK_RestaurantFeature", x => new { x.FeaturesId, x.RestaurantsId });
                     table.ForeignKey(
-                        name: "FK_RestaurantFeature_Feature_FeaturesId",
+                        name: "FK_RestaurantFeature_Features_FeaturesId",
                         column: x => x.FeaturesId,
-                        principalTable: "Feature",
+                        principalTable: "Features",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RestaurantFeature_Restaurant_RestaurantsId",
+                        name: "FK_RestaurantFeature_Restaurants_RestaurantsId",
                         column: x => x.RestaurantsId,
-                        principalTable: "Restaurant",
+                        principalTable: "Restaurants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -147,8 +146,8 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                 column: "ConsumedTime");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_RestaurantId",
-                table: "Image",
+                name: "IX_Images_RestaurantId",
+                table: "Images",
                 column: "RestaurantId");
 
             migrationBuilder.CreateIndex(
@@ -157,21 +156,21 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                 column: "Use");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Restaurant_AddressId",
-                table: "Restaurant",
-                column: "AddressId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_RestaurantFeature_RestaurantsId",
                 table: "RestaurantFeature",
                 column: "RestaurantsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Restaurants_AddressId",
+                table: "Restaurants",
+                column: "AddressId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Image");
+                name: "Images");
 
             migrationBuilder.DropTable(
                 name: "Keys");
@@ -180,13 +179,13 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                 name: "RestaurantFeature");
 
             migrationBuilder.DropTable(
-                name: "Feature");
+                name: "Features");
 
             migrationBuilder.DropTable(
-                name: "Restaurant");
+                name: "Restaurants");
 
             migrationBuilder.DropTable(
-                name: "Address");
+                name: "Addresses");
 
             migrationBuilder.DropIndex(
                 name: "IX_PersistedGrants_ConsumedTime",

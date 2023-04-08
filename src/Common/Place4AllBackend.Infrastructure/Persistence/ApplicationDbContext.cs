@@ -11,7 +11,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Place4AllBackendAyti.Domain.Entities;
 
 namespace Place4AllBackend.Infrastructure.Persistence
 {
