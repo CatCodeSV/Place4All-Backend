@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Place4AllBackend.Api.props" />
+</Project>

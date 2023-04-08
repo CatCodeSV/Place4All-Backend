@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "vlQFH0khULT9bMkhfA8d1cSRHx6o9GjGcHQBPc+pqDc=",
+  "Source": "Place4AllBackend.Api",
+  "BasePath": "_content/Place4AllBackend.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

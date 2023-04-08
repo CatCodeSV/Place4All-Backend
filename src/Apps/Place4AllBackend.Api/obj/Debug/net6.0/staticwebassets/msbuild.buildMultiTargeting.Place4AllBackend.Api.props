@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Place4AllBackend.Api.props" />
+</Project>

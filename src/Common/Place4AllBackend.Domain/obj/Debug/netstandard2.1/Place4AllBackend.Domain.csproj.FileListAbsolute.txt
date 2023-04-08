@@ -1,0 +1,10 @@
+C:\Users\keevi\Developer\tests\Place4AllBackend\Place4AllBackend\src\Common\Place4AllBackend.Domain\bin\Debug\netstandard2.1\Place4AllBackend.Domain.deps.json
+C:\Users\keevi\Developer\tests\Place4AllBackend\Place4AllBackend\src\Common\Place4AllBackend.Domain\bin\Debug\netstandard2.1\Place4AllBackend.Domain.dll
+C:\Users\keevi\Developer\tests\Place4AllBackend\Place4AllBackend\src\Common\Place4AllBackend.Domain\bin\Debug\netstandard2.1\Place4AllBackend.Domain.pdb
+C:\Users\keevi\Developer\tests\Place4AllBackend\Place4AllBackend\src\Common\Place4AllBackend.Domain\obj\Debug\netstandard2.1\Place4AllBackend.Domain.csproj.AssemblyReference.cache
+C:\Users\keevi\Developer\tests\Place4AllBackend\Place4AllBackend\src\Common\Place4AllBackend.Domain\obj\Debug\netstandard2.1\Place4AllBackend.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\keevi\Developer\tests\Place4AllBackend\Place4AllBackend\src\Common\Place4AllBackend.Domain\obj\Debug\netstandard2.1\Place4AllBackend.Domain.AssemblyInfoInputs.cache
+C:\Users\keevi\Developer\tests\Place4AllBackend\Place4AllBackend\src\Common\Place4AllBackend.Domain\obj\Debug\netstandard2.1\Place4AllBackend.Domain.AssemblyInfo.cs
+C:\Users\keevi\Developer\tests\Place4AllBackend\Place4AllBackend\src\Common\Place4AllBackend.Domain\obj\Debug\netstandard2.1\Place4AllBackend.Domain.csproj.CoreCompileInputs.cache
+C:\Users\keevi\Developer\tests\Place4AllBackend\Place4AllBackend\src\Common\Place4AllBackend.Domain\obj\Debug\netstandard2.1\Place4AllBackend.Domain.dll
+C:\Users\keevi\Developer\tests\Place4AllBackend\Place4AllBackend\src\Common\Place4AllBackend.Domain\obj\Debug\netstandard2.1\Place4AllBackend.Domain.pdb
