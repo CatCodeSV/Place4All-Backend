@@ -134,10 +134,7 @@ namespace Place4AllBackend.Infrastructure.Persistence
 
             if (!context.Restaurants.Any())
             {
-                context.Cities.Add(new Restaurant()
-                {
-                    
-                })
+               
             }
         }
     }
