@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Place4AllBackend.Application.Dto;
@@ -13,4 +14,5 @@ public class ReservationDto
     public int People { get; set; }
     public IList<FeatureDto> Features { get; set; }
     public string SpecialInstructions { get; set; }
+    public DateTime Date { get; set; }
 }
