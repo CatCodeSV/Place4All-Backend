@@ -8,7 +8,9 @@ using Place4AllBackend.Domain.Entities;
 
 namespace Place4AllBackend.Application.Restaurants.Commands.Create;
 
-public record CreateRestaurantCommand(string Name, string Description) : IRequestWrapper<RestaurantDto>;
+//TODO Añadir campos opcionales para poder crear desde la misma llamada
+public record CreateRestaurantCommand(string Name, string Description, string Street, int Number, string City,
+    string Province, string ZipCode, string PhoneNumber) : IRequestWrapper<RestaurantDto>;
 
 public class CreateRestaurantCommandHandler : IRequestHandlerWrapper<CreateRestaurantCommand, RestaurantDto>
 {
@@ -20,13 +22,23 @@ public class CreateRestaurantCommandHandler : IRequestHandlerWrapper<CreateResta
         _mapper = mapper;
         _context = context;
     }
-    
-    public async Task<ServiceResult<RestaurantDto>> Handle(CreateRestaurantCommand request, CancellationToken cancellationToken)
+
+    public async Task<ServiceResult<RestaurantDto>> Handle(CreateRestaurantCommand request,
+        CancellationToken cancellationToken)
     {
         var entity = new Restaurant()
         {
             Name = request.Name,
-            Description = request.Description
+            Description = request.Description,
+            PhoneNumber = request.PhoneNumber,
+            Address = new Address()
+            {
+                City = request.City,
+                Number = request.Number,
+                Street = request.Street,
+                Province = request.Province,
+                ZipCode = request.ZipCode,
+            }
         };
 
         await _context.Restaurants.AddAsync(entity, cancellationToken);

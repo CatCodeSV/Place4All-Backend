@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Place4AllBackend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Place4AllBackend.Domain.Entities;
 
 namespace Place4AllBackend.Application.Common.Interfaces
 {
@@ -16,6 +15,7 @@ namespace Place4AllBackend.Application.Common.Interfaces
         DbSet<Restaurant> Restaurants { get; set; }
         DbSet<Address> Addresses { get; set; }
         DbSet<Feature> Features { get; set; }
+        DbSet<Image> Images { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
