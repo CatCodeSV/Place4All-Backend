@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Place4AllBackend.Application.ApplicationUser.Queries.GetToken;
 using Place4AllBackend.Application.Common.Models;
 using Microsoft.AspNetCore.Mvc;
+using Place4AllBackend.Application.ApplicationUser.Commands.Create;
 
 namespace Place4AllBackend.Api.Controllers
 {
@@ -22,6 +23,13 @@ namespace Place4AllBackend.Api.Controllers
             CancellationToken cancellationToken)
         {
             return Ok(await Mediator.Send(query, cancellationToken));
+        }
+
+        [HttpPost("register")]
+        public async Task<ActionResult<ServiceResult<LoginResponse>>> Register(CreateUserCommand command,
+            CancellationToken cancellationToken)
+        {
+            return Ok(await Mediator.Send(command, cancellationToken));
         }
     }
 }

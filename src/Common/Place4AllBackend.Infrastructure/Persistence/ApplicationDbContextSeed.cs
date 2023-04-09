@@ -18,12 +18,19 @@ namespace Place4AllBackend.Infrastructure.Persistence
                 await roleManager.CreateAsync(administratorRole);
             }
 
+            //TODO Añadir usuarios para Sandra y Laura
             var defaultUser = new ApplicationUser { UserName = "iayti", Email = "test@test.com" };
+            var userAlex = new ApplicationUser { UserName = "alecsolace", Email = "keevinaguirre@gmail.com" };
 
             if (userManager.Users.All(u => u.UserName != defaultUser.UserName))
             {
                 await userManager.CreateAsync(defaultUser, "Matech_1850");
                 await userManager.AddToRolesAsync(defaultUser, new[] { administratorRole.Name });
+            }
+            if (userManager.Users.All(u => u.UserName != userAlex.UserName))
+            {
+                await userManager.CreateAsync(userAlex, "Test_1");
+                await userManager.AddToRolesAsync(userAlex, new[] { administratorRole.Name });
             }
         }
 
