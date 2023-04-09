@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp;
 using Place4AllBackend.Application.Common.Models;
 using Place4AllBackend.Application.Dto;
 using Place4AllBackend.Application.Restaurants.Commands.Create;
@@ -24,6 +25,18 @@ public class RestaurantsController : BaseApiController
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(new GetAllRestaurants(), cancellationToken));
+    }
+
+    /// <summary>
+    /// Get restaurant by Id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ServiceResult<RestaurantDto>>> GetRestaurantById (int id, CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(new GetRestaurantById { RestaurantId = id }, cancellationToken));
     }
     
     /// <summary>

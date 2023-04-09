@@ -105,7 +105,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
                     b.HasIndex("Use");
 
-                    b.ToTable("Keys");
+                    b.ToTable("Keys", (string)null);
                 });
 
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.PersistedGrant", b =>
@@ -354,7 +354,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.City", b =>
@@ -387,7 +387,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.District", b =>
@@ -422,7 +422,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Districts");
+                    b.ToTable("Districts", (string)null);
                 });
 
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.Feature", b =>
@@ -455,7 +455,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Features");
+                    b.ToTable("Features", (string)null);
                 });
 
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.Image", b =>
@@ -488,7 +488,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Images");
+                    b.ToTable("Images", (string)null);
                 });
 
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.Restaurant", b =>
@@ -530,7 +530,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                     b.HasIndex("AddressId")
                         .IsUnique();
 
-                    b.ToTable("Restaurants");
+                    b.ToTable("Restaurants", (string)null);
                 });
 
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.Village", b =>
@@ -565,7 +565,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
                     b.HasIndex("DistrictId");
 
-                    b.ToTable("Villages");
+                    b.ToTable("Villages", (string)null);
                 });
 
             modelBuilder.Entity("Place4AllBackend.Infrastructure.Identity.ApplicationUser", b =>
