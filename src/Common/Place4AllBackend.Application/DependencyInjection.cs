@@ -6,6 +6,8 @@ using Mapster;
 using MapsterMapper;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Place4AllBackend.Application.Dto;
+using Place4AllBackend.Domain.Entities;
 
 namespace Place4AllBackend.Application
 {
@@ -35,9 +37,9 @@ namespace Place4AllBackend.Application
         private static TypeAdapterConfig GetConfiguredMappingConfig()
         {
             var config = TypeAdapterConfig.GlobalSettings;
-
+            
             IList<IRegister> registers = config.Scan(Assembly.GetExecutingAssembly());
-
+            config.NewConfig<Feature, FeatureDto>().MaxDepth(3);
             config.Apply(registers);
 
             return config;

@@ -38,6 +38,7 @@ namespace Place4AllBackend.Infrastructure.Persistence
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Feature> Features { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

@@ -488,7 +488,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Image");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.Restaurant", b =>

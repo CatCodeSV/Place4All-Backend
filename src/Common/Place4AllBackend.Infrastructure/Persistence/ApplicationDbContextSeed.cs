@@ -149,7 +149,44 @@ namespace Place4AllBackend.Infrastructure.Persistence
                     },
                     Description = "Comida tradicional española en un ambiente acogedor.",
                     PhoneNumber = "911234567",
-                   
+                    Images =
+                    {
+                        new Image { Link = "@/assets/restaurantes/El-Granero/spain1.jpg" },
+                        new Image { Link = "@/assets/restaurantes/El-Granero/spain2.jpeg" },
+                        new Image { Link = "@/assets/restaurantes/El-Granero/spain3.jpg" }
+                    },
+                    Features =
+                    {
+                        new Feature
+                        {
+                            Name = "Acceso PMR",
+                            Description = "Acceso al local adaptado para personas con movilidad reducida"
+                        },
+                        new Feature
+                        {
+                            Name = "Perro guía",
+                            Description =
+                                "Se permite la entrada de perros guía para acompañar a personas con discapacidad visual."
+                        },
+                        new Feature
+                        {
+                            Name = "Menú adaptado",
+                            Description =
+                                "Se ofrece menú adaptado para personas con alergias o intolerancias alimentarias y/o dietas especiales."
+                        },
+                        new Feature
+                        {
+                            Name = "Mesas adaptadas",
+                            Description =
+                                "El restaurante cuenta con mesas adaptadas para personas con discapacidad, como mesas a diferentes alturas o con espacio suficiente para sillas de ruedas."
+                        },
+                        new Feature
+                        {
+                            Name = "Baño adaptado",
+                            Description =
+                                "El baño del restaurante está adaptado para personas con discapacidad y cuenta con barras de apoyo, inodoro elevado y lavabo accesible."
+                        }
+                    }
                 });
 
                 await context.SaveChangesAsync();
