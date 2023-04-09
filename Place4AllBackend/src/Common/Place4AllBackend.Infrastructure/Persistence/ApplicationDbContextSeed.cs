@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Place4AllBackend.Infrastructure.Identity;
 using Place4AllBackend.Domain.Entities;
@@ -197,6 +198,11 @@ namespace Place4AllBackend.Infrastructure.Persistence
                 });
 
                 await context.SaveChangesAsync();
+            }
+
+            if (!context.Reservations.Any())
+            {
+                Console.WriteLine("Nope");
             }
         }
     }

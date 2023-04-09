@@ -12,8 +12,8 @@ using Place4AllBackend.Infrastructure.Persistence;
 namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230409110549_ImagesTable")]
-    partial class ImagesTable
+    [Migration("20230409164425_ReservationsTabel")]
+    partial class ReservationsTabel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -163,6 +163,21 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                     b.HasIndex("SubjectId", "SessionId", "Type");
 
                     b.ToTable("PersistedGrants", (string)null);
+                });
+
+            modelBuilder.Entity("FeatureReservation", b =>
+                {
+                    b.Property<int>("FeaturesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReservationsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FeaturesId", "ReservationsId");
+
+                    b.HasIndex("ReservationsId");
+
+                    b.ToTable("ReservationFeature", (string)null);
                 });
 
             modelBuilder.Entity("FeatureRestaurant", b =>
@@ -493,6 +508,44 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                     b.ToTable("Images");
                 });
 
+            modelBuilder.Entity("Place4AllBackend.Domain.Entities.Reservation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Creator")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Modifier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("People")
+                        .HasMaxLength(20)
+                        .HasColumnType("int");
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SpecialInstructions")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RestaurantId");
+
+                    b.ToTable("Reservations");
+                });
+
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.Restaurant", b =>
                 {
                     b.Property<int>("Id")
@@ -644,6 +697,21 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("FeatureReservation", b =>
+                {
+                    b.HasOne("Place4AllBackend.Domain.Entities.Feature", null)
+                        .WithMany()
+                        .HasForeignKey("FeaturesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Place4AllBackend.Domain.Entities.Reservation", null)
+                        .WithMany()
+                        .HasForeignKey("ReservationsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FeatureRestaurant", b =>
                 {
                     b.HasOne("Place4AllBackend.Domain.Entities.Feature", null)
@@ -725,6 +793,17 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                 {
                     b.HasOne("Place4AllBackend.Domain.Entities.Restaurant", "Restaurant")
                         .WithMany("Images")
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Restaurant");
+                });
+
+            modelBuilder.Entity("Place4AllBackend.Domain.Entities.Reservation", b =>
+                {
+                    b.HasOne("Place4AllBackend.Domain.Entities.Restaurant", "Restaurant")
+                        .WithMany()
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

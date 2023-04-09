@@ -105,7 +105,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
                     b.HasIndex("Use");
 
-                    b.ToTable("Keys", (string)null);
+                    b.ToTable("Keys");
                 });
 
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.PersistedGrant", b =>
@@ -161,6 +161,21 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                     b.HasIndex("SubjectId", "SessionId", "Type");
 
                     b.ToTable("PersistedGrants", (string)null);
+                });
+
+            modelBuilder.Entity("FeatureReservation", b =>
+                {
+                    b.Property<int>("FeaturesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReservationsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FeaturesId", "ReservationsId");
+
+                    b.HasIndex("ReservationsId");
+
+                    b.ToTable("ReservationFeature", (string)null);
                 });
 
             modelBuilder.Entity("FeatureRestaurant", b =>
@@ -354,7 +369,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Addresses", (string)null);
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.City", b =>
@@ -387,7 +402,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities", (string)null);
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.District", b =>
@@ -422,7 +437,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Districts", (string)null);
+                    b.ToTable("Districts");
                 });
 
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.Feature", b =>
@@ -455,7 +470,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Features", (string)null);
+                    b.ToTable("Features");
                 });
 
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.Image", b =>
@@ -488,7 +503,45 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Images", (string)null);
+                    b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("Place4AllBackend.Domain.Entities.Reservation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Creator")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Modifier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("People")
+                        .HasMaxLength(20)
+                        .HasColumnType("int");
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SpecialInstructions")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RestaurantId");
+
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.Restaurant", b =>
@@ -530,7 +583,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                     b.HasIndex("AddressId")
                         .IsUnique();
 
-                    b.ToTable("Restaurants", (string)null);
+                    b.ToTable("Restaurants");
                 });
 
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.Village", b =>
@@ -565,7 +618,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
                     b.HasIndex("DistrictId");
 
-                    b.ToTable("Villages", (string)null);
+                    b.ToTable("Villages");
                 });
 
             modelBuilder.Entity("Place4AllBackend.Infrastructure.Identity.ApplicationUser", b =>
@@ -640,6 +693,21 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("FeatureReservation", b =>
+                {
+                    b.HasOne("Place4AllBackend.Domain.Entities.Feature", null)
+                        .WithMany()
+                        .HasForeignKey("FeaturesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Place4AllBackend.Domain.Entities.Reservation", null)
+                        .WithMany()
+                        .HasForeignKey("ReservationsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FeatureRestaurant", b =>
@@ -723,6 +791,17 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                 {
                     b.HasOne("Place4AllBackend.Domain.Entities.Restaurant", "Restaurant")
                         .WithMany("Images")
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Restaurant");
+                });
+
+            modelBuilder.Entity("Place4AllBackend.Domain.Entities.Reservation", b =>
+                {
+                    b.HasOne("Place4AllBackend.Domain.Entities.Restaurant", "Restaurant")
+                        .WithMany()
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
