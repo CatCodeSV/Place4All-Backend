@@ -9,4 +9,8 @@
         <ProjectReference Include="..\Place4AllBackend.Infrastructure\Place4AllBackend.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Migrations\" />
+    </ItemGroup>
+
 </Project>

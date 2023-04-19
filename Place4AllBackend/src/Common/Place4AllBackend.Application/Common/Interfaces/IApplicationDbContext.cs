@@ -17,6 +17,7 @@ namespace Place4AllBackend.Application.Common.Interfaces
         DbSet<Feature> Features { get; set; }
         DbSet<Image> Images { get; set; }
         DbSet<Reservation> Reservations { get; set; }
+        DbSet<Review> Reviews { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

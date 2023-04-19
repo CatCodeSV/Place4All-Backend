@@ -20,8 +20,22 @@ namespace Place4AllBackend.Infrastructure.Persistence
             }
 
             //TODO Añadir usuarios para Sandra y Laura
-            var defaultUser = new ApplicationUser { UserName = "iayti", Email = "test@test.com" };
-            var userAlex = new ApplicationUser { UserName = "alecsolace", Email = "keevinaguirre@gmail.com" };
+            var defaultUser = new ApplicationUser { UserName = "iayti", Email = "test@test.com", Address = new Address()
+            {
+                Street = "Calle Bernardo",
+                Number = 120,
+                City = "Madrid",
+                ZipCode = "28015",
+                Province = "Madrid"
+            }};
+            var userAlex = new ApplicationUser { UserName = "alecsolace", Email = "keevinaguirre@gmail.com", Address = new Address()
+            {
+                Street = "Calle Bernardo",
+                Number = 120,
+                City = "Madrid",
+                ZipCode = "28015",
+                Province = "Madrid"
+            }};
 
             if (userManager.Users.All(u => u.UserName != defaultUser.UserName))
             {
@@ -198,11 +212,6 @@ namespace Place4AllBackend.Infrastructure.Persistence
                 });
 
                 await context.SaveChangesAsync();
-            }
-
-            if (!context.Reservations.Any())
-            {
-                Console.WriteLine("Nope");
             }
         }
     }
