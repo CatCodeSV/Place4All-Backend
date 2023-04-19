@@ -11,12 +11,13 @@ public class CreateReservationValidator : AbstractValidator<CreateReservationCom
 {
     private readonly IApplicationDbContext _context;
 
-    public CreateReservationValidator()
+    public CreateReservationValidator(IApplicationDbContext context)
     {
-       AddValidationRules();
+        _context = context;
+        AddValidationRules();
     }
 
-    protected void AddValidationRules()
+    private void AddValidationRules()
     {
         RuleFor(x => x.RestaurantId)
             .MustAsync((restaurantId, token) => _context.Restaurants.AnyAsync(x => x.Id == restaurantId, token))
