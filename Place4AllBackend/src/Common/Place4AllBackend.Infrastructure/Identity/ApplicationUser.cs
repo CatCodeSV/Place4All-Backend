@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Place4AllBackend.Domain.Entities;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Place4AllBackend.Infrastructure.Identity
 {
@@ -22,5 +24,7 @@ namespace Place4AllBackend.Infrastructure.Identity
         public bool HasDisability { get; set; }
         
         public int? DisabilityDegree { get; set; }
+
+        public IList<Restaurant> FavoriteRestaurants { get; set; }
     }
 }
