@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Place4AllBackend.Application.Common.Models;
 using Place4AllBackend.Application.Dto;
 using Place4AllBackend.Application.Reviews.Commands.Create;
+using Place4AllBackend.Application.Reviews.Commands.Queries.GetByUser;
 
 namespace Place4AllBackend.Api.Controllers;
 
@@ -25,5 +27,18 @@ public class ReviewsController : BaseApiController
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(command, cancellationToken));
+    }
+
+    /// <summary>
+    /// Get Reviews by User
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("User/{id}")]
+    public async Task<ActionResult<ServiceResult<List<ReviewDto>>>> GetByUser(string id,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(new GetReviewByUser() { userId = id }, cancellationToken));
     }
 }
