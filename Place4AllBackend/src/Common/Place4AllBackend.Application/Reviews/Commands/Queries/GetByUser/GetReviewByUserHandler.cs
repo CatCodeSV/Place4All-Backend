@@ -12,7 +12,7 @@ using Place4AllBackend.Application.Reviews.Commands.Queries.GetByUser;
 
 namespace Place4AllBackend.Application.Restaurants.Queries.GetRestaurantById;
 
-public class GetReviewByUserHandler : IRequestHandlerWrapper<GetReviewByUser, List<ReviewDto>>
+public class GetReviewByUserHandler : IRequestHandlerWrapper<GetReviewsByUser, List<ReviewDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ public class GetReviewByUserHandler : IRequestHandlerWrapper<GetReviewByUser, Li
         _context = context;
     }
 
-    public async Task<ServiceResult<List<ReviewDto>>> Handle(GetReviewByUser request,
+    public async Task<ServiceResult<List<ReviewDto>>> Handle(GetReviewsByUser request,
         CancellationToken cancellationToken)
     {
         var list = await _context.Reviews.Where(x => x.Creator == request.userId).Include(x => x.AdditionalFeatures)
