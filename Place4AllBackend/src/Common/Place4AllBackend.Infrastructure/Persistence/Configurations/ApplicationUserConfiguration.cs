@@ -9,5 +9,6 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
     public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
         builder.HasOne(x => x.Address).WithOne().HasForeignKey<ApplicationUser>(x => x.AddressId);
+        //builder.HasMany(x => x.FavoriteRestaurants).WithMany(x => x.FavoriteUsers) TODO: El listado de usuarios en Restaurantes no es accesible
     }
 }

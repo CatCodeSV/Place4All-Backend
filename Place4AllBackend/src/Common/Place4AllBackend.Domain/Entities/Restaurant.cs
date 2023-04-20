@@ -19,5 +19,6 @@ namespace Place4AllBackend.Domain.Entities
         public string PhoneNumber { get; set; }
         public IList<Image> Images { get; set; }
         public IList<Feature> Features { get; set; }
+        //public IList<ApplicationUser> FavoriteUsers { get; set; } TODO: La capa Infrastructure no es accesible desde Entities
     }
 }
