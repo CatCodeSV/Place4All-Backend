@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Place4AllBackend.Domain.Entities;
 using Place4AllBackend.Infrastructure.Identity;
 
 namespace Place4AllBackend.Infrastructure.Persistence.Configurations;

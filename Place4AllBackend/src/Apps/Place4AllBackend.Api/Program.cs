@@ -10,6 +10,7 @@ using Serilog;
 using Serilog.Sinks.Elasticsearch;
 using System;
 using System.Threading.Tasks;
+using Place4AllBackend.Domain.Entities;
 
 namespace Place4AllBackend.Api
 {

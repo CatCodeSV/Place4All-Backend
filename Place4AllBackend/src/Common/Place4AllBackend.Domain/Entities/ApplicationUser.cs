@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Place4AllBackend.Domain.Entities;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
-namespace Place4AllBackend.Infrastructure.Identity
+namespace Place4AllBackend.Domain.Entities
 {
     public class ApplicationUser : IdentityUser
     {

@@ -7,6 +7,7 @@ using Place4AllBackend.Application.Dto;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Place4AllBackend.Domain.Entities;
 
 namespace Place4AllBackend.Infrastructure.Identity
 {
