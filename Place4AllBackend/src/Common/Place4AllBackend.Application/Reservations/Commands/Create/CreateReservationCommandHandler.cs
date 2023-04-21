@@ -21,10 +21,11 @@ public class CreateReservationCommandHandler : IRequestHandlerWrapper<CreateRese
         _mapper = mapper;
         _context = context;
     }
-    
-    public async Task<ServiceResult<ReservationDto>> Handle(CreateReservationCommand request, CancellationToken cancellationToken)
+
+    public async Task<ServiceResult<ReservationDto>> Handle(CreateReservationCommand request,
+        CancellationToken cancellationToken)
     {
-       var entity = new Reservation()
+        var entity = new Reservation()
         {
             Features = new List<Feature>(),
             Date = request.Date,
@@ -33,10 +34,8 @@ public class CreateReservationCommandHandler : IRequestHandlerWrapper<CreateRese
             RestaurantId = request.RestaurantId
         };
 
-        await _context.Reservations.AddAsync(entity);
-        var save = _context.SaveChangesAsync(cancellationToken);
-        return save.IsCompletedSuccessfully
-            ? ServiceResult.Success(_mapper.Map<ReservationDto>(entity))
-            : ServiceResult.Failed<ReservationDto>(ServiceError.DefaultError);
+        await _context.Reservations.AddAsync(entity, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
+        return ServiceResult.Success(_mapper.Map<ReservationDto>(entity));
     }
 }
