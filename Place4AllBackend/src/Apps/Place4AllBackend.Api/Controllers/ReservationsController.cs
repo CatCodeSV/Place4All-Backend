@@ -8,6 +8,7 @@ using Place4AllBackend.Application.Reservations.Queries.GetReservationByUser;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Place4AllBackend.Application.Reservations.Commands.Delete;
 
 namespace Place4AllBackend.Api.Controllers
 {
@@ -55,5 +56,17 @@ namespace Place4AllBackend.Api.Controllers
             return Ok(await Mediator.Send(new GetReservationByRestaurantQuery() { RestaurantId = id }, cancellationToken));
         }
 
+        /// <summary>
+        /// Delete reservation
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ServiceResult<ReservationDto>>> Delete(int id,
+            CancellationToken cancellationToken)
+        {
+            return Ok(await Mediator.Send(new DeleteReservationsCommand() { Id = id }, cancellationToken));
+        }
     }
 }

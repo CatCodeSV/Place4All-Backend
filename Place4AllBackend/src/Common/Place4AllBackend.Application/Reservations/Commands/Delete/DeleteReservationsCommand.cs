@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Place4AllBackend.Application.Reservations.Commands.Delete
 {
-    internal class DeleteReservationsCommand : IRequestWrapper<ReservationDto>
+    public class DeleteReservationsCommand : IRequestWrapper<ReservationDto>
     {
         public int Id { get; set; }
     }
