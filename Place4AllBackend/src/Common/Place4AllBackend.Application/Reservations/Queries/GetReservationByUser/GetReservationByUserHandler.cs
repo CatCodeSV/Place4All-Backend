@@ -24,7 +24,7 @@ namespace Place4AllBackend.Application.Reservations.Queries.GetReservationByUser
 
         }
 
-        async public Task<ServiceResult<List<ReservationDto>>> Handle(GetReservationByUserQuery request,
+        public async Task<ServiceResult<List<ReservationDto>>> Handle(GetReservationByUserQuery request,
             CancellationToken cancellationToken)
         {
             var list = await _context.Reservations.Where(x => x.Creator == request.ApplicationUserId)
