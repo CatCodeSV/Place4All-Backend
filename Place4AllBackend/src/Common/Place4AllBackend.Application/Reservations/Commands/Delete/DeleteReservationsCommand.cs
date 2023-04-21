@@ -39,7 +39,7 @@ namespace Place4AllBackend.Application.Reservations.Commands.Delete
 
             if (entity == null)
             {
-                throw new NotFoundException(nameof(City), request.Id);
+                throw new NotFoundException(nameof(Reservation), request.Id);
             }
 
             _context.Reservations.Remove(entity);
