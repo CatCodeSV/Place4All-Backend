@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Place4AllBackend.Domain.Common;
+using Place4AllBackend.Infrastructure.Identity;
 
 namespace Place4AllBackend.Domain.Entities
 {
@@ -19,6 +20,6 @@ namespace Place4AllBackend.Domain.Entities
         public string PhoneNumber { get; set; }
         public IList<Image> Images { get; set; }
         public IList<Feature> Features { get; set; }
-        //public IList<ApplicationUser> FavoriteUsers { get; set; } TODO: La capa Infrastructure no es accesible desde Entities
+        public IList<ApplicationUser> FavoriteUsers { get; set; }
     }
 }
