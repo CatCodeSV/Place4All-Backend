@@ -11,9 +11,10 @@ public class CreateReservationValidator : AbstractValidator<CreateReservationCom
 {
     private readonly IApplicationDbContext _context;
 
-    public CreateReservationValidator()
+    public CreateReservationValidator(IApplicationDbContext context)
     {
-       AddValidationRules();
+        _context = context;
+        AddValidationRules();
     }
 
     protected void AddValidationRules()
