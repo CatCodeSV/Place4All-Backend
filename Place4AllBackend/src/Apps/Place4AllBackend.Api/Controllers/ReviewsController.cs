@@ -33,14 +33,13 @@ public class ReviewsController : BaseApiController
     /// <summary>
     /// Get Reviews by User
     /// </summary>
-    /// <param name="id"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpGet("User/{id}")]
-    public async Task<ActionResult<ServiceResult<List<ReviewDto>>>> GetByUser(string id,
+    [HttpGet("User")]
+    public async Task<ActionResult<ServiceResult<List<ReviewDto>>>> GetByUser(
         CancellationToken cancellationToken)
     {
-        return Ok(await Mediator.Send(new GetReviewsByUser() { userId = id }, cancellationToken));
+        return Ok(await Mediator.Send(new GetReviewsByUser(), cancellationToken));
     }
 
     /// <summary>
