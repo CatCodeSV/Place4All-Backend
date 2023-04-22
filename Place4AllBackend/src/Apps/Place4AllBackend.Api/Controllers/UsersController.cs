@@ -11,10 +11,10 @@ using System.Threading;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Place4AllBackend.Api.Controllers
-/// <summary>
-/// Restaurants
-/// </summary>
 {
+    /// <summary>
+    /// Users
+    /// </summary>
     [Authorize]
     public class UsersController : BaseApiController
     {

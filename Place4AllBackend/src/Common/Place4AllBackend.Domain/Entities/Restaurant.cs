@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Place4AllBackend.Domain.Common;
-using Place4AllBackend.Infrastructure.Identity;
 
 namespace Place4AllBackend.Domain.Entities
 {
