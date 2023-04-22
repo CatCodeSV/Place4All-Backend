@@ -25,6 +25,12 @@ namespace Place4AllBackend.Api.Controllers
             return Ok(await Mediator.Send(query, cancellationToken));
         }
 
+        /// <summary>
+        /// Register a new User
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost("register")]
         public async Task<ActionResult<ServiceResult<LoginResponse>>> Register(CreateUserCommand command,
             CancellationToken cancellationToken)
