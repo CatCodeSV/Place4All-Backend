@@ -25,35 +25,36 @@ namespace Place4AllBackend.Api.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<ServiceResult<ReservationDto>>> Create(CreateReservationCommand command, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<ReservationDto>>> Create(CreateReservationCommand command,
+            CancellationToken cancellationToken)
         {
             return Ok(await Mediator.Send(command, cancellationToken));
         }
 
         /// <summary>
-        /// Get Reviews by User
+        /// Get Reservations by User
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpGet("User/{id}")]
-        public async Task<ActionResult<ServiceResult<List<ReservationDto>>>> GetByUser(string id,
-        CancellationToken cancellationToken)
+        [HttpGet("User")]
+        public async Task<ActionResult<ServiceResult<List<ReservationDto>>>> GetByUser(
+            CancellationToken cancellationToken)
         {
-            return Ok(await Mediator.Send(new GetReservationByUserQuery() { ApplicationUserId = id }, cancellationToken));
+            return Ok(await Mediator.Send(new GetReservationByUserQuery(), cancellationToken));
         }
 
         /// <summary>
-        /// Get Reviews by Restaurant
+        /// Get Reservations by Restaurant
         /// </summary>
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpGet("Restaurant/{id}")]
+        [HttpGet("Restaurant/{id:int}")]
         public async Task<ActionResult<ServiceResult<List<ReservationDto>>>> GetByRestaurant(int id,
             CancellationToken cancellationToken)
         {
-            return Ok(await Mediator.Send(new GetReservationByRestaurantQuery() { RestaurantId = id }, cancellationToken));
+            return Ok(await Mediator.Send(new GetReservationByRestaurantQuery() { RestaurantId = id },
+                cancellationToken));
         }
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace Place4AllBackend.Api.Controllers
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult<ServiceResult<ReservationDto>>> Delete(int id,
             CancellationToken cancellationToken)
         {
