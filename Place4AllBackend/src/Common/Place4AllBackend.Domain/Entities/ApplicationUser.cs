@@ -23,6 +23,6 @@ namespace Place4AllBackend.Domain.Entities
         
         public int? DisabilityDegree { get; set; }
 
-        public IList<Restaurant> FavoriteRestaurants { get; set; }
+        public IList<Restaurant> FavoriteRestaurants { get; set; } = new List<Restaurant>();
     }
 }

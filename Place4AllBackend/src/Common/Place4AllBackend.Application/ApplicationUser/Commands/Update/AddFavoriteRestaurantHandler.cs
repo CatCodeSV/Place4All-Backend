@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Place4AllBackend.Application.ApplicationUser.Commands.Update
 {
@@ -18,16 +19,17 @@ namespace Place4AllBackend.Application.ApplicationUser.Commands.Update
         private readonly ICurrentUserService _currentUserService;
         private readonly IIdentityService _identityService;
 
-        public AddFavoriteRestaurantHandler (IApplicationDbContext context, IMapper mapper, ICurrentUserService currentUserService)
+        public AddFavoriteRestaurantHandler (IApplicationDbContext context, IMapper mapper, ICurrentUserService currentUserService, IIdentityService identityService)
         {
             _context = context;
             _mapper = mapper;
             _currentUserService = currentUserService;
+            _identityService = identityService;
         }
 
         public async Task<ServiceResult<ApplicationUserDto>> Handle(AddFavoriteRestaurantCommand request, CancellationToken cancellationToken)
         {
-            var restaurant = await _context.Restaurants.FindAsync(request.FavoriteRestaurantId);
+            var restaurant = await _context.Restaurants.Where(x => x.Id == request.FavoriteRestaurantId).FirstOrDefaultAsync(cancellationToken);
             var entity = await  _identityService.AddFavoriteRestaurant(restaurant, _currentUserService.UserId);
             return ServiceResult.Success(_mapper.Map<ApplicationUserDto>(entity));
         }

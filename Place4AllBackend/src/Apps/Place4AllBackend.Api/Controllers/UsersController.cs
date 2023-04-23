@@ -26,6 +26,7 @@ namespace Place4AllBackend.Api.Controllers
         /// <param name="command"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
+        [HttpPut]
         public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> AddFavoriteRestaurant(AddFavoriteRestaurantCommand command, CancellationToken cancellationToken)
         {
             return Ok(await Mediator.Send(command, cancellationToken));
