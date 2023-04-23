@@ -31,8 +31,8 @@ services:
       - "ConnectionStrings__DefaultConnection=Server=sql-server-db;Database=Place4AllBackendDb;User=sa;Password=Matech123;MultipleActiveResultSets=true"
       - "IdentityServer__Key__Type=Development"
       - "ElasticConfiguration__Uri=http://es01:9200"
-    #volumes:
-      #- ./https/place4allbackend.pfx:/https/place4allbackend.pfx:ro
+    volumes:
+      - ./https/place4allbackend.pfx:/https/place4allbackend.pfx:ro
     restart: on-failure
     networks:
       - webnet

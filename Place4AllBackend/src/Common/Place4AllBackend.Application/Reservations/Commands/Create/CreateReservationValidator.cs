@@ -17,7 +17,7 @@ public class CreateReservationValidator : AbstractValidator<CreateReservationCom
         AddValidationRules();
     }
 
-    protected void AddValidationRules()
+    private void AddValidationRules()
     {
         RuleFor(x => x.RestaurantId)
             .MustAsync((restaurantId, token) => _context.Restaurants.AnyAsync(x => x.Id == restaurantId, token))

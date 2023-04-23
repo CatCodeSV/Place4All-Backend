@@ -16,18 +16,20 @@ namespace Place4AllBackend.Application.Reservations.Queries.GetReservationByUser
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly ICurrentUserService _currentUserService;
 
-        public GetReservationByUserQueryHandler(IApplicationDbContext context, IMapper mapper)
+        public GetReservationByUserQueryHandler(IApplicationDbContext context, IMapper mapper,
+            ICurrentUserService currentUserService)
         {
             _context = context;
             _mapper = mapper;
-
+            _currentUserService = currentUserService;
         }
 
         public async Task<ServiceResult<List<ReservationDto>>> Handle(GetReservationByUserQuery request,
             CancellationToken cancellationToken)
         {
-            var list = await _context.Reservations.Where(x => x.Creator == request.ApplicationUserId)
+            var list = await _context.Reservations.Where(x => x.Creator == _currentUserService.UserId)
                 .Include(f => f.Features)
                 .Include(r => r.Restaurant)
                 .ThenInclude(r => r.Address)

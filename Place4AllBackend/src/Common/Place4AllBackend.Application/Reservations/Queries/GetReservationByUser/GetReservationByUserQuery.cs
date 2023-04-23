@@ -6,5 +6,4 @@ namespace Place4AllBackend.Application.Reservations.Queries.GetReservationByUser
 
 public class GetReservationByUserQuery : IRequestWrapper<List<ReservationDto>>
 {
-    public string ApplicationUserId { get; set; }
 }
