@@ -17,6 +17,6 @@ namespace Place4AllBackend.Application.Common.Interfaces
 
         Task<Result> DeleteUserAsync(string userId);
 
-        Task<Result> AddFavoriteRestaurant(Restaurant favoriteRestaurant, string userId);
+        Task<Domain.Entities.ApplicationUser> AddFavoriteRestaurant(Restaurant favoriteRestaurant, string userId);
     }
 }
