@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.AspNetCore.Authorization;
+using Place4AllBackend.Application.ApplicationUser.Commands.Create;
+using Place4AllBackend.Application.ApplicationUser.Commands.Update;
 
 namespace Place4AllBackend.Api.Controllers
 {
@@ -18,7 +20,16 @@ namespace Place4AllBackend.Api.Controllers
     [Authorize]
     public class UsersController : BaseApiController
     {
-        //TODO: Command type Update add restaurant to favorites
+        /// <summary>
+        /// Add favorite restaurant
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> AddFavoriteRestaurant(AddFavoriteRestaurantCommand command, CancellationToken cancellationToken)
+        {
+            return Ok(await Mediator.Send(command, cancellationToken));
+        }
 
         //TODO: Command type update remove restaurant from favorites
 

@@ -84,5 +84,18 @@ namespace Place4AllBackend.Infrastructure.Identity
 
             return result.ToApplicationResult();
         }
+
+        public async Task<Result> AddFavoriteRestaurant(Restaurant favoriteRestaurant, string userId)
+        {
+             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user != null)
+            {
+                user.FavoriteRestaurants.Add(favoriteRestaurant);
+                var result = await _userManager.UpdateAsync(user);
+                return result.ToApplicationResult();
+            }
+            return Result.Failure();
+        }
     }
 }
