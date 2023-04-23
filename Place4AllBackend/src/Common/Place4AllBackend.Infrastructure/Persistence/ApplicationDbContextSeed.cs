@@ -9,46 +9,6 @@ namespace Place4AllBackend.Infrastructure.Persistence
 {
     public static class ApplicationDbContextSeed
     {
-        public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager)
-        {
-            var administratorRole = new IdentityRole("Administrator");
-
-            if (roleManager.Roles.All(r => r.Name != administratorRole.Name))
-            {
-                await roleManager.CreateAsync(administratorRole);
-            }
-
-            //TODO Añadir usuarios para Sandra y Laura
-            var defaultUser = new ApplicationUser { UserName = "iayti", Email = "test@test.com", Address = new Address()
-            {
-                Street = "Calle Bernardo",
-                Number = 120,
-                City = "Madrid",
-                ZipCode = "28015",
-                Province = "Madrid"
-            }};
-            var userAlex = new ApplicationUser { UserName = "alecsolace", Email = "keevinaguirre@gmail.com", Address = new Address()
-            {
-                Street = "Calle Bernardo",
-                Number = 120,
-                City = "Madrid",
-                ZipCode = "28015",
-                Province = "Madrid"
-            }};
-
-            if (userManager.Users.All(u => u.UserName != defaultUser.UserName))
-            {
-                await userManager.CreateAsync(defaultUser, "Matech_1850");
-                await userManager.AddToRolesAsync(defaultUser, new[] { administratorRole.Name });
-            }
-            if (userManager.Users.All(u => u.UserName != userAlex.UserName))
-            {
-                await userManager.CreateAsync(userAlex, "Test_1");
-                await userManager.AddToRolesAsync(userAlex, new[] { administratorRole.Name });
-            }
-        }
-
         public static async Task SeedSampleCityDataAsync(ApplicationDbContext context)
         {
             // Seed, if necessary
