@@ -11,6 +11,7 @@ using System.Threading;
 using Microsoft.AspNetCore.Authorization;
 using Place4AllBackend.Application.ApplicationUser.Commands.Create;
 using Place4AllBackend.Application.ApplicationUser.Commands.Update;
+using Place4AllBackend.Application.ApplicationUser.Commands.Delete;
 
 namespace Place4AllBackend.Api.Controllers
 {
@@ -32,7 +33,17 @@ namespace Place4AllBackend.Api.Controllers
             return Ok(await Mediator.Send(command, cancellationToken));
         }
 
-        //TODO: Command type update remove restaurant from favorites
+        /// <summary>
+        /// Delete favorite restaurant
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> DeleteFavoriteRestaurant(int id, CancellationToken cancellationToken)
+        {
+            return Ok(await Mediator.Send(new DeleteFavoriteRestaurantCommand { Id = id }, cancellationToken));
+        }
 
         //TODO: Query Get restaurants by user favorite (en restaurantes)
 

@@ -20,7 +20,6 @@
 
     <ItemGroup>
         <Folder Include="ApplicationUser\Commands\Create\" />
-        <Folder Include="ApplicationUser\Commands\Delete\" />
         <Folder Include="Reservations\Commands\Update\" />
         <Folder Include="Villages\Commands\" />
     </ItemGroup>
