@@ -7,6 +7,7 @@ using Place4AllBackend.Application.Common.Models;
 using Place4AllBackend.Application.Dto;
 using Place4AllBackend.Application.Restaurants.Commands.Create;
 using Place4AllBackend.Application.Restaurants.Queries;
+using Place4AllBackend.Application.Restaurants.Queries.GetFavoritesRestaurants;
 using Place4AllBackend.Application.Restaurants.Queries.GetRestaurantById;
 using Place4AllBackend.Application.Restaurants.Queries.GetRestaurants;
 
@@ -52,5 +53,17 @@ public class RestaurantsController : BaseApiController
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(command, cancellationToken));
+    }
+    
+    /// <summary>
+    /// Get Favorite Restaurants
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("User")]
+    public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetUserFavoriteRestaurants(
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(new GetFavoriteRestaurantsQuery(), cancellationToken));
     }
 }

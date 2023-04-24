@@ -1,13 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Place4AllBackend.Application.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Place4AllBackend.Application.ApplicationUser.Commands.Update
+namespace Place4AllBackend.Application.ApplicationUser.Commands.Update.AddFavoriteRestaurant
 {
     public class AddFavoriteRestaurantValidator : AbstractValidator<AddFavoriteRestaurantCommand>
     {

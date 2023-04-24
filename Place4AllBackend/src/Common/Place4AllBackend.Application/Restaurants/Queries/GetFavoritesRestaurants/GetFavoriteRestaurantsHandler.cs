@@ -1,26 +1,18 @@
-﻿using MapsterMapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Place4AllBackend.Application.Common.Interfaces;
-using Place4AllBackend.Application.Common.Models;
-using Place4AllBackend.Application.Dto;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Mapster;
+using MapsterMapper;
+using Microsoft.EntityFrameworkCore;
+using Place4AllBackend.Application.Common.Interfaces;
+using Place4AllBackend.Application.Common.Models;
+using Place4AllBackend.Application.Dto;
 
-namespace Place4AllBackend.Application.ApplicationUser.Queries.GetFavoritesRestaurants
+namespace Place4AllBackend.Application.Restaurants.Queries.GetFavoritesRestaurants
 {
-    public class GetAllFavoriteRestaurantsQuery : IRequestWrapper<List<RestaurantDto>>
-    {
-    }
-
     public class
-        GetFavoriteRestaurantsHandler : IRequestHandlerWrapper<GetAllFavoriteRestaurantsQuery, List<RestaurantDto>>
+        GetFavoriteRestaurantsHandler : IRequestHandlerWrapper<GetFavoriteRestaurantsQuery, List<RestaurantDto>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -37,7 +29,7 @@ namespace Place4AllBackend.Application.ApplicationUser.Queries.GetFavoritesResta
         }
 
 
-        public async Task<ServiceResult<List<RestaurantDto>>> Handle(GetAllFavoriteRestaurantsQuery request,
+        public async Task<ServiceResult<List<RestaurantDto>>> Handle(GetFavoriteRestaurantsQuery request,
             CancellationToken cancellationToken)
         {
             var user = await _identityService.GetCurrentUser(_currentUserService.UserId);

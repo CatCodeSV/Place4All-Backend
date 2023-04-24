@@ -11,7 +11,8 @@ using System.Threading;
 using Microsoft.AspNetCore.Authorization;
 using Place4AllBackend.Application.ApplicationUser.Commands.Create;
 using Place4AllBackend.Application.ApplicationUser.Commands.Update;
-using Place4AllBackend.Application.ApplicationUser.Commands.Delete;
+using Place4AllBackend.Application.ApplicationUser.Commands.Update.AddFavoriteRestaurant;
+using Place4AllBackend.Application.ApplicationUser.Commands.Update.RemoveFavoriteRestaurant;
 
 namespace Place4AllBackend.Api.Controllers
 {
@@ -28,7 +29,8 @@ namespace Place4AllBackend.Api.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> AddFavoriteRestaurant(AddFavoriteRestaurantCommand command, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> AddFavoriteRestaurant(
+            AddFavoriteRestaurantCommand command, CancellationToken cancellationToken)
         {
             return Ok(await Mediator.Send(command, cancellationToken));
         }
@@ -39,14 +41,12 @@ namespace Place4AllBackend.Api.Controllers
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> DeleteFavoriteRestaurant(int id, CancellationToken cancellationToken)
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> DeleteFavoriteRestaurant(int id,
+            CancellationToken cancellationToken)
         {
-            return Ok(await Mediator.Send(new DeleteFavoriteRestaurantCommand { Id = id }, cancellationToken));
+            return Ok(await Mediator.Send(new DeleteFavoriteRestaurantCommand { FavoriteRestaurantId = id },
+                cancellationToken));
         }
-
-        //TODO: Query Get restaurants by user favorite (en restaurantes)
-
-
     }
 }

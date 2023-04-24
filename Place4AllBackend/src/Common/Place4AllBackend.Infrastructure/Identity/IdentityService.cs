@@ -92,7 +92,7 @@ namespace Place4AllBackend.Infrastructure.Identity
             if (user == null) return null;
             user.FavoriteRestaurants.Add(favoriteRestaurant);
             var result = await _userManager.UpdateAsync(user);
-            return !result.Succeeded ? null : user;
+            return result.Succeeded ? user : null;
         }
 
         public async Task<ApplicationUser> DeleteFavoriteRestaurant(Restaurant favoriteRestaurant, string userId)
@@ -101,12 +101,13 @@ namespace Place4AllBackend.Infrastructure.Identity
 
             if (user == null) return null;
             user.FavoriteRestaurants.Remove(favoriteRestaurant);
-            return user;
+            var result = await _userManager.UpdateAsync(user);
+            return result.Succeeded ? user : null;
         }
 
         public async Task<ApplicationUser> GetCurrentUser(string userId)
         {
-            var user =await _userManager.Users.SingleOrDefaultAsync(u => u.Id == userId);
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == userId);
 
             return user ?? null;
         }

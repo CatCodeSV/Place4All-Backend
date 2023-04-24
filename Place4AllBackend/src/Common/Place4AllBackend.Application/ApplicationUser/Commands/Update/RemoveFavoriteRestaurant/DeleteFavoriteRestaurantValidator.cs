@@ -1,14 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Place4AllBackend.Application.ApplicationUser.Commands.Update;
 using Place4AllBackend.Application.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Place4AllBackend.Application.ApplicationUser.Commands.Delete
+namespace Place4AllBackend.Application.ApplicationUser.Commands.Update.RemoveFavoriteRestaurant
 {
     internal class DeleteFavoriteRestaurantValidator : AbstractValidator<DeleteFavoriteRestaurantCommand>
     {
@@ -22,7 +16,10 @@ namespace Place4AllBackend.Application.ApplicationUser.Commands.Delete
 
         private void AddValidationRules()
         {
-            RuleFor(x => x.FavoriteRestaurantId).MustAsync((y, token) => _context.Restaurants.AnyAsync(z => z.Id == y, token)).WithMessage(a => $"El restaurante con el identificador {a.FavoriteRestaurantId} no existe.");
+            RuleFor(x => x.FavoriteRestaurantId)
+                .MustAsync((y, token) => _context.Restaurants.AnyAsync(z => z.Id == y, token)).WithMessage(a =>
+                    $"El restaurante con el identificador {a.FavoriteRestaurantId} no existe.");
+            //TODO Añadir validación que el restaurante que se quiere eliminar está en la lista.
         }
     }
 }

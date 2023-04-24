@@ -1,16 +1,13 @@
-﻿using MapsterMapper;
+﻿using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using MapsterMapper;
+using Microsoft.EntityFrameworkCore;
 using Place4AllBackend.Application.Common.Interfaces;
 using Place4AllBackend.Application.Common.Models;
 using Place4AllBackend.Application.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
-namespace Place4AllBackend.Application.ApplicationUser.Commands.Update
+namespace Place4AllBackend.Application.ApplicationUser.Commands.Update.AddFavoriteRestaurant
 {
     public class AddFavoriteRestaurantHandler : IRequestHandlerWrapper<AddFavoriteRestaurantCommand, ApplicationUserDto>
     {
