@@ -40,7 +40,7 @@ namespace Place4AllBackend.Application.ApplicationUser.Queries.GetFavoritesResta
         public async Task<ServiceResult<List<RestaurantDto>>> Handle(GetAllFavoriteRestaurantsQuery request,
             CancellationToken cancellationToken)
         {
-            var user = await _identityService.GetFavoriteRestaurants(_currentUserService.UserId);
+            var user = await _identityService.GetCurrentUser(_currentUserService.UserId);
             var list = await _context.Restaurants.Where(x => x.FavoriteUsers.Contains(user)).Include(x => x.Address)
                 .Include(x => x.Features).Include(x => x.Images).ProjectToType<RestaurantDto>(_mapper.Config)
                 .ToListAsync(cancellationToken);

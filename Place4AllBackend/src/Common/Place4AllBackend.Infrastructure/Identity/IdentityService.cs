@@ -8,7 +8,6 @@ using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Place4AllBackend.Domain.Entities;
-using System.Data.Entity;
 
 namespace Place4AllBackend.Infrastructure.Identity
 {
@@ -101,7 +100,15 @@ namespace Place4AllBackend.Infrastructure.Identity
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user == null) return null;
-            user.FavoriteRestaurants.Remove(favoriteRestaurant.Id);
+            user.FavoriteRestaurants.Remove(favoriteRestaurant);
+            return user;
+        }
+
+        public async Task<ApplicationUser> GetCurrentUser(string userId)
+        {
+            var user =await _userManager.Users.SingleOrDefaultAsync(u => u.Id == userId);
+
+            return user ?? null;
         }
     }
 }
