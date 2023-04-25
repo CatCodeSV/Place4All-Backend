@@ -1,7 +1,6 @@
 ﻿using Place4AllBackend.Application.Common.Interfaces;
 using Place4AllBackend.Domain.Common;
 using Place4AllBackend.Domain.Entities;
-using Place4AllBackend.Infrastructure.Identity;
 using Duende.IdentityServer.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Place4AllBackend.Infrastructure.Persistence.Configurations;
 
 namespace Place4AllBackend.Infrastructure.Persistence
 {

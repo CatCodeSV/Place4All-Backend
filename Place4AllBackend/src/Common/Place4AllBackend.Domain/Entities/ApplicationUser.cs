@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Place4AllBackend.Domain.Entities;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
-namespace Place4AllBackend.Infrastructure.Identity
+namespace Place4AllBackend.Domain.Entities
 {
     public class ApplicationUser : IdentityUser
     {
@@ -22,5 +22,7 @@ namespace Place4AllBackend.Infrastructure.Identity
         public bool HasDisability { get; set; }
         
         public int? DisabilityDegree { get; set; }
+
+        public IList<Restaurant> FavoriteRestaurants { get; set; } = new List<Restaurant>();
     }
 }
