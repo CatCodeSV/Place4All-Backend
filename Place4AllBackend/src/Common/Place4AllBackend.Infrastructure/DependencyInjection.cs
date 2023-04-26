@@ -32,7 +32,11 @@ namespace Place4AllBackend.Infrastructure
 
                 "SqlServer" => options.UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection"),
-                    b => { b.MigrationsAssembly(migrationAssembly); }),
+                    b =>
+                    {
+                        b.MigrationsAssembly(migrationAssembly);
+                        b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                    }),
 
                 "Npgsql" => options.UseNpgsql(
                     configuration.GetConnectionString("DefaultConnection_Postgres"),
