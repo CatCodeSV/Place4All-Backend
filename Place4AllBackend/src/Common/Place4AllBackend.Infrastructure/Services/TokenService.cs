@@ -18,11 +18,12 @@ namespace Place4AllBackend.Infrastructure.Services
             _configuration = configuration;
         }
 
-        public string CreateJwtSecurityToken(string id)
+        public string CreateJwtSecurityToken(string id, string? userName)
         {
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, id),
+                new Claim(ClaimTypes.Name, userName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 

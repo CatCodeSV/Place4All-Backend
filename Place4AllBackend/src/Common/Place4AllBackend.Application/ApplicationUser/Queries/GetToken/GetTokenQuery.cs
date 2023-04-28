@@ -35,7 +35,7 @@ namespace Place4AllBackend.Application.ApplicationUser.Queries.GetToken
             return ServiceResult.Success(new LoginResponse
             {
                 User = user,
-                Token = _tokenService.CreateJwtSecurityToken(user.Id)
+                Token = _tokenService.CreateJwtSecurityToken(user.Id, user.UserName)
             });
         }
     }
