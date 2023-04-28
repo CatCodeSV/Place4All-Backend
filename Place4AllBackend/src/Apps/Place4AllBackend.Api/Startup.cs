@@ -36,13 +36,24 @@ namespace Place4AllBackend.Api
         /// Configuration
         /// </summary>
         public IConfiguration Configuration { get; }
-
+        
+        string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         /// <summary>
         /// Configure Services
         /// </summary>
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                    policy =>
+                    {
+                        policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                    });
+            });
+            
             services.AddApplication();
             services.AddInfrastructure(Configuration);
 
@@ -132,6 +143,7 @@ namespace Place4AllBackend.Api
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Place4AllBackend API"));
 
             app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseAuthentication();
             app.UseIdentityServer();
             app.UseAuthorization();

@@ -24,5 +24,10 @@ namespace Place4AllBackend.Api.Services
         /// Current userId
         /// </summary>
         public string UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        /// <summary>
+        /// Current UserName
+        /// </summary>
+        public string UserName => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.Name);
     }
 }

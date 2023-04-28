@@ -12,6 +12,7 @@ public class ReviewDto : IRegister
     public InformationAccuracy InformationAccuracy { get; set; }
     public int RestaurantId { get; set; }
     public List<Feature> AdditionalFeatures { get; set; }
+    public string UserName { get; set; }
 
     public void Register(TypeAdapterConfig config)
     {

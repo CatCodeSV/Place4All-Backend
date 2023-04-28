@@ -39,7 +39,7 @@ public class CreateUserCommandHandler : IRequestHandlerWrapper<CreateUserCommand
         var result = await _identityService.CreateUserAsync(request.Email, request.Password);
         if (result.Result.Succeeded)
         {
-            _logger.LogInformation("User created a new account with password.");
+            _logger.LogInformation("User created a new account with password");
             var user = await _identityService.CheckUserPassword(request.Email, request.Password);
 
             if (user == null)
@@ -49,7 +49,7 @@ public class CreateUserCommandHandler : IRequestHandlerWrapper<CreateUserCommand
             return ServiceResult.Success(new LoginResponse
             {
                 User = user,
-                Token = _tokenService.CreateJwtSecurityToken(user.Id)
+                Token = _tokenService.CreateJwtSecurityToken(user.Id, user.UserName)
             });
         }
 
