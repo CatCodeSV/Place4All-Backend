@@ -64,6 +64,17 @@ public class UserSeeder
                 Province = "Zaragoza"
             }
         };
+        var userSandra = new ApplicationUser 
+        { 
+            UserName = "sandra20", Email = "diazmalo@hotmail.com", Address = new Address()
+            {
+                Street = "Calle Pablo Neruda",
+                Number = 17,
+                City = "Zaragoza",
+                ZipCode = "50018",
+                Province = "Zaragoza"
+            }
+        };
 
         if (userManager.Users.All(u => u.UserName != defaultUser.UserName))
         {
@@ -80,6 +91,11 @@ public class UserSeeder
         {
             await userManager.CreateAsync(userLaura, "Test_2");
             await userManager.AddToRolesAsync(userLaura, new[] { administratorRole.Name });
+        }
+        if (userManager.Users.All(u => u.UserName != userSandra.UserName))
+        {
+            await userManager.CreateAsync(userSandra, "Test_3");
+            await userManager.AddToRolesAsync(userSandra, new[] { administratorRole.Name });
         }
 
         //! Common User
