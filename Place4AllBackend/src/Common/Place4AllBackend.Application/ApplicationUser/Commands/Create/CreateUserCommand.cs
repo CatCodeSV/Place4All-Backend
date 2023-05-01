@@ -22,15 +22,18 @@ public class CreateUserCommandHandler : IRequestHandlerWrapper<CreateUserCommand
     private readonly ILogger<ApplicationUserDto> _logger;
     private readonly IIdentityService _identityService;
     private readonly ITokenService _tokenService;
+    private readonly UserManager<Domain.Entities.ApplicationUser> _userManager;
 
     public CreateUserCommandHandler(IApplicationDbContext context, IMapper mapper, ILogger<ApplicationUserDto> logger,
-        IIdentityService identityService, ITokenService tokenService)
+        IIdentityService identityService, ITokenService tokenService,
+        UserManager<Domain.Entities.ApplicationUser> userManager)
     {
         _context = context;
         _mapper = mapper;
         _logger = logger;
         _identityService = identityService;
         _tokenService = tokenService;
+        _userManager = userManager;
     }
 
     public async Task<ServiceResult<LoginResponse>> Handle(CreateUserCommand request,
@@ -43,8 +46,12 @@ public class CreateUserCommandHandler : IRequestHandlerWrapper<CreateUserCommand
             var user = await _identityService.CheckUserPassword(request.Email, request.Password);
 
             if (user == null)
+            {
                 return ServiceResult.Failed<LoginResponse>(ServiceError.ForbiddenError);
+            }
 
+            await _userManager.AddToRolesAsync(await _identityService.GetCurrentUser(user.Id),
+                new[] { "User" });
 
             return ServiceResult.Success(new LoginResponse
             {

@@ -11,6 +11,7 @@ using Serilog.Sinks.Elasticsearch;
 using System;
 using System.Threading.Tasks;
 using Place4AllBackend.Domain.Entities;
+using Place4AllBackend.Infrastructure.Seeders;
 
 namespace Place4AllBackend.Api
 {
@@ -41,7 +42,7 @@ namespace Place4AllBackend.Api
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-                    await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager, roleManager);
+                    await UserSeeder.SeedDefaultUserAsync(userManager, roleManager);
                     await ApplicationDbContextSeed.SeedSampleCityDataAsync(context);
                     await ApplicationDbContextSeed.SeedSampleRestaurantsAsync(context);
                 }
