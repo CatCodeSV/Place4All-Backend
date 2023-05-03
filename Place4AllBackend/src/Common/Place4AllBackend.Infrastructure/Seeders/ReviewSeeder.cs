@@ -17,7 +17,8 @@ public class ReviewSeeder
                 Comment = "Excelente servicio! Definitivamente repetiré e iré con mis amigos",
                 Value = 5,
                 Creator = context.Users.FirstOrDefault(x => x.Email == "keevinaguirre@gmail.com")?.Id,
-                InformationAccuracy = InformationAccuracy.VeryGood
+                InformationAccuracy = InformationAccuracy.VeryGood,
+                RestaurantId = 1
             });
             await context.SaveChangesAsync();
         }

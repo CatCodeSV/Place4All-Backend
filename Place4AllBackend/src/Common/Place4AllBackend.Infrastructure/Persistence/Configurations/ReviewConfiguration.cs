@@ -10,8 +10,11 @@ public class ReviewConfiguration : IEntityTypeConfiguration<Review>
     {
         builder.Property(x => x.Value).IsRequired();
         builder.Property(x => x.InformationAccuracy).IsRequired();
-        builder.HasOne(x => x.Restaurant).WithMany().HasForeignKey(x => x.RestaurantId);
         builder.HasMany(x => x.AdditionalFeatures).WithMany(x => x.Reviews)
             .UsingEntity(j => j.ToTable("ReviewFeature"));
+        builder.HasOne(i => i.Restaurant)
+            .WithMany(r => r.Reviews)
+            .HasForeignKey(i => i.RestaurantId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

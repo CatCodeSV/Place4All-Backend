@@ -168,6 +168,16 @@ namespace Place4AllBackend.Infrastructure.Persistence
                             Description =
                                 "El baño del restaurante está adaptado para personas con discapacidad y cuenta con barras de apoyo, inodoro elevado y lavabo accesible."
                         }
+                    },
+                    Reviews =
+                    {
+                        new Review()
+                        {
+                            Comment = "Excelente servicio! Definitivamente repetiré e iré con mis amigos",
+                            Value = 5,
+                            Creator = context.Users.FirstOrDefault(x => x.Email == "keevinaguirre@gmail.com")?.Id,
+                            InformationAccuracy = InformationAccuracy.VeryGood
+                        }
                     }
                 });
 

@@ -954,7 +954,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.Review", b =>
                 {
                     b.HasOne("Place4AllBackend.Domain.Entities.Restaurant", "Restaurant")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -986,6 +986,8 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.Restaurant", b =>
                 {
                     b.Navigation("Images");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

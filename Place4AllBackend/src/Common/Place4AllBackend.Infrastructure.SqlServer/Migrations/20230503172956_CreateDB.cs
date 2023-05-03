@@ -333,6 +333,30 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FavoriteRestaurants",
+                columns: table => new
+                {
+                    FavoriteRestaurantsId = table.Column<int>(type: "int", nullable: false),
+                    FavoriteUsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FavoriteRestaurants", x => new { x.FavoriteRestaurantsId, x.FavoriteUsersId });
+                    table.ForeignKey(
+                        name: "FK_FavoriteRestaurants_AspNetUsers_FavoriteUsersId",
+                        column: x => x.FavoriteUsersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FavoriteRestaurants_Restaurants_FavoriteRestaurantsId",
+                        column: x => x.FavoriteRestaurantsId,
+                        principalTable: "Restaurants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Images",
                 columns: table => new
                 {
@@ -566,6 +590,11 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FavoriteRestaurants_FavoriteUsersId",
+                table: "FavoriteRestaurants",
+                column: "FavoriteUsersId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Images_RestaurantId",
                 table: "Images",
                 column: "RestaurantId");
@@ -651,6 +680,9 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "DeviceCodes");
+
+            migrationBuilder.DropTable(
+                name: "FavoriteRestaurants");
 
             migrationBuilder.DropTable(
                 name: "Images");

@@ -32,11 +32,14 @@ namespace Place4AllBackend.Application.Restaurants.Queries.GetRestaurantById
         {
             var restaurant = await _context.Restaurants.Where(x => x.Id == request.RestaurantId).Include(a => a.Address)
                 .Include(f => f.Features).Include(r => r.Reviews).Include(i => i.Images)
-                .Select(r => new RestaurantDto()
-                {
-                    NumberOfReviews = r.Reviews.Count
-                }).ProjectToType<RestaurantDto>(_mapper.Config)
+                .ProjectToType<RestaurantDto>(_mapper.Config)
                 .FirstOrDefaultAsync(cancellationToken);
+            
+            if (restaurant != null)
+            {
+                restaurant.NumberOfReviews = restaurant.Reviews.Count;
+                restaurant.Rating = restaurant.Reviews.Average(r => r.Value);
+            }
 
             return restaurant != null
                 ? ServiceResult.Success(restaurant)

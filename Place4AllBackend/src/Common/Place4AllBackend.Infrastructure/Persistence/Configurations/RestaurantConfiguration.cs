@@ -19,5 +19,6 @@ public class RestaurantConfiguration : IEntityTypeConfiguration<Restaurant>
             .UsingEntity(j => j.ToTable("RestaurantFeature"));
         builder.HasMany(r => r.Images)
             .WithOne(i => i.Restaurant);
+        builder.HasMany(r => r.Reviews).WithOne().HasForeignKey(r => r.RestaurantId);
     }
 }

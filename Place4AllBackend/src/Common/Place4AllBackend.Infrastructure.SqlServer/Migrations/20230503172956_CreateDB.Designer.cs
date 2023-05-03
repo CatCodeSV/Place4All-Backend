@@ -12,7 +12,7 @@ using Place4AllBackend.Infrastructure.Persistence;
 namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230419170623_CreateDB")]
+    [Migration("20230503172956_CreateDB")]
     partial class CreateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,21 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("ApplicationUserRestaurant", b =>
+                {
+                    b.Property<int>("FavoriteRestaurantsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FavoriteUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("FavoriteRestaurantsId", "FavoriteUsersId");
+
+                    b.HasIndex("FavoriteUsersId");
+
+                    b.ToTable("FavoriteRestaurants", (string)null);
+                });
 
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.DeviceFlowCodes", b =>
                 {
@@ -389,6 +404,98 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                     b.ToTable("Addresses");
                 });
 
+            modelBuilder.Entity("Place4AllBackend.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("DisabilityDegree")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gsm")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("HasDisability")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId")
+                        .IsUnique();
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.City", b =>
                 {
                     b.Property<int>("Id")
@@ -680,96 +787,19 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                     b.ToTable("Villages");
                 });
 
-            modelBuilder.Entity("Place4AllBackend.Infrastructure.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("ApplicationUserRestaurant", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.HasOne("Place4AllBackend.Domain.Entities.Restaurant", null)
+                        .WithMany()
+                        .HasForeignKey("FavoriteRestaurantsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AddressId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("DisabilityDegree")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gsm")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("HasDisability")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AddressId")
-                        .IsUnique();
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.HasOne("Place4AllBackend.Domain.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("FavoriteUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FeatureReservation", b =>
@@ -828,7 +858,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Place4AllBackend.Infrastructure.Identity.ApplicationUser", null)
+                    b.HasOne("Place4AllBackend.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -837,7 +867,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Place4AllBackend.Infrastructure.Identity.ApplicationUser", null)
+                    b.HasOne("Place4AllBackend.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -852,7 +882,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Place4AllBackend.Infrastructure.Identity.ApplicationUser", null)
+                    b.HasOne("Place4AllBackend.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -861,11 +891,22 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Place4AllBackend.Infrastructure.Identity.ApplicationUser", null)
+                    b.HasOne("Place4AllBackend.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Place4AllBackend.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.HasOne("Place4AllBackend.Domain.Entities.Address", "Address")
+                        .WithOne()
+                        .HasForeignKey("Place4AllBackend.Domain.Entities.ApplicationUser", "AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.District", b =>
@@ -915,7 +956,7 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.Review", b =>
                 {
                     b.HasOne("Place4AllBackend.Domain.Entities.Restaurant", "Restaurant")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -934,17 +975,6 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                     b.Navigation("District");
                 });
 
-            modelBuilder.Entity("Place4AllBackend.Infrastructure.Identity.ApplicationUser", b =>
-                {
-                    b.HasOne("Place4AllBackend.Domain.Entities.Address", "Address")
-                        .WithOne()
-                        .HasForeignKey("Place4AllBackend.Infrastructure.Identity.ApplicationUser", "AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Address");
-                });
-
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.City", b =>
                 {
                     b.Navigation("Districts");
@@ -958,6 +988,8 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
             modelBuilder.Entity("Place4AllBackend.Domain.Entities.Restaurant", b =>
                 {
                     b.Navigation("Images");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }
