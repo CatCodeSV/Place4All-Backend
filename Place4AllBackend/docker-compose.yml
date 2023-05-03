@@ -19,7 +19,7 @@ services:
       context: .
       dockerfile: src/Apps/Place4AllBackend.Api/Dockerfile
     ports:
-      #- "5006:443"
+      - "5006:443"
       - "5005:80"
     environment:
       #- ASPNETCORE_ENVIRONMENT=Development
@@ -49,6 +49,7 @@ services:
       - cluster.initial_master_nodes=es01
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ELASTIC_PASSWORD=Test_1
     ulimits:
       memlock:
         soft: -1

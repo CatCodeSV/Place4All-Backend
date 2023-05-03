@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Mapster;
@@ -14,33 +15,37 @@ using Place4AllBackend.Domain.Entities;
 namespace Place4AllBackend.Application.Restaurants.Queries.GetRestaurants
 {
 
-    public class GetAllRestaurantsQuery : IRequestWrapper<List<RestaurantDto>>
+    public class GetAllRestaurantsQuery : IRequestWrapper<List<RestaurantSummarizedDto>>
     {
     }
 
-    public class GetRestaurantsHandler : IRequestHandlerWrapper<GetAllRestaurantsQuery, List<RestaurantDto>>
+    public class GetRestaurantsHandler : IRequestHandlerWrapper<GetAllRestaurantsQuery, List<RestaurantSummarizedDto>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private readonly ILogger<Restaurant> _logger;
 
-        public GetRestaurantsHandler(IApplicationDbContext context, IMapper mapper, ILogger<Restaurant> logger)
+        public GetRestaurantsHandler(IApplicationDbContext context, IMapper mapper)
         {
-            _logger = logger;
             _context = context;
             _mapper = mapper;
         }
 
 
-        public async Task<ServiceResult<List<RestaurantDto>>> Handle(GetAllRestaurantsQuery request,
+        public async Task<ServiceResult<List<RestaurantSummarizedDto>>> Handle(GetAllRestaurantsQuery request,
             CancellationToken cancellationToken)
         {
-            var list = await _context.Restaurants.Include(a => a.Address).Include(i => i.Images)
-                .Include(f => f.Features).ProjectToType<RestaurantDto>(_mapper.Config).ToListAsync(cancellationToken);
+            var list = await _context.Restaurants.Select(r => new RestaurantSummarizedDto()
+            {
+                Id = r.Id,
+                Description = r.Description,
+                Image = r.Images.FirstOrDefault().Link,
+                Name = r.Name,
+                PhoneNumber = r.PhoneNumber
+            }).ProjectToType<RestaurantSummarizedDto>(_mapper.Config).ToListAsync(cancellationToken);
 
             return list.Count > 0
                 ? ServiceResult.Success(list)
-                : ServiceResult.Failed<List<RestaurantDto>>(ServiceError.NotFound);
+                : ServiceResult.Failed<List<RestaurantSummarizedDto>>(ServiceError.NotFound);
         }
     }
 }

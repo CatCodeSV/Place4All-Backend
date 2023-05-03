@@ -3,7 +3,7 @@ version: "3.4"
 services:
   webapi:
     build:
-      context: "C:\\Users\\keevi\\Developer\\tests\\Place4AllBackend\\Place4AllBackend"
+      context: "/Users/alexanderaguirre/Developer/CatCode/Place4All-Backend/Place4AllBackend"
       dockerfile: "src/Apps/Place4AllBackend.Api/Dockerfile"
       target: "base"
     command: []
@@ -15,6 +15,5 @@ services:
     image: "webapi:dev"
     ports: []
     volumes:
-    - "C:\\Users\\keevi\\Developer\\tests\\Place4AllBackend\\Place4AllBackend\\src\\\
-      Apps\\Place4AllBackend.Api:/app:rw"
+    - "/Users/alexanderaguirre/Developer/CatCode/Place4All-Backend/Place4AllBackend/src/Apps/Place4AllBackend.Api:/app:rw"
     working_dir: "/app"

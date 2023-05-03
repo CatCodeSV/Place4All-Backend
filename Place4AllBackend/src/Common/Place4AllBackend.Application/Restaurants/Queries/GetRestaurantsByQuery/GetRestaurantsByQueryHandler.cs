@@ -11,7 +11,7 @@ using Place4AllBackend.Application.Dto;
 
 namespace Place4AllBackend.Application.Restaurants.Queries.GetRestaurantsByQuery;
 
-public class GetRestaurantsByQueryHandler : IRequestHandlerWrapper<GetRestaurantsByQuery, List<RestaurantDto>>
+public class GetRestaurantsByQueryHandler : IRequestHandlerWrapper<GetRestaurantsByQuery, List<RestaurantSummarizedDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -22,22 +22,27 @@ public class GetRestaurantsByQueryHandler : IRequestHandlerWrapper<GetRestaurant
         _mapper = mapper;
     }
 
-    public async Task<ServiceResult<List<RestaurantDto>>> Handle(GetRestaurantsByQuery request,
+    public async Task<ServiceResult<List<RestaurantSummarizedDto>>> Handle(GetRestaurantsByQuery request,
         CancellationToken cancellationToken)
     {
         var list = await _context.Restaurants
-            .Include(r => r.Images)
-            .Include(r => r.Address)
-            .Include(r => r.Features)
             .Where(b =>
                 b.Name.ToLower().Contains(request.Query.ToLower()) ||
                 b.Address.Street.ToLower().Contains(request.Query.ToLower()) ||
                 b.Address.City.ToLower().Contains(request.Query.ToLower()) ||
                 b.Features.Any(f => f.Name.ToLower().Contains(request.Query)))
-            .ProjectToType<RestaurantDto>(_mapper.Config).ToListAsync(cancellationToken);
+            .Select(r => new RestaurantSummarizedDto()
+            {
+                Id = r.Id,
+                Description = r.Description,
+                Image = r.Images.FirstOrDefault().Link,
+                Name = r.Name,
+                PhoneNumber = r.PhoneNumber
+            })
+            .ProjectToType<RestaurantSummarizedDto>(_mapper.Config).ToListAsync(cancellationToken);
 
         return list.Count > 0
             ? ServiceResult.Success(list)
-            : ServiceResult.Failed<List<RestaurantDto>>(ServiceError.NotFound);
+            : ServiceResult.Failed<List<RestaurantSummarizedDto>>(ServiceError.NotFound);
     }
 }
