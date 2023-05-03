@@ -14,7 +14,6 @@ using Place4AllBackend.Domain.Entities;
 
 namespace Place4AllBackend.Application.Restaurants.Queries.GetRestaurants
 {
-
     public class GetAllRestaurantsQuery : IRequestWrapper<List<RestaurantSummarizedDto>>
     {
     }
@@ -40,7 +39,9 @@ namespace Place4AllBackend.Application.Restaurants.Queries.GetRestaurants
                 Description = r.Description,
                 Image = r.Images.FirstOrDefault().Link,
                 Name = r.Name,
-                PhoneNumber = r.PhoneNumber
+                PhoneNumber = r.PhoneNumber,
+                Rating = r.Reviews.Average(r => r.Value),
+                NumberOfReviews = r.Reviews.Count
             }).ProjectToType<RestaurantSummarizedDto>(_mapper.Config).ToListAsync(cancellationToken);
 
             return list.Count > 0
