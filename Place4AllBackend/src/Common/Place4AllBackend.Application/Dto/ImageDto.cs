@@ -12,7 +12,7 @@ public class ImageDto : IRegister
 
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<Restaurant, RestaurantDto>()
+        config.NewConfig<Image, ImageDto>()
             .Map(dest => dest.CreateDate,
                 src => $"" + $"{src.CreateDate.ToShortDateString()}");
     }

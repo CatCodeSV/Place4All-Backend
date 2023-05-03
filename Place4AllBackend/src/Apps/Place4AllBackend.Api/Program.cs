@@ -43,8 +43,8 @@ namespace Place4AllBackend.Api
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
                     await UserSeeder.SeedDefaultUserAsync(userManager, roleManager);
-                    await ApplicationDbContextSeed.SeedSampleCityDataAsync(context);
-                    await ApplicationDbContextSeed.SeedSampleRestaurantsAsync(context);
+                    await RestaurantSeeder.SeedSampleRestaurantsAsync(context);
+                    await ReviewSeeder.SeedSampleReviews(context);
                 }
                 catch (Exception ex)
                 {

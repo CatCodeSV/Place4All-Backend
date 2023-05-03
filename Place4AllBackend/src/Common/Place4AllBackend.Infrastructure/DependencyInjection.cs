@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using Place4AllBackend.Application.Common.Interfaces;
-using Place4AllBackend.Infrastructure.Files;
 using Place4AllBackend.Infrastructure.Identity;
 using Place4AllBackend.Infrastructure.Persistence;
 using Place4AllBackend.Infrastructure.Services;
@@ -45,7 +44,7 @@ namespace Place4AllBackend.Infrastructure
                 _ => throw new Exception($"Unsupported provider: {provider}")
             });
 
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+            services.AddScoped<IApplicationDbContext>(serviceProvider => serviceProvider.GetService<ApplicationDbContext>());
 
             services.AddScoped<IDomainEventService, DomainEventService>();
 
@@ -72,7 +71,6 @@ namespace Place4AllBackend.Infrastructure
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IOpenWeatherService, OpenWeatherService>();
-            services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
             services.AddTransient<ITokenService, TokenService>();
 
             services.AddAuthentication(options =>

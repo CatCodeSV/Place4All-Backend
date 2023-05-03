@@ -49,7 +49,7 @@ namespace Place4AllBackend.Infrastructure.Persistence
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.Creator = _currentUserService.UserId;
+                        entry.Entity.Creator ??= _currentUserService.UserId;
                         entry.Entity.CreateDate = _dateTime.Now;
                         break;
                     case EntityState.Modified:

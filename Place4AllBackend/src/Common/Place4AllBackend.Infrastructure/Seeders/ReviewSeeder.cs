@@ -15,7 +15,7 @@ public class ReviewSeeder
             context.Reviews.Add(new Review()
             {
                 Comment = "Excelente servicio! Definitivamente repetiré e iré con mis amigos",
-                Value = 5,
+                Value = 3,
                 Creator = context.Users.FirstOrDefault(x => x.Email == "keevinaguirre@gmail.com")?.Id,
                 InformationAccuracy = InformationAccuracy.VeryGood,
                 RestaurantId = 1

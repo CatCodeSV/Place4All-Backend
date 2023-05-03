@@ -9,12 +9,13 @@ public class AddressDto : IRegister
     public string Street { get; set; }
     public int Number { get; set; }
     public string City { get; set; }
-    public string ZipCode { get; set; } 
+    public string ZipCode { get; set; }
     public string Province { get; set; }
     public string CreateDate { get; set; }
+
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<City, CityDto>()
+        config.NewConfig<Address, AddressDto>()
             .Map(dest => dest.CreateDate,
                 src => $"{src.CreateDate.ToShortDateString()}");
     }
