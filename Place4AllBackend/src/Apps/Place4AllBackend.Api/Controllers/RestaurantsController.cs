@@ -2,14 +2,13 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp;
 using Place4AllBackend.Application.Common.Models;
 using Place4AllBackend.Application.Dto;
 using Place4AllBackend.Application.Restaurants.Commands.Create;
-using Place4AllBackend.Application.Restaurants.Queries;
 using Place4AllBackend.Application.Restaurants.Queries.GetFavoritesRestaurants;
 using Place4AllBackend.Application.Restaurants.Queries.GetRestaurantById;
 using Place4AllBackend.Application.Restaurants.Queries.GetRestaurants;
+using Place4AllBackend.Application.Restaurants.Queries.GetRestaurantsByFeatures;
 using Place4AllBackend.Application.Restaurants.Queries.GetRestaurantsByQuery;
 
 namespace Place4AllBackend.Api.Controllers;
@@ -25,7 +24,7 @@ public class RestaurantsController : BaseApiController
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpGet]
-    public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetAllRestaurants(
+    public async Task<ActionResult<ServiceResult<List<RestaurantSummarizedDto>>>> GetAllRestaurants(
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(new GetAllRestaurantsQuery(), cancellationToken));
@@ -37,7 +36,7 @@ public class RestaurantsController : BaseApiController
     /// <param name="id"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<ServiceResult<RestaurantDto>>> GetRestaurantById(int id,
         CancellationToken cancellationToken)
     {
@@ -51,7 +50,7 @@ public class RestaurantsController : BaseApiController
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpGet("Query")]
-    public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> Query(string query,
+    public async Task<ActionResult<ServiceResult<List<RestaurantSummarizedDto>>>> Query(string query,
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(new GetRestaurantsByQuery() { Query = query }, cancellationToken));
@@ -68,6 +67,19 @@ public class RestaurantsController : BaseApiController
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(command, cancellationToken));
+    }
+
+    /// <summary>
+    /// Get Restaurant List from Features
+    /// </summary>
+    /// <param name="query"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpPost("Features")]
+    public async Task<ActionResult<ServiceResult<List<RestaurantSummarizedDto>>>> GetRestaurantsByFeatures(
+        GetRestaurantsByFeatureQuery query, CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(query, cancellationToken));
     }
 
     /// <summary>

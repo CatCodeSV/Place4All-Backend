@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -6,11 +5,9 @@ using System.Threading.Tasks;
 using Mapster;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Place4AllBackend.Application.Common.Interfaces;
 using Place4AllBackend.Application.Common.Models;
 using Place4AllBackend.Application.Dto;
-using Place4AllBackend.Domain.Entities;
 
 namespace Place4AllBackend.Application.Restaurants.Queries.GetRestaurants
 {
