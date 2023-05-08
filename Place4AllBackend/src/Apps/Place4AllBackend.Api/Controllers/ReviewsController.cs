@@ -48,7 +48,7 @@ public class ReviewsController : BaseApiController
     /// <param name="id"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpGet("Restaurant/{id}")]
+    [HttpGet("Restaurant/{id}"), AllowAnonymous]
     public async Task<ActionResult<ServiceResult<List<ReviewDto>>>> GetByRestaurant(int id,
         CancellationToken cancellationToken)
     {
