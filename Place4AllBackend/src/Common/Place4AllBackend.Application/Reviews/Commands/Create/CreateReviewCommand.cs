@@ -7,6 +7,7 @@ namespace Place4AllBackend.Application.Reviews.Commands.Create;
 
 public class CreateReviewCommand : IRequestWrapper<ReviewDto>
 {
+    public string Title { get; set; }
     public float Value { get; set; }
     public string Comment { get; set; }
     public InformationAccuracy InformationAccuracy { get; set; }

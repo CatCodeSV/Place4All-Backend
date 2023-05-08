@@ -13,7 +13,7 @@ public class CreateReviewCommandHandler : IRequestHandlerWrapper<CreateReviewCom
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public CreateReviewCommandHandler(IApplicationDbContext context, IMapper mapper)
+    public CreateReviewCommandHandler(IApplicationDbContext context, IMapper mapper, ICurrentUserService currentUserService)
     {
         _mapper = mapper;
         _context = context;
@@ -21,8 +21,9 @@ public class CreateReviewCommandHandler : IRequestHandlerWrapper<CreateReviewCom
 
     public async Task<ServiceResult<ReviewDto>> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
     {
-        var entity = new Review()
+        var entity = new Review
         {
+            Title = request.Title,
             Comment = request.Comment,
             Value = request.Value,
             RestaurantId = request.RestaurantId,

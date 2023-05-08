@@ -36,7 +36,8 @@ namespace Place4AllBackend.Infrastructure.Identity
 
         public async Task<ApplicationUserDto> CheckUserPassword(string email, string password)
         {
-            ApplicationUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == email);
+            ApplicationUser user =
+                await _userManager.Users.Include(x => x.Address).FirstOrDefaultAsync(u => u.Email == email);
 
             if (user != null && await _userManager.CheckPasswordAsync(user, password))
             {
