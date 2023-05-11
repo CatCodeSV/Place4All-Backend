@@ -55,7 +55,12 @@ public class UserSeeder
                 Province = "Zaragoza"
             }
         };
-        var userLaura = new ApplicationUser { UserName = "laug13", Email = "lauragilf.13@gmail.com", Address = new Address()
+        var userLaura = new ApplicationUser 
+        {
+            Name = "Laura",
+            LastName = "Gil",
+            Age = 27,
+            UserName = "laug13", Email = "lauragilf.13@gmail.com", Address = new Address()
             {
                 Street = "Calle Augusto",
                 Number = 10,
