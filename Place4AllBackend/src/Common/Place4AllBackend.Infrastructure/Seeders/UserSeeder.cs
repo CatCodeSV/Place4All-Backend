@@ -30,7 +30,6 @@ public class UserSeeder
             await roleManager.CreateAsync(ownerRole);
         }
 
-        //TODO Añadir usuarios para Sandra y Laura
 
         //! Admin Users
         var defaultUser = new ApplicationUser
