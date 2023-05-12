@@ -8,6 +8,7 @@ public class ReviewConfiguration : IEntityTypeConfiguration<Review>
 {
     public void Configure(EntityTypeBuilder<Review> builder)
     {
+        builder.Property(x => x.Title).IsRequired().HasMaxLength(50);
         builder.Property(x => x.Value).IsRequired();
         builder.Property(x => x.InformationAccuracy).IsRequired();
         builder.HasMany(x => x.AdditionalFeatures).WithMany(x => x.Reviews)

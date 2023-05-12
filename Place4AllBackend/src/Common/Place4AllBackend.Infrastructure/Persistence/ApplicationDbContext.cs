@@ -1,7 +1,7 @@
 ﻿using Place4AllBackend.Application.Common.Interfaces;
 using Place4AllBackend.Domain.Common;
 using Place4AllBackend.Domain.Entities;
-using Duende.IdentityServer.EntityFramework.Options;
+using Duende.IdentityServer.EntityFramework;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Place4AllBackend.Infrastructure.Persistence.Configurations;
+using Duende.IdentityServer.EntityFramework.Options;
 
 namespace Place4AllBackend.Infrastructure.Persistence
 {
@@ -72,7 +72,7 @@ namespace Place4AllBackend.Infrastructure.Persistence
 
             base.OnModelCreating(builder);
         }
-
+        
         private async Task DispatchEvents()
         {
             while (true)
@@ -90,4 +90,5 @@ namespace Place4AllBackend.Infrastructure.Persistence
             }
         }
     }
+
 }

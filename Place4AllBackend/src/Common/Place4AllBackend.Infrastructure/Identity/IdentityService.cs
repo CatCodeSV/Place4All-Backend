@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Place4AllBackend.Application.Common.Exceptions;
 using Place4AllBackend.Application.Common.Interfaces;
 using Place4AllBackend.Application.Common.Models;
 using Place4AllBackend.Application.Dto;
-using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Place4AllBackend.Domain.Entities;
