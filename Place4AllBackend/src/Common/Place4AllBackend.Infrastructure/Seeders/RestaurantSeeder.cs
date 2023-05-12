@@ -1,6 +1,7 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic;
 using Place4AllBackend.Domain.Entities;
 using Place4AllBackend.Infrastructure.Persistence;
 
@@ -51,12 +52,6 @@ public class RestaurantSeeder
                     },
                     new Feature
                     {
-                        Name = "Menú adaptado",
-                        Description =
-                            "Se ofrece menú adaptado para personas con alergias o intolerancias alimentarias y/o dietas especiales."
-                    },
-                    new Feature
-                    {
                         Name = "Mesas adaptadas",
                         Description =
                             "El restaurante cuenta con mesas adaptadas para personas con discapacidad, como mesas a diferentes alturas o con espacio suficiente para sillas de ruedas."
@@ -70,30 +65,6 @@ public class RestaurantSeeder
                 },
                 Reviews =
                 {
-                    new Review()
-                    {
-                        Comment = "Excelente servicio! Definitivamente repetiré e iré con mis amigos",
-                        Value = 5,
-                        Creator = userAlex?.Id,
-                        InformationAccuracy = InformationAccuracy.VeryGood,
-                        RestaurantId = 1
-                    },
-                    new Review()
-                    {
-                        Comment = "Estuvo muy bien, me hubiera gustado que tuviera más opciones vegetarianas",
-                        Value = 3,
-                        Creator = userLaura?.Id,
-                        InformationAccuracy = InformationAccuracy.Good,
-                        RestaurantId = 1
-                    },
-                    new Review()
-                    {
-                        Comment = "Repetiré seguro, me encantó la comida y el servicio",
-                        Value = 4,
-                        Creator = userSandra?.Id,
-                        InformationAccuracy = InformationAccuracy.Good,
-                        RestaurantId = 1
-                    }
                 }
             });
 
@@ -160,30 +131,6 @@ public class RestaurantSeeder
                 },
                 Reviews =
                 {
-                    new Review()
-                    {
-                        Comment = "El sushi es excelente y el servicio es muy amable.",
-                        Value = 5,
-                        Creator = userAlex?.Id,
-                        InformationAccuracy = InformationAccuracy.VeryGood,
-                        RestaurantId = 2
-                    },
-                    new Review()
-                    {
-                        Comment = "Un sitio estupendo para comer sushi. Los precios son razonables y el ambiente es agradable.",
-                        Value = 4,
-                        Creator = userLaura?.Id,
-                        InformationAccuracy = InformationAccuracy.VeryGood,
-                        RestaurantId = 2
-                    },
-                    new Review()
-                    {
-                        Comment = "La calidad del sushi es muy buena, pero el servicio puede ser un poco lento en horas punta y el helado no es de leche sin lactosa.",
-                        Value = 2,
-                        Creator = userSandra?.Id,
-                        InformationAccuracy = InformationAccuracy.Bad,
-                        RestaurantId = 2
-                    }
                 }
             });
 
@@ -230,30 +177,6 @@ public class RestaurantSeeder
                 },
                 Reviews =
                 {
-                    new Review()
-                    {
-                        Comment = "Un auténtico bistró parisino en Madrid, la comida es espectacular y el ambiente es acogedor. Definitivamente volveré.",
-                        Value = 5,
-                        Creator = userSandra?.Id,
-                        InformationAccuracy = InformationAccuracy.VeryGood,
-                        RestaurantId = 3
-                    },
-                    new Review()
-                    {
-                        Comment = "Buena comida y ambiente pero el servicio podría mejorar un poco y no cuenta con rampa de acceso para acceder en silla de ruedas.",
-                        Value = 3,
-                        Creator = userAlex?.Id,
-                        InformationAccuracy = InformationAccuracy.Good,
-                        RestaurantId = 3
-                    },
-                    new Review()
-                    {
-                        Comment = "Los platos son muy bien presentados y tienen un sabor delicioso. Recomendado.",
-                        Value = 4,
-                        Creator = userLaura?.Id,
-                        InformationAccuracy = InformationAccuracy.VeryGood,
-                        RestaurantId = 3
-                    }
                 }
             });
 
@@ -317,30 +240,6 @@ public class RestaurantSeeder
                 },
                 Reviews =
                 {
-                    new Review()
-                    {
-                        Comment = "Me encantó la pasta y el tiramisú, además tienen opciones sin gluten, definitivamente volveré",
-                        Value = 4,
-                        Creator = userLaura?.Id,
-                        InformationAccuracy = InformationAccuracy.Good,
-                        RestaurantId = 4
-                    },
-                    new Review()
-                    {
-                        Comment = "La comida estaba buena pero el servicio fue un poco lento y no tenían el menú online para poder escucharlo",
-                        Value = 3,
-                        Creator = userAlex?.Id,
-                        InformationAccuracy = InformationAccuracy.Good,
-                        RestaurantId = 4
-                    },
-                    new Review()
-                    {
-                        Comment = "Muy buen ambiente, platos muy sabrosos y fácilmente accesible en coche, lo recomiendo",
-                        Value = 5,
-                        Creator = userSandra?.Id,
-                        InformationAccuracy = InformationAccuracy.VeryGood,
-                        RestaurantId = 4
-                    }
                 }
             });
 
@@ -374,19 +273,13 @@ public class RestaurantSeeder
                     new Feature
                     {
                         Name = "Intérprete Signos",
-                        Description = "El personal del bar sabe interpretar y comunicarse mediante el lenguaje de signos"
+                        Description = "El personal del local sabe interpretar y comunicarse mediante el lenguaje de signos"
                     },
                     new Feature
                     {
                         Name = "Perro guía",
                         Description =
                             "Se permite la entrada de perros guía para acompañar a personas con discapacidad visual."
-                    },
-                    new Feature
-                    {
-                        Name = "Menú del día",
-                        Description =
-                            "Menú del día con platos variados y económicos."
                     },
                     new Feature
                     {
@@ -397,30 +290,6 @@ public class RestaurantSeeder
                 },
                 Reviews =
                 {
-                    new Review()
-                    {
-                        Comment = "Muy buena selección de tapas de pescado y marisco, todo fresquísimo. Recomendado!",
-                        Value = 4,
-                        Creator = userLaura?.Id,
-                        InformationAccuracy = InformationAccuracy.VeryGood,
-                        RestaurantId = 5
-                    },
-                    new Review()
-                    {
-                        Comment = "El ambiente es agradable y las tapas están bien, aunque me parecieron un poco caras.",
-                        Value = 3,
-                        Creator = userAlex?.Id,
-                        InformationAccuracy = InformationAccuracy.VeryGood,
-                        RestaurantId = 5
-                    },
-                    new Review()
-                    {
-                        Comment = "Buena atención y ambiente, pero es demasiado pequeño, no es cómodo si vas en silla de ruedas",
-                        Value = 3,
-                        Creator = userSandra?.Id,
-                        InformationAccuracy = InformationAccuracy.Good,
-                        RestaurantId = 5
-                    }
                 }
             });
 
@@ -478,34 +347,265 @@ public class RestaurantSeeder
                 },
                 Reviews =
                 {
-                    new Review()
+                }
+            });
+            
+            //7 La Mamma
+            context.Restaurants.Add(new Restaurant()
+            {
+                Name = "La Mamma",
+                Address = new Address
+                {
+                    Street = "Calle San Juan de la Cruz",
+                    Number = 16,
+                    City = "Zaragoza",
+                    ZipCode = "50006",
+                    Province = "Zaragoza"
+                },
+                Description = "Franquicia con auténtica comida italiana.",
+                PhoneNumber = "976654321",
+                Images =
+                {
+                    new Image { Link = "@/assets/restaurantes/La-Mamma/paris-italiano1.jpg" },
+                    new Image { Link = "@/assets/restaurantes/La-Mamma/paris-italiano2.jpg" },
+                    new Image { Link = "@/assets/restaurantes/La-Mamma/paris-italiano3.jpg" }
+                },
+                Features =
+                {
+                    new Feature
                     {
-                        Comment = "La carne estaba increíble, el mejor asado que he probado en Zaragoza, volveré sin duda",
-                        Value = 5,
-                        Creator = userAlex?.Id,
-                        InformationAccuracy = InformationAccuracy.Good,
-                        RestaurantId = 6
+                        Name = "Menú vegetariano",
+                        Description =
+                            "La Mamma cuenta con una amplia variedad de opciones vegetarianas para aquellos que buscan una dieta más saludable y respetuosa con el medio ambiente."
                     },
-                    new Review()
+                    new Feature
                     {
-                        Comment = "El ambiente es muy acogedor y la atención es buena, aunque me pareció un poco caro para lo que ofrecen",
-                        Value = 3,
-                        Creator = userLaura?.Id,
-                        InformationAccuracy = InformationAccuracy.Good,
-                        RestaurantId = 6
-                    },
-                    new Review()
-                    {
-                        Comment = "La comida estaba deliciosa, el restaurante es muy amplio puedo moverme con total comodidad y la atención fue excelente, definitivamente recomiendo este lugar",
-                        Value = 4,
-                        Creator = userSandra?.Id,
-                        InformationAccuracy = InformationAccuracy.VeryGood,
-                        RestaurantId = 6
+                        Name = "Aparcamiento",
+                        Description =
+                            "El restaurante cuenta con un aparcamiento cercano para la comodidad de los clientes."
                     }
+                },
+                Reviews =
+                {
                 }
             });
 
+            //8 La Casa del Tenedor
+            context.Restaurants.Add(new Restaurant()
+            {
+                Name = "La Casa del Tenedor",
+                Address = new Address
+                {
+                    Street = "Calle del Duque de Sesto",
+                    Number = 48,
+                    City = "Madrid",
+                    ZipCode = "28009",
+                    Province = "Madrid"
+                },
+                Description = "Restaurante de cocina fusión mediterránea y asiática, una explosión de sabores en tu paladar",
+                PhoneNumber = "+34 911 23 45 67",
+                Images =
+                {
+                    new Image { Link = "@/assets/restaurantes/La-Casa-del-Tenedor/tenedor1.jpg" },
+                    new Image { Link = "@/assets/restaurantes/La-Casa-del-Tenedor/tenedor2.jpg" },
+                    new Image { Link = "@/assets/restaurantes/La-Casa-del-Tenedor/tenedor3.jpg" }
+                },
+                Features =
+                {
+                    new Feature
+                    {
+                        Name = "Acceso PMR",
+                        Description = "Acceso al local adaptado para personas con movilidad reducida"
+                    },
+                    new Feature
+                    {
+                        Name = "Terraza",
+                        Description = "El restaurante cuenta con una terraza exterior con vistas a la ciudad."
+                    },
+                    new Feature
+                    {
+                        Name = "Menú vegetariano",
+                        Description = "Se ofrece una amplia variedad de platos vegetarianos."
+                    },
+                    new Feature
+                    {
+                        Name = "Menú degustación",
+                        Description = "Opción de menú degustación para experimentar una variedad de platos."
+                    },
+                    new Feature
+                    {
+                        Name = "Aparcamiento",
+                        Description =
+                            "El restaurante cuenta con un amplio aparcamiento para la comodidad de los clientes."
+                    },
+                    new Feature
+                    {
+                        Name = "Aparcacoches",
+                        Description = "El restaurante cuenta con servicio de aparcacoches para la comodidad de los clientes."
+                    }
+                },
+                Reviews =
+                {
+                }
+            });
 
+            //9 El Sabor de México
+            context.Restaurants.Add(new Restaurant()
+            {
+                Name = "El Sabor de México",
+                Address = new Address
+                {
+                    Street = "Calle del Coso",
+                    Number = 88,
+                    City = "Zaragoza",
+                    ZipCode = "50001",
+                    Province = "Zaragoza"
+                },
+                Description = "Deliciosos platos de comida rápida mexicana en un ambiente acogedor.",
+                PhoneNumber = "976654321",
+                Images =
+                {
+                    new Image { Link = "@/assets/restaurantes/El-Sabor-de-Mexico/mexicano1.jpg" },
+                    new Image { Link = "@/assets/restaurantes/El-Sabor-de-Mexico/mexicano2.jpg" },
+                    new Image { Link = "@/assets/restaurantes/El-Sabor-de-Mexico/mexicano3.jpg" }
+                },
+                Features =
+                {
+                    new Feature
+                    {
+                        Name = "Menú sin gluten",
+                        Description =
+                            "Se ofrecen opciones de comida sin gluten para las personas con intolerancia o alergia al gluten."
+                    }
+                },
+                Reviews =
+                {
+                }
+            });
+
+            //10 El Farolito
+            context.Restaurants.Add(new Restaurant()
+            {
+                Name = "El Farolito",
+                Address = new Address
+                {
+                    Street = "Calle de las Huertas",
+                    Number = 27,
+                    City = "Madrid",
+                    ZipCode = "28012",
+                    Province = "Madrid"
+                },
+                Description = "Bar de tapas con auténtico sabor andaluz en pleno centro de Madrid.",
+                PhoneNumber = "911111111",
+                Images =
+                {
+                    new Image { Link = "@/assets/restaurantes/El-Farolito/madrid1.jpg" },
+                    new Image { Link = "@/assets/restaurantes/El-Farolito/madrid2.jpg" },
+                    new Image { Link = "@/assets/restaurantes/El-Farolito/madrid3.jpg" }
+                },
+                Features =
+                {
+                    new Feature
+                    {
+                        Name = "Menú Alérgenos",
+                        Description =
+                            "El restaurante cuenta con un menú con información de los posibles alérgenos"
+                    }
+                },
+                Reviews =
+                {
+                }
+            });
+
+            //11 El Cangrejo Loco
+            context.Restaurants.Add(new Restaurant()
+            {
+                Name = "El Cangrejo Loco",
+                Address = new Address
+                {
+                    Street = "Avenida de Ranillas",
+                    Number = 25,
+                    City = "Zaragoza",
+                    ZipCode = "50018",
+                    Province = "Zaragoza"
+                },
+                Description = "Restaurante familiar con amplios espacios y gran variedad de platos para todos los gustos.",
+                PhoneNumber = "976987654",
+                Images =
+                {
+                    new Image { Link = "@/assets/restaurantes/El-Cangrejo-Loco/mariscos1.jpg" },
+                    new Image { Link = "@/assets/restaurantes/El-Cangrejo-Loco/mariscos.jpg" },
+                    new Image { Link = "@/assets/restaurantes/El-Cangrejo-Loco/mariscos3.jpg" }
+                },
+                Features =
+                {
+                    new Feature
+                    {
+                        Name = "Acceso PMR",
+                        Description = "Acceso al local adaptado para personas con movilidad reducida"
+                    },
+                    new Feature
+                    {
+                        Name = "Mesas adaptadas",
+                        Description =
+                            "El restaurante cuenta con mesas adaptadas para personas con discapacidad, como mesas a diferentes alturas o con espacio suficiente para sillas de ruedas."
+                    },
+                    new Feature
+                    {
+                        Name = "Baño adaptado",
+                        Description =
+                            "El baño del restaurante está adaptado para personas con discapacidad y cuenta con barras de apoyo, inodoro elevado y lavabo accesible."
+                    },
+                    new Feature
+                    {
+                        Name = "Terraza",
+                        Description =
+                            "El restaurante cuenta con una amplia terraza exterior donde se puede disfrutar de la comida al aire libre."
+                    },
+                    new Feature
+                    {
+                        Name = "Aparcamiento",
+                        Description =
+                            "El restaurante cuenta con un amplio aparcamiento para la comodidad de los clientes."
+                    }
+                },
+                Reviews =
+                {
+                }
+            });
+
+            //12
+            var restaurant = new Restaurant()
+            {
+                Name = "El Bistro de la Abuela",
+                Address = new Address
+                {
+                    Street = "Calle de San Miguel",
+                    Number = 34,
+                    City = "Zaragoza",
+                    ZipCode = "50001",
+                    Province = "Zaragoza"
+                },
+                Description = "Restaurante familiar con ambiente acogedor y platos caseros.",
+                PhoneNumber = "976654321",
+                Images =
+                {
+                    new Image { Link = "@/assets/restaurantes/El-Bistro-de-la-Abuela/paris-bistro1.jpg" },
+                    new Image { Link = "@/assets/restaurantes/El-Bistro-de-la-Abuela/paris-bistro2.jpg" },
+                    new Image { Link = "@/assets/restaurantes/El-Bistro-de-la-Abuela/paris-bistro3.jpg" }
+                },
+                Features =
+                {
+                    new Feature
+                    {
+                        Name = "Acceso PMR",
+                        Description = "Acceso al local adaptado para personas con movilidad reducida."
+                    }
+                },
+                Reviews =
+                {
+                }
+            };
 
             await context.SaveChangesAsync();
         }
