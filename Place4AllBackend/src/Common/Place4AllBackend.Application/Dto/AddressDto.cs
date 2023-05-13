@@ -1,9 +1,6 @@
-using Mapster;
-using Place4AllBackend.Domain.Entities;
-
 namespace Place4AllBackend.Application.Dto;
 
-public class AddressDto : IRegister
+public class AddressDto
 {
     public int Id { get; set; }
     public string Street { get; set; }
@@ -12,11 +9,4 @@ public class AddressDto : IRegister
     public string ZipCode { get; set; }
     public string Province { get; set; }
     public string CreateDate { get; set; }
-
-    public void Register(TypeAdapterConfig config)
-    {
-        config.NewConfig<Address, AddressDto>()
-            .Map(dest => dest.CreateDate,
-                src => $"{src.CreateDate.ToShortDateString()}");
-    }
 }

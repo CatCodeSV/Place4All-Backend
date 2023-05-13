@@ -45,7 +45,13 @@ public class UserSeeder
         };
         var userAlex = new ApplicationUser
         {
-            UserName = "alecsolace", Email = "keevinaguirre@gmail.com", Address = new Address()
+            UserName = "alecsolace",
+            Email = "keevinaguirre@gmail.com",
+            Name = "Alexander",
+            LastName = "Aguirre",
+            Age = 24,
+            PhoneNumber = "654939095",
+            Address = new Address()
             {
                 Street = "Avenida Cesareo Alierta",
                 Number = 78,
@@ -68,8 +74,8 @@ public class UserSeeder
                 Province = "Zaragoza"
             }
         };
-        var userSandra = new ApplicationUser 
-        { 
+        var userSandra = new ApplicationUser
+        {
             UserName = "sandra20", Email = "diazmalo@hotmail.com", Address = new Address()
             {
                 Street = "Calle Pablo Neruda",
@@ -91,11 +97,13 @@ public class UserSeeder
             await userManager.CreateAsync(userAlex, "Test_1");
             await userManager.AddToRolesAsync(userAlex, new[] { administratorRole.Name });
         }
+
         if (userManager.Users.All(u => u.UserName != userLaura.UserName))
         {
             await userManager.CreateAsync(userLaura, "Test_2");
             await userManager.AddToRolesAsync(userLaura, new[] { administratorRole.Name });
         }
+
         if (userManager.Users.All(u => u.UserName != userSandra.UserName))
         {
             await userManager.CreateAsync(userSandra, "Test_3");

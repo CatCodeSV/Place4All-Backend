@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Text;
 using Place4AllBackend.Application.Common.Interfaces;
 using Place4AllBackend.Infrastructure.Identity;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Place4AllBackend.Application.Mapping;
 using Place4AllBackend.Domain.Entities;
 
 namespace Place4AllBackend.Infrastructure
@@ -44,7 +46,8 @@ namespace Place4AllBackend.Infrastructure
                 _ => throw new Exception($"Unsupported provider: {provider}")
             });
 
-            services.AddScoped<IApplicationDbContext>(serviceProvider => serviceProvider.GetService<ApplicationDbContext>());
+            services.AddScoped<IApplicationDbContext>(serviceProvider =>
+                serviceProvider.GetService<ApplicationDbContext>());
 
             services.AddScoped<IDomainEventService, DomainEventService>();
 
