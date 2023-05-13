@@ -14,11 +14,9 @@ public class RestaurantSeeder
     {
         if (!context.Restaurants.Any())
         {
-            
             //1 Restaurante: El Granero
             context.Restaurants.Add(new Restaurant()
             {
-                Id = 1,
                 Name = "El Granero",
                 Address = new Address
                 {
@@ -36,14 +34,13 @@ public class RestaurantSeeder
                     new Image { Link = "@/assets/restaurantes/El-Granero/spain2.jpeg" },
                     new Image { Link = "@/assets/restaurantes/El-Granero/spain3.jpg" }
                 },
-                Features = new List<Feature>(),
+                Features = context.Features.Where(x => x.Id == 1 || x.Id == 2 || x.Id == 3 || x.Id == 4).ToList(),
                 Reviews = new List<Review>(),
             });
 
             //2 Restaurante: Sushi Kaiten
             context.Restaurants.Add(new Restaurant()
             {
-                Id = 2,
                 Name = "Sushi Kaiten",
                 Address = new Address
                 {
@@ -61,14 +58,13 @@ public class RestaurantSeeder
                     new Image { Link = "@/assets/restaurantes/Sushi-Kaiten/sushi2.jpeg" },
                     new Image { Link = "@/assets/restaurantes/Sushi-Kaiten/sushi3.jpg" }
                 },
-                Features = new List<Feature>(),
+                Features = context.Features.Where(x => x.Id == 5 || x.Id == 6 || x.Id == 7).ToList(),
                 Reviews = new List<Review>(),
             });
 
             //3 Restaurante: Le Bistrot Parisien
             context.Restaurants.Add(new Restaurant()
             {
-                Id = 3,
                 Name = "Le Bistrot Parisien",
                 Address = new Address
                 {
@@ -93,7 +89,6 @@ public class RestaurantSeeder
             //4 Restaurante: La Tagliatella
             context.Restaurants.Add(new Restaurant()
             {
-                Id = 4,
                 Name = "La Tagliatella",
                 Address = new Address
                 {
@@ -111,14 +106,13 @@ public class RestaurantSeeder
                     new Image { Link = "@/assets/restaurantes/La-Tagliatella/tagliatella2.jpg" },
                     new Image { Link = "@/assets/restaurantes/La-Tagliatella/tagliatella3.jpg" }
                 },
-                Features = new List<Feature>(),
+                Features = context.Features.Where(x => x.Id == 1 || x.Id == 3 || x.Id == 6 || x.Id == 8).ToList(),
                 Reviews = new List<Review>(),
             });
 
             //5 La Taberna del Mar
             context.Restaurants.Add(new Restaurant()
             {
-                Id = 5,
                 Name = "La Taberna del Mar",
                 Address = new Address
                 {
@@ -136,14 +130,14 @@ public class RestaurantSeeder
                     new Image { Link = "@/assets/restaurantes/La-Taberna-del-Mar/taberna2.jpeg" },
                     new Image { Link = "@/assets/restaurantes/La-Taberna-del-Mar/taberna3.jpg" }
                 },
-                Features = new List<Feature>(),
+                Features = context.Features.Where(x => x.Id == 1 || x.Id == 2 || x.Id == 3 || x.Id == 4 || x.Id == 8)
+                    .ToList(),
                 Reviews = new List<Review>(),
             });
 
             //6 La Parrilla de Juan
             context.Restaurants.Add(new Restaurant()
             {
-                Id = 6,
                 Name = "La Parrilla de Juan",
                 Address = new Address
                 {
@@ -164,11 +158,10 @@ public class RestaurantSeeder
                 Features = new List<Feature>(),
                 Reviews = new List<Review>(),
             });
-            
+
             //7 La Mamma
             context.Restaurants.Add(new Restaurant()
             {
-                Id = 7,
                 Name = "La Mamma",
                 Address = new Address
                 {
@@ -193,7 +186,6 @@ public class RestaurantSeeder
             //8 La Casa del Tenedor
             context.Restaurants.Add(new Restaurant()
             {
-                Id = 8,
                 Name = "La Casa del Tenedor",
                 Address = new Address
                 {
@@ -203,7 +195,8 @@ public class RestaurantSeeder
                     ZipCode = "28009",
                     Province = "Madrid"
                 },
-                Description = "Restaurante de cocina fusión mediterránea y asiática, una explosión de sabores en tu paladar",
+                Description =
+                    "Restaurante de cocina fusión mediterránea y asiática, una explosión de sabores en tu paladar",
                 PhoneNumber = "+34 911 23 45 67",
                 Images =
                 {
@@ -218,7 +211,6 @@ public class RestaurantSeeder
             //9 El Sabor de México
             context.Restaurants.Add(new Restaurant()
             {
-                Id = 9,
                 Name = "El Sabor de México",
                 Address = new Address
                 {
@@ -243,7 +235,6 @@ public class RestaurantSeeder
             //10 El Farolito
             context.Restaurants.Add(new Restaurant()
             {
-                Id = 10,
                 Name = "El Farolito",
                 Address = new Address
                 {
@@ -268,7 +259,6 @@ public class RestaurantSeeder
             //11 El Cangrejo Loco
             context.Restaurants.Add(new Restaurant()
             {
-                Id = 11,
                 Name = "El Cangrejo Loco",
                 Address = new Address
                 {
@@ -278,7 +268,8 @@ public class RestaurantSeeder
                     ZipCode = "50018",
                     Province = "Zaragoza"
                 },
-                Description = "Restaurante familiar con amplios espacios y gran variedad de platos para todos los gustos.",
+                Description =
+                    "Restaurante familiar con amplios espacios y gran variedad de platos para todos los gustos.",
                 PhoneNumber = "976987654",
                 Images =
                 {
@@ -293,7 +284,6 @@ public class RestaurantSeeder
             //12
             var restaurant = new Restaurant()
             {
-                Id = 12,
                 Name = "El Bistro de la Abuela",
                 Address = new Address
                 {

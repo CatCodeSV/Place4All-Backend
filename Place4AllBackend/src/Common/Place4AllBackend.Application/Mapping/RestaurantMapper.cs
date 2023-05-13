@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using AutoMapper;
 using Place4AllBackend.Application.Dto;
@@ -16,7 +17,8 @@ public class RestaurantMapper : Profile
             .ForMember(x => x.NumberOfReviews, opt => opt.MapFrom(src => src.Reviews.Count))
             .ForMember(x => x.Rating,
                 opt => opt.MapFrom(src =>
-                    src.Reviews.Average(r => r.Value)))
+                    Convert.ToSingle(
+                        Math.Round((src.Reviews.Average(r => r.Value)) * 2, MidpointRounding.AwayFromZero) / 2)))
             .ForMember(x => x.Address,
                 opt => opt.MapFrom(src =>
                     src.Address.Street + ", " + src.Address.Number + ", " + src.Address.City + ", " +
