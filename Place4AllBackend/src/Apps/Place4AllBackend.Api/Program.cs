@@ -45,7 +45,6 @@ namespace Place4AllBackend.Api
                     await UserSeeder.SeedDefaultUserAsync(userManager, roleManager);
                     await FeaturesSeeder.SeedSampleFeatures(context);
                     await RestaurantSeeder.SeedSampleRestaurantsAsync(context);
-                    await RestaurantsFeaturesSeeder.SeedSampleRestaurantsFeatures(context);
                     await ReviewSeeder.SeedSampleReviews(context);
                 }
                 catch (Exception ex)
