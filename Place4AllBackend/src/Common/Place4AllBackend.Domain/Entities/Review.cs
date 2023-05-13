@@ -7,6 +7,7 @@ namespace Place4AllBackend.Domain.Entities
     {
         public int Id { get; set; }
         public float Value { get; set; }
+        public string Title { get; set; }
         public string Comment { get; set; }
         public InformationAccuracy InformationAccuracy { get; set; }
         public Restaurant Restaurant { get; set; }

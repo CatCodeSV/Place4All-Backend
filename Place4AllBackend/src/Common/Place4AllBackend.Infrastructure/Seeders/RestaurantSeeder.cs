@@ -70,6 +70,7 @@ public class RestaurantSeeder
                 {
                     new Review()
                     {
+                        Title = "Excelente servicio!",
                         Comment = "Excelente servicio! Definitivamente repetiré e iré con mis amigos",
                         Value = 5,
                         Creator = userAlex?.Id,
@@ -77,6 +78,7 @@ public class RestaurantSeeder
                     },
                     new Review()
                     {
+                        Title = "Muy buena comida",
                         Comment = "Estuvo muy bien, me hubiera gustado que tuviera más opciones vegetarianas",
                         Value = 3,
                         Creator = userLaura?.Id,
@@ -85,6 +87,7 @@ public class RestaurantSeeder
                     },
                     new Review()
                     {
+                        Title = "Repetiré seguro",
                         Comment = "Repetiré seguro, me encantó la comida y el servicio",
                         Value = 4,
                         Creator = userSandra?.Id,

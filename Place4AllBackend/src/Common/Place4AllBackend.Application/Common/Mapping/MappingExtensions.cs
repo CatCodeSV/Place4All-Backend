@@ -3,8 +3,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Place4AllBackend.Application.Common.Models;
-using Mapster;
+
+
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using Place4AllBackend.Application.Common.Interfaces;
 
 namespace Place4AllBackend.Application.Common.Mapping
 {
@@ -15,7 +19,7 @@ namespace Place4AllBackend.Application.Common.Mapping
             => PaginatedList<TDestination>.CreateAsync(queryable, pageNumber, pageSize, cancellationToken);
 
         public static Task<List<TDestination>> ProjectToListAsync<TDestination>(this IQueryable queryable,
-            TypeAdapterConfig configuration, CancellationToken cancellationToken)
-            => queryable.ProjectToType<TDestination>(configuration).ToListAsync(cancellationToken);
+            IMapper mapper, CancellationToken cancellationToken)
+            => queryable.ProjectTo<TDestination>(mapper.ConfigurationProvider).ToListAsync(cancellationToken);
     }
 }
