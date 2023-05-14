@@ -30,7 +30,6 @@ public class UserSeeder
             await roleManager.CreateAsync(ownerRole);
         }
 
-        //TODO Añadir usuarios para Sandra y Laura
 
         //! Admin Users
         var defaultUser = new ApplicationUser
@@ -61,8 +60,11 @@ public class UserSeeder
                 Province = "Zaragoza"
             }
         };
-        var userLaura = new ApplicationUser
+        var userLaura = new ApplicationUser 
         {
+            Name = "Laura",
+            LastName = "Gil",
+            Age = 27,
             UserName = "laug13", Email = "lauragilf.13@gmail.com", Address = new Address()
             {
                 Street = "Calle Augusto",

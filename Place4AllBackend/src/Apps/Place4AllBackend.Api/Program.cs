@@ -1,17 +1,16 @@
-using Place4AllBackend.Infrastructure.Identity;
-using Place4AllBackend.Infrastructure.Persistence;
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Place4AllBackend.Domain.Entities;
+using Place4AllBackend.Infrastructure.Persistence;
+using Place4AllBackend.Infrastructure.Seeders;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
-using System;
-using System.Threading.Tasks;
-using Place4AllBackend.Domain.Entities;
-using Place4AllBackend.Infrastructure.Seeders;
 
 namespace Place4AllBackend.Api
 {
@@ -43,6 +42,7 @@ namespace Place4AllBackend.Api
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
                     await UserSeeder.SeedDefaultUserAsync(userManager, roleManager);
+                    await FeaturesSeeder.SeedSampleFeatures(context);
                     await RestaurantSeeder.SeedSampleRestaurantsAsync(context);
                     await ReviewSeeder.SeedSampleReviews(context);
                 }
