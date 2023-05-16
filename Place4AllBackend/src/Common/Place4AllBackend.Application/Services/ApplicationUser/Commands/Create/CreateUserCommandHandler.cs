@@ -14,12 +14,12 @@ public class CreateUserCommandHandler : IRequestHandlerWrapper<CreateUserCommand
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
-    private readonly ILogger _logger;
+    private readonly ILogger<ApplicationUserDto> _logger;
     private readonly IIdentityService _identityService;
     private readonly ITokenService _tokenService;
     private readonly UserManager<Domain.Entities.ApplicationUser> _userManager;
 
-    public CreateUserCommandHandler(IApplicationDbContext context, IMapper mapper, ILogger logger,
+    public CreateUserCommandHandler(IApplicationDbContext context, IMapper mapper, ILogger<ApplicationUserDto> logger,
         IIdentityService identityService, ITokenService tokenService,
         UserManager<Domain.Entities.ApplicationUser> userManager)
     {

@@ -31,10 +31,6 @@ namespace Place4AllBackend.Infrastructure.Persistence
             _domainEventService = domainEventService;
             _currentUserService = currentUserService;
         }
-
-        public DbSet<City> Cities { get; set; }
-        public DbSet<District> Districts { get; set; }
-        public DbSet<Village> Villages { get; set; }
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Feature> Features { get; set; }
