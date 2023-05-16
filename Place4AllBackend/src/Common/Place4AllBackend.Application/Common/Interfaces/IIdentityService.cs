@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Place4AllBackend.Application.Common.Models;
 using Place4AllBackend.Application.Dto;
+using Place4AllBackend.Application.Services.ApplicationUser.Commands.Create;
 using Place4AllBackend.Domain.Entities;
 
 namespace Place4AllBackend.Application.Common.Interfaces
@@ -11,7 +12,7 @@ namespace Place4AllBackend.Application.Common.Interfaces
 
         Task<ApplicationUserDto> CheckUserPassword(string userName, string password);
 
-        Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password);
+        Task<(Result Result, string UserId)> CreateUserAsync(CreateUserCommand createUserCommand);
 
         Task<bool> UserIsInRole(string userId, string role);
 

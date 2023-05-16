@@ -11,7 +11,7 @@ namespace Place4AllBackend.Domain.Entities
 
         public string Gsm { get; set; }
         
-        public string Gender { get; set; }
+        public Gender Gender { get; set; }
         
         public int Age { get; set; }
         
@@ -24,5 +24,13 @@ namespace Place4AllBackend.Domain.Entities
         public int? DisabilityDegree { get; set; }
 
         public IList<Restaurant> FavoriteRestaurants { get; set; } = new List<Restaurant>();
+    }
+
+    public enum Gender
+    {
+        Male = 1,
+        Female = 2,
+        NonBinary = 3,
+        Other = 4
     }
 }

@@ -7,7 +7,7 @@ using Place4AllBackend.Infrastructure.Identity;
 
 namespace Place4AllBackend.Infrastructure.Seeders;
 
-public class UserSeeder
+public abstract class UserSeeder
 {
     public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole> roleManager)
@@ -60,7 +60,7 @@ public class UserSeeder
                 Province = "Zaragoza"
             }
         };
-        var userLaura = new ApplicationUser 
+        var userLaura = new ApplicationUser
         {
             Name = "Laura",
             LastName = "Gil",
@@ -116,7 +116,7 @@ public class UserSeeder
             Name = "Jose",
             LastName = "Lopez",
             Age = 25,
-            Gender = "M",
+            Gender = Gender.Male,
             DisabilityDegree = 2,
             HasDisability = true,
             UserName = "pepeLopez",
@@ -152,7 +152,7 @@ public class UserSeeder
             },
             Name = "Miguel Angel",
             Age = 45,
-            Gender = "M",
+            Gender = Gender.Male,
             DisabilityDegree = 0,
             HasDisability = false,
             LastName = "Martinez",

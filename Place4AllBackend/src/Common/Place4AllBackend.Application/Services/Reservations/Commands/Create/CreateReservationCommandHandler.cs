@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Place4AllBackend.Application.Common.Interfaces;
