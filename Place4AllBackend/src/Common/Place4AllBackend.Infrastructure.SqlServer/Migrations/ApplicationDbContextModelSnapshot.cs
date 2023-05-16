@@ -740,11 +740,6 @@ namespace Place4AllBackend.Infrastructure.SqlServer.Migrations
                     b.Property<int>("RestaurantId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<float>("Value")
                         .HasColumnType("real");
 
