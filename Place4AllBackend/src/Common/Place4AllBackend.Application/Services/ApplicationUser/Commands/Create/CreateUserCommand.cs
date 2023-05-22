@@ -15,6 +15,7 @@ public class CreateUserCommand : IRequestWrapper<LoginResponse>
     public int Age { get; set; }
     public bool HasDisability { get; set; }
     public int? DisabilityDegree { get; set; }
+    public string PhoneNumber { get; set; }
     
     //Creación de la dirección asociada al usuario
     
@@ -23,5 +24,4 @@ public class CreateUserCommand : IRequestWrapper<LoginResponse>
     public string City { get; set; }
     public string ZipCode { get; set; }
     public string Province { get; set; }
-    public string PhoneNumber { get; set; }
 }
