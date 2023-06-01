@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
+using Place4AllBackend.Domain.Enums;
 
 namespace Place4AllBackend.Domain.Entities
 {
@@ -13,7 +15,7 @@ namespace Place4AllBackend.Domain.Entities
         
         public Gender Gender { get; set; }
         
-        public int Age { get; set; }
+        public DateTime BirthDate { get; set; }
         
         public int AddressId { get; set; }
         
@@ -21,16 +23,10 @@ namespace Place4AllBackend.Domain.Entities
        
         public bool HasDisability { get; set; }
         
+        public DisabilityType? DisabilityType { get; set; }
+        
         public int? DisabilityDegree { get; set; }
 
         public IList<Restaurant> FavoriteRestaurants { get; set; } = new List<Restaurant>();
-    }
-
-    public enum Gender
-    {
-        Male = 1,
-        Female = 2,
-        NonBinary = 3,
-        Other = 4
     }
 }

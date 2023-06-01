@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using Place4AllBackend.Application.Common.Interfaces;
 using Place4AllBackend.Application.Dto;
 using Place4AllBackend.Domain.Entities;
+using Place4AllBackend.Domain.Enums;
 
-namespace Place4AllBackend.Application.Reviews.Commands.Create;
+namespace Place4AllBackend.Application.Services.Reviews.Commands.Create;
 
 public class CreateReviewCommand : IRequestWrapper<ReviewDto>
 {

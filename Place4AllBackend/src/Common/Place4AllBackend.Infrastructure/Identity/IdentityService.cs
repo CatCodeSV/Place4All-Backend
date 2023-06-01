@@ -68,7 +68,7 @@ namespace Place4AllBackend.Infrastructure.Identity
                 DisabilityDegree = command.DisabilityDegree,
                 HasDisability = command.HasDisability,
                 PhoneNumber = command.PhoneNumber,
-                Age = command.Age
+                BirthDate = command.BirthDate
             };
 
             var result = await _userManager.CreateAsync(user, command.Password);

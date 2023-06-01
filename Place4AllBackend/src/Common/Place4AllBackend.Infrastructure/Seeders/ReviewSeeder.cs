@@ -2,6 +2,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Place4AllBackend.Domain.Entities;
+using Place4AllBackend.Domain.Enums;
 using Place4AllBackend.Infrastructure.Persistence;
 
 namespace Place4AllBackend.Infrastructure.Seeders;

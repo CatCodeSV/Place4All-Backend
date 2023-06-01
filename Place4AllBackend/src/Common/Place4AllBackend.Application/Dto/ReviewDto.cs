@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Place4AllBackend.Domain.Entities;
+using Place4AllBackend.Domain.Enums;
 
 namespace Place4AllBackend.Application.Dto;
 

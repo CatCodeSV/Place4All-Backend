@@ -1,8 +1,10 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Place4AllBackend.Domain.Entities;
+using Place4AllBackend.Domain.Enums;
 using Place4AllBackend.Infrastructure.Identity;
 
 namespace Place4AllBackend.Infrastructure.Seeders;
@@ -49,7 +51,7 @@ public abstract class UserSeeder
             Email = "keevinaguirre@gmail.com",
             Name = "Alexander",
             LastName = "Aguirre",
-            Age = 24,
+            BirthDate = new DateTime(1998, 06, 24),
             PhoneNumber = "654939095",
             Address = new Address()
             {
@@ -64,7 +66,7 @@ public abstract class UserSeeder
         {
             Name = "Laura",
             LastName = "Gil",
-            Age = 27,
+            BirthDate = new DateTime(1996, 02, 15),
             UserName = "laug13", Email = "lauragilf.13@gmail.com", Address = new Address()
             {
                 Street = "Calle Augusto",
@@ -115,7 +117,7 @@ public abstract class UserSeeder
         {
             Name = "Jose",
             LastName = "Lopez",
-            Age = 25,
+            BirthDate = new DateTime(1957, 2, 15),
             Gender = Gender.Male,
             DisabilityDegree = 2,
             HasDisability = true,
@@ -151,7 +153,7 @@ public abstract class UserSeeder
                 Province = "Zaragoza"
             },
             Name = "Miguel Angel",
-            Age = 45,
+            BirthDate = new DateTime(1978, 12, 12),
             Gender = Gender.Male,
             DisabilityDegree = 0,
             HasDisability = false,
