@@ -7,11 +7,6 @@ namespace Place4AllBackend.Application.Common.Interfaces
 {
     public interface IApplicationDbContext
     {
-        DbSet<City> Cities { get; set; }
-
-        DbSet<District> Districts { get; set; }
-
-        DbSet<Village> Villages { get; set; }
         DbSet<Restaurant> Restaurants { get; set; }
         DbSet<Address> Addresses { get; set; }
         DbSet<Feature> Features { get; set; }

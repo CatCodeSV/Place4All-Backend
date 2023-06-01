@@ -7,6 +7,7 @@ using Place4AllBackend.Application.Common.Models;
 using Place4AllBackend.Application.Dto;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Place4AllBackend.Application.Services.ApplicationUser.Commands.Create;
 using Place4AllBackend.Domain.Entities;
 
 namespace Place4AllBackend.Infrastructure.Identity
@@ -47,15 +48,30 @@ namespace Place4AllBackend.Infrastructure.Identity
             return null;
         }
 
-        public async Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password)
+        public async Task<(Result Result, string UserId)> CreateUserAsync(CreateUserCommand command)
         {
             var user = new ApplicationUser
             {
-                UserName = userName,
-                Email = userName,
+                UserName = command.Email,
+                Email = command.Email,
+                Address = new Address()
+                {
+                    Street = command.Street,
+                    Number = command.Number,
+                    ZipCode = command.ZipCode,
+                    City = command.City,
+                    Province = command.Province,
+                },
+                Name = command.Name,
+                LastName = command.LastName,
+                Gender = command.Gender,
+                DisabilityDegree = command.DisabilityDegree,
+                HasDisability = command.HasDisability,
+                PhoneNumber = command.PhoneNumber,
+                BirthDate = command.BirthDate
             };
 
-            var result = await _userManager.CreateAsync(user, password);
+            var result = await _userManager.CreateAsync(user, command.Password);
 
             return (result.ToApplicationResult(), user.Id);
         }

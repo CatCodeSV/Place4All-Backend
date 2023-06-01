@@ -1,17 +1,17 @@
 using FluentValidation;
 
-namespace Place4AllBackend.Application.ApplicationUser.Commands.Create;
+namespace Place4AllBackend.Application.Services.ApplicationUser.Commands.Create;
 
-public class CreateUserCommandValidator:AbstractValidator<CreateUserCommand>
+public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 {
     public CreateUserCommandValidator()
     {
         RuleFor(v => v.Email)
-            .MaximumLength(100).WithMessage("Email must not exceed 100 characters.")
-            .NotEmpty().WithMessage("Email is required.")
-            .EmailAddress().WithMessage("Email must have a valid email format");
+            .MaximumLength(100).WithMessage("El email no debe ser superior a 100 caracteres.")
+            .NotEmpty().WithMessage("El email es obligatorio.")
+            .EmailAddress().WithMessage("El email debe tener un formato válido");
 
         RuleFor(v => v.Password)
-            .NotEmpty().WithMessage("Password is required.");
+            .NotEmpty().WithMessage("La contraseña es obligatoria.");
     }
 }

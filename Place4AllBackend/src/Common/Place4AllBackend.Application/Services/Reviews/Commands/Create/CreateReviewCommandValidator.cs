@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Place4AllBackend.Application.Common.Interfaces;
+using Place4AllBackend.Application.Services.Reviews.Commands.Create;
 
 namespace Place4AllBackend.Application.Reviews.Commands.Create;
 

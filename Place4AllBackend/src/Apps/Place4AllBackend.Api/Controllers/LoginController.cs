@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Place4AllBackend.Application.ApplicationUser.Queries.GetToken;
 using Place4AllBackend.Application.Common.Models;
 using Microsoft.AspNetCore.Mvc;
-using Place4AllBackend.Application.ApplicationUser.Commands.Create;
+using Place4AllBackend.Application.Services.ApplicationUser.Commands.Create;
 
 namespace Place4AllBackend.Api.Controllers
 {

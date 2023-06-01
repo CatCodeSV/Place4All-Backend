@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Place4AllBackend.Domain.Common;
+using Place4AllBackend.Domain.Enums;
 
 namespace Place4AllBackend.Domain.Entities
 {
@@ -13,13 +14,5 @@ namespace Place4AllBackend.Domain.Entities
         public Restaurant Restaurant { get; set; }
         public int RestaurantId { get; set; }
         public List<Feature> AdditionalFeatures { get; set; }
-    }
-
-    public enum InformationAccuracy
-    {
-        VeryGood = 1,
-        Good = 2,
-        Bad = 3,
-        VeryBad = 4
     }
 }

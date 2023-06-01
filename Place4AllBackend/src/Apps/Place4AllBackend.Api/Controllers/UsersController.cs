@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.AspNetCore.Authorization;
-using Place4AllBackend.Application.ApplicationUser.Commands.Create;
 using Place4AllBackend.Application.ApplicationUser.Commands.Update;
 using Place4AllBackend.Application.ApplicationUser.Commands.Update.AddFavoriteRestaurant;
 using Place4AllBackend.Application.ApplicationUser.Commands.Update.RemoveFavoriteRestaurant;

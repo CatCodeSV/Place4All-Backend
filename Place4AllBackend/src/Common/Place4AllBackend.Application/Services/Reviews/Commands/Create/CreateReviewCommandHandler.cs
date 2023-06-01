@@ -4,6 +4,7 @@ using AutoMapper;
 using Place4AllBackend.Application.Common.Interfaces;
 using Place4AllBackend.Application.Common.Models;
 using Place4AllBackend.Application.Dto;
+using Place4AllBackend.Application.Services.Reviews.Commands.Create;
 using Place4AllBackend.Domain.Entities;
 
 namespace Place4AllBackend.Application.Reviews.Commands.Create;

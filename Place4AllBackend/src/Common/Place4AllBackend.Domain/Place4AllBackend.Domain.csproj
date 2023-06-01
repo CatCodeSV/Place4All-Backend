@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Folder Include="Event\" />
         <Folder Include="ValueObjects" />
     </ItemGroup>
 
