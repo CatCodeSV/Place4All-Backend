@@ -78,7 +78,12 @@ public abstract class UserSeeder
         };
         var userSandra = new ApplicationUser
         {
-            UserName = "sandra20", Email = "diazmalo@hotmail.com", Address = new Address()
+            UserName = "sandra20", 
+            Email = "diazmalo@hotmail.com", 
+            Name = "Sandra",
+            LastName = "Diaz",
+            BirthDate = new DateTime(1992, 06, 20),
+            Address = new Address()
             {
                 Street = "Calle Pablo Neruda",
                 Number = 17,
