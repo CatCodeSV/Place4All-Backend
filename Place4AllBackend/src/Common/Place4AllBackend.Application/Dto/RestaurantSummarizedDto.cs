@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Place4AllBackend.Application.Dto;
 
 public class RestaurantSummarizedDto
@@ -11,4 +13,6 @@ public class RestaurantSummarizedDto
     public int NumberOfReviews { get; set; } = 0;
     public string Address { get; set; }
     public string Summary { get; set; }
+    public List<FeatureDto> Features { get; set; } = new List<FeatureDto>();
+
 }

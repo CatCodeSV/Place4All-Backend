@@ -29,7 +29,8 @@ namespace Place4AllBackend.Application.Restaurants.Queries.GetRestaurants
         public async Task<ServiceResult<List<RestaurantSummarizedDto>>> Handle(GetAllRestaurantsQuery request,
             CancellationToken cancellationToken)
         {
-            var list = await _context.Restaurants.Include(x => x.Images).Include(x => x.Address).Include(x => x.Reviews)
+            var list = await _context.Restaurants.Include(x => x.Features).Include(x => x.Images)
+                .Include(x => x.Address).Include(x => x.Reviews)
                 .ProjectTo<RestaurantSummarizedDto>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
 
             return list.Count > 0
