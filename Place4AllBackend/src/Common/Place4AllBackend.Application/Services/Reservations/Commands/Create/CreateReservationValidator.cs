@@ -4,6 +4,7 @@ using FluentValidation;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Place4AllBackend.Application.Common.Interfaces;
+using Place4AllBackend.Application.Services.Reservations.Commands.Create;
 
 namespace Place4AllBackend.Application.Reservations.Commands.Create;
 

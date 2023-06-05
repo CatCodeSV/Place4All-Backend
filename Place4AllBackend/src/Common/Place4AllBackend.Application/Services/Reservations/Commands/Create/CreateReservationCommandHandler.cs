@@ -9,7 +9,7 @@ using Place4AllBackend.Application.Common.Models;
 using Place4AllBackend.Application.Dto;
 using Place4AllBackend.Domain.Entities;
 
-namespace Place4AllBackend.Application.Reservations.Commands.Create;
+namespace Place4AllBackend.Application.Services.Reservations.Commands.Create;
 
 public class CreateReservationCommandHandler : IRequestHandlerWrapper<CreateReservationCommand, ReservationDto>
 {
@@ -25,17 +25,20 @@ public class CreateReservationCommandHandler : IRequestHandlerWrapper<CreateRese
     public async Task<ServiceResult<ReservationDto>> Handle(CreateReservationCommand request,
         CancellationToken cancellationToken)
     {
+        var features = await _context.Features.Where(x => request.Features.Contains(x.Id))
+            .ToListAsync(cancellationToken);
+
         var entity = new Reservation()
         {
-            Features = new List<Feature>(),
+            Features = features,
             Date = request.Date,
             People = request.People,
             SpecialInstructions = request.SpecialInstructions,
             RestaurantId = request.RestaurantId
         };
 
-        await _context.Reservations.AddAsync(entity, cancellationToken);
+        var newEntity = await _context.Reservations.AddAsync(entity, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
-        return ServiceResult.Success(_mapper.Map<ReservationDto>(entity));
+        return ServiceResult.Success(_mapper.Map<ReservationDto>(newEntity.Entity));
     }
 }
