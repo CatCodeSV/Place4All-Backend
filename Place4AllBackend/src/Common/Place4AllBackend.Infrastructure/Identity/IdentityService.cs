@@ -128,5 +128,11 @@ namespace Place4AllBackend.Infrastructure.Identity
 
             return user ?? null;
         }
+
+        public async Task<string[]> GetRolesAsync(string userId)
+        {
+            var user = GetCurrentUser(userId);
+            return await _userManager.GetRolesAsync(user).ToList();
+        }
     }
 }
