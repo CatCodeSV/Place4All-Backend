@@ -15,8 +15,7 @@ namespace Place4AllBackend.Api.Controllers;
 /// <summary>
 /// Reviews
 /// </summary>
-[Authorize (Roles = "User")]
-[Authorize (Roles = "Admin")]
+[Authorize]
 public class ReviewsController : BaseApiController
 {
     /// <summary>

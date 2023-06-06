@@ -16,8 +16,7 @@ namespace Place4AllBackend.Api.Controllers
     /// <sumary>
     /// Reservations
     /// </sumary>
-    [Authorize (Roles = "User")]
-    [Authorize (Roles = "Admin")]
+    [Authorize]
     public class ReservationsController : BaseApiController
     {
         /// <sumary>

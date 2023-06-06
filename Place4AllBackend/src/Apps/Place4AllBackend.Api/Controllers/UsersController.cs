@@ -12,15 +12,13 @@ using Microsoft.AspNetCore.Authorization;
 using Place4AllBackend.Application.ApplicationUser.Commands.Update;
 using Place4AllBackend.Application.ApplicationUser.Commands.Update.AddFavoriteRestaurant;
 using Place4AllBackend.Application.ApplicationUser.Commands.Update.RemoveFavoriteRestaurant;
-using Place4AllBackend.Application.ExternalServices.OpenWeather.Response;
 
 namespace Place4AllBackend.Api.Controllers
 {
     /// <summary>
     /// Users
     /// </summary>
-    [Authorize(Roles = "User")]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class UsersController : BaseApiController
     {
         /// <summary>
