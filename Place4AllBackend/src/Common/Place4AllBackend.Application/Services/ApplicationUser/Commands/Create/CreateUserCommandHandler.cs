@@ -48,10 +48,12 @@ public class CreateUserCommandHandler : IRequestHandlerWrapper<CreateUserCommand
             await _userManager.AddToRolesAsync(await _identityService.GetCurrentUser(user.Id),
                 new[] { "User" });
 
+            var roles = await _identityService.GetRolesAsync(user.Id);
+
             return ServiceResult.Success(new LoginResponse
             {
                 User = _mapper.Map<ApplicationUserDto>(user),
-                Token = _tokenService.CreateJwtSecurityToken(user.Id, user.UserName)
+                Token = _tokenService.CreateJwtSecurityToken(user.Id, user.UserName, roles)
             });
         }
 

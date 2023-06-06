@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using Place4AllBackend.Application.Common.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Identity;
+using Place4AllBackend.Application.Common.Interfaces;
 
 namespace Place4AllBackend.Infrastructure.Services
 {
     public class TokenService : ITokenService
     {
         private readonly IConfiguration _configuration;
-        private object _userManager;
 
         public TokenService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public async string CreateJwtSecurityToken(string id, string? userName, List<string> roles)
+        public string CreateJwtSecurityToken(string id, string userName, IList<string> roles)
         {
             var authClaims = new List<Claim>
             {
@@ -28,11 +27,8 @@ namespace Place4AllBackend.Infrastructure.Services
                 new Claim(ClaimTypes.Name, userName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
-
-            var userClaims = await _userManager.GetClaimsAsync(authClaims);
-            var userRoles = await _userManager.GetAllRolesAsync();
-            authClaims.AddRange(userClaims);
-
+            
+            authClaims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 

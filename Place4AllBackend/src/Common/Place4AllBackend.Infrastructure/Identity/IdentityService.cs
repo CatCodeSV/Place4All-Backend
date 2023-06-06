@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Place4AllBackend.Application.Common.Exceptions;
@@ -129,10 +130,10 @@ namespace Place4AllBackend.Infrastructure.Identity
             return user ?? null;
         }
 
-        public async Task<string[]> GetRolesAsync(string userId)
+        public async Task<IList<string>> GetRolesAsync(string userId)
         {
-            var user = GetCurrentUser(userId);
-            return await _userManager.GetRolesAsync(user).ToList();
+            var user = await GetCurrentUser(userId);
+            return await _userManager.GetRolesAsync(user);
         }
     }
 }
