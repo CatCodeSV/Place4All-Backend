@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using Place4AllBackend.Application.Common.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Place4AllBackend.Application.Common.Interfaces;
 
 namespace Place4AllBackend.Infrastructure.Services
 {
@@ -18,7 +19,7 @@ namespace Place4AllBackend.Infrastructure.Services
             _configuration = configuration;
         }
 
-        public string CreateJwtSecurityToken(string id, string? userName)
+        public string CreateJwtSecurityToken(string id, string userName, IList<string> roles)
         {
             var authClaims = new List<Claim>
             {
@@ -26,6 +27,8 @@ namespace Place4AllBackend.Infrastructure.Services
                 new Claim(ClaimTypes.Name, userName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
+            
+            authClaims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
@@ -38,5 +41,6 @@ namespace Place4AllBackend.Infrastructure.Services
             );
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
     }
 }

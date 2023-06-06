@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Place4AllBackend.Application.Common.Models;
 using Place4AllBackend.Application.Dto;
 using Place4AllBackend.Application.Services.ApplicationUser.Commands.Create;
@@ -23,5 +24,7 @@ namespace Place4AllBackend.Application.Common.Interfaces
         Task<Domain.Entities.ApplicationUser> DeleteFavoriteRestaurant(Restaurant favoriteRestaurant, string userId);
 
         Task<Domain.Entities.ApplicationUser> GetCurrentUser(string userId);
+
+        Task<IList<string>> GetRolesAsync(string userId);
     }
 }

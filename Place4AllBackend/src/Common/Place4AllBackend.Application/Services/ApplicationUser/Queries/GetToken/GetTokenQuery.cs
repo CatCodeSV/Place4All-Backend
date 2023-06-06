@@ -35,11 +35,12 @@ namespace Place4AllBackend.Application.ApplicationUser.Queries.GetToken
             if (user == null)
                 return ServiceResult.Failed<LoginResponse>(ServiceError.ForbiddenError);
 
+            var roles = await _identityService.GetRolesAsync(user.Id);
 
             return ServiceResult.Success(new LoginResponse
             {
                 User = _mapper.Map<ApplicationUserDto>(user),
-                Token = _tokenService.CreateJwtSecurityToken(user.Id, user.UserName)
+                Token = _tokenService.CreateJwtSecurityToken(user.Id, user.UserName, roles)
             });
         }
     }
