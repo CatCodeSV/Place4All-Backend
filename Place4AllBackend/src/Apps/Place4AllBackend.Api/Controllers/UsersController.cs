@@ -1,17 +1,11 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Place4AllBackend.Application.Common.Models;
-using Place4AllBackend.Application.Dto;
-using Place4AllBackend.Application.Restaurants.Commands.Create;
-using Place4AllBackend.Application.Restaurants.Queries.GetRestaurantById;
-using Place4AllBackend.Application.Restaurants.Queries.GetRestaurants;
-using System.Collections.Generic;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using System.Threading;
 using Microsoft.AspNetCore.Authorization;
-using Place4AllBackend.Application.ApplicationUser.Commands.Update;
+using Microsoft.AspNetCore.Mvc;
 using Place4AllBackend.Application.ApplicationUser.Commands.Update.AddFavoriteRestaurant;
 using Place4AllBackend.Application.ApplicationUser.Commands.Update.RemoveFavoriteRestaurant;
+using Place4AllBackend.Application.Common.Models;
+using Place4AllBackend.Application.Dto;
 
 namespace Place4AllBackend.Api.Controllers
 {
