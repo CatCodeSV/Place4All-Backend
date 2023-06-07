@@ -17,6 +17,8 @@ using Place4AllBackend.Application.Restaurants.Queries.GetRestaurantById;
 using Place4AllBackend.Application.Restaurants.Queries.GetFavoritesRestaurants;
 using Place4AllBackend.Application.ApplicationUser.Commands.Update.AddFavoriteRestaurant;
 using Place4AllBackend.Application.ApplicationUser.Commands.Update.RemoveFavoriteRestaurant;
+using Place4AllBackend.Application.Services.Restaurants.Commands.Update;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Place4AllBackend.Api.Controllers
 {
@@ -31,7 +33,7 @@ namespace Place4AllBackend.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("Restaurants")]
-        public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetAllRestaurants()
+        public async Task<ActionResult<ServiceResult<List<RestaurantSummarizedDto>>>> GetAllRestaurants()
         {
             return Ok(await Mediator.Send(new GetAllRestaurantsQuery()));
         }
@@ -42,32 +44,42 @@ namespace Place4AllBackend.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("Restaurant/{id:int}")]
-        public async Task<ActionResult<ServiceResult<RestaurantDto>>> GetRestaurantById(int id)
+        public async Task<ActionResult<ServiceResult<RestaurantSummarizedDto>>> GetRestaurantById(int id)
         {
             return Ok(await Mediator.Send(new GetRestaurantByIdQuery { RestaurantId = id }));
         }
 
+
+        //TODO: Get Restaurants by name
+        //Hacer Query GetRestaurants by name
+
+
         /// <summary>
-        /// TODO: ¿este controller no sería de tipo Get?
+        /// GetRestaurants by Feature
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
         [HttpPost("Restaurants/Features")]
-        public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetRestaurantsByFeature(
+        public async Task<ActionResult<ServiceResult<List<RestaurantSummarizedDto>>>> GetRestaurantsByFeature(
             GetRestaurantsByFeatureQuery query)
         {
             return Ok(await Mediator.Send(new GetRestaurantsByFeatureQuery()));
         }
 
-        /// <summary>
-        /// Get Favorite Restaurants
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("Restaurants/Users")]
-        public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetUserFavoriteRestaurants()
+
+        [HttpPut("Restaurant/{id:int}")]
+        public async Task<ActionResult<ServiceResult<RestaurantDto>>> UpdateRestaurant(int id, UpdateRestaurantCommand command)
         {
-            return Ok(await Mediator.Send(new GetFavoriteRestaurantsQuery()));
+            command.Id = id;
+            return Ok(await Mediator.Send(new UpdateRestaurantCommand 
+            { 
+                Id = id, 
+                Name = command.Name, 
+                Description = command.Description,
+                PhoneNumber = command.PhoneNumber
+            }));
         }
+
 
 
         /// <summary>
@@ -80,6 +92,15 @@ namespace Place4AllBackend.Api.Controllers
             return Ok(await Mediator.Send(new GetAllUsersQuery()));
         }
 
+        /// <summary>
+        /// Get Favorite Restaurants
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Restaurants/Users")]
+        public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetUserFavoriteRestaurants()
+        {
+            return Ok(await Mediator.Send(new GetFavoriteRestaurantsQuery()));
+        }
 
         /// <summary>
         /// Add favorite restaurant
