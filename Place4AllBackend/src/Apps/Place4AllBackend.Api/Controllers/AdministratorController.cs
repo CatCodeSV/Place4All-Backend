@@ -19,6 +19,7 @@ using Place4AllBackend.Application.ApplicationUser.Commands.Update.AddFavoriteRe
 using Place4AllBackend.Application.ApplicationUser.Commands.Update.RemoveFavoriteRestaurant;
 using Place4AllBackend.Application.Services.Restaurants.Commands.Update;
 using Microsoft.CodeAnalysis.CSharp;
+using Place4AllBackend.Application.Services.Restaurants.Commands.Delete;
 
 namespace Place4AllBackend.Api.Controllers
 {
@@ -33,7 +34,7 @@ namespace Place4AllBackend.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("Restaurants")]
-        public async Task<ActionResult<ServiceResult<List<RestaurantSummarizedDto>>>> GetAllRestaurants()
+        public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetAllRestaurants()
         {
             return Ok(await Mediator.Send(new GetAllRestaurantsQuery()));
         }
@@ -44,7 +45,7 @@ namespace Place4AllBackend.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("Restaurant/{id:int}")]
-        public async Task<ActionResult<ServiceResult<RestaurantSummarizedDto>>> GetRestaurantById(int id)
+        public async Task<ActionResult<ServiceResult<RestaurantDto>>> GetRestaurantById(int id)
         {
             return Ok(await Mediator.Send(new GetRestaurantByIdQuery { RestaurantId = id }));
         }
@@ -60,13 +61,18 @@ namespace Place4AllBackend.Api.Controllers
         /// <param name="query"></param>
         /// <returns></returns>
         [HttpPost("Restaurants/Features")]
-        public async Task<ActionResult<ServiceResult<List<RestaurantSummarizedDto>>>> GetRestaurantsByFeature(
+        public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetRestaurantsByFeature(
             GetRestaurantsByFeatureQuery query)
         {
             return Ok(await Mediator.Send(new GetRestaurantsByFeatureQuery()));
         }
 
-
+        /// <summary>
+        /// Update Restaurant by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
         [HttpPut("Restaurant/{id:int}")]
         public async Task<ActionResult<ServiceResult<RestaurantDto>>> UpdateRestaurant(int id, UpdateRestaurantCommand command)
         {
@@ -80,7 +86,18 @@ namespace Place4AllBackend.Api.Controllers
             }));
         }
 
-
+        /// <summary>
+        /// Delete Restaurant by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpDelete("Restaurant/{id:int}")]
+        public async Task<ActionResult<ServiceResult<RestaurantDto>>> DeleteRestaurant(int id, DeleteRestaurantCommand command)
+        {
+            command.Id = id;
+            return Ok(await Mediator.Send(new DeleteRestaurantCommand()));
+        }
 
         /// <summary>
         /// Get all Users
