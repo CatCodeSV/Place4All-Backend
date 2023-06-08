@@ -20,6 +20,7 @@ using Place4AllBackend.Application.ApplicationUser.Commands.Update.RemoveFavorit
 using Place4AllBackend.Application.Services.Restaurants.Commands.Update;
 using Microsoft.CodeAnalysis.CSharp;
 using Place4AllBackend.Application.Services.Restaurants.Commands.Delete;
+using Place4AllBackend.Application.Services.ApplicationUser.Queries.GetUserById;
 
 namespace Place4AllBackend.Api.Controllers
 {
@@ -93,10 +94,9 @@ namespace Place4AllBackend.Api.Controllers
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpDelete("Restaurant/{id:int}")]
-        public async Task<ActionResult<ServiceResult<RestaurantDto>>> DeleteRestaurant(int id, DeleteRestaurantCommand command)
+        public async Task<ActionResult<ServiceResult<RestaurantDto>>> DeleteRestaurant(int id)
         {
-            command.Id = id;
-            return Ok(await Mediator.Send(new DeleteRestaurantCommand()));
+            return Ok(await Mediator.Send(new DeleteRestaurantCommand() {Id = id}));
         }
 
         /// <summary>
@@ -107,6 +107,12 @@ namespace Place4AllBackend.Api.Controllers
         public async Task<ActionResult<ServiceResult<List<ApplicationUserDto>>>> GetAllUsers()
         {
             return Ok(await Mediator.Send(new GetAllUsersQuery()));
+        }
+
+        [HttpGet("User/{id:int}")]
+        public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> GetUserById(string id)
+        {
+            return Ok(await Mediator.Send(new GetUserByIdQuery() { UserId = id }));
         }
 
         /// <summary>

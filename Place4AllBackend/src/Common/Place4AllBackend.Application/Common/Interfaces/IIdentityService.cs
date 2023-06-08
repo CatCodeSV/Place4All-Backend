@@ -28,5 +28,7 @@ namespace Place4AllBackend.Application.Common.Interfaces
         Task<IList<string>> GetRolesAsync(string userId);
 
         Task<List<ApplicationUserDto>> GetAllUsers();
+
+        Task<ApplicationUserDto> GetUserById(string userId);
     }
 }
