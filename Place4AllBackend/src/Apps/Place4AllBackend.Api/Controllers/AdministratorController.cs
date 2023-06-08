@@ -2,18 +2,19 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Place4AllBackend.Application.ApplicationUser.Commands.Update.AddFavoriteRestaurant;
-using Place4AllBackend.Application.ApplicationUser.Commands.Update.RemoveFavoriteRestaurant;
 using Place4AllBackend.Application.Common.Models;
 using Place4AllBackend.Application.Dto;
-using Place4AllBackend.Application.Restaurants.Queries.GetFavoritesRestaurants;
-using Place4AllBackend.Application.Restaurants.Queries.GetRestaurantById;
+using Place4AllBackend.Application.Services.ApplicationUser.Queries.GetAllUsers;
 using Place4AllBackend.Application.Restaurants.Queries.GetRestaurants;
 using Place4AllBackend.Application.Restaurants.Queries.GetRestaurantsByFeatures;
-using Place4AllBackend.Application.Services.ApplicationUser.Queries.GetAllUsers;
-using Place4AllBackend.Application.Services.ApplicationUser.Queries.GetUserById;
-using Place4AllBackend.Application.Services.Restaurants.Commands.Delete;
+using Place4AllBackend.Application.Restaurants.Queries.GetRestaurantById;
+using Place4AllBackend.Application.Restaurants.Queries.GetFavoritesRestaurants;
+using Place4AllBackend.Application.ApplicationUser.Commands.Update.AddFavoriteRestaurant;
+using Place4AllBackend.Application.ApplicationUser.Commands.Update.RemoveFavoriteRestaurant;
 using Place4AllBackend.Application.Services.Restaurants.Commands.Update;
+using Place4AllBackend.Application.Services.Restaurants.Commands.Delete;
+using Place4AllBackend.Application.Services.ApplicationUser.Queries.GetUserById;
+using Place4AllBackend.Application.Services.ApplicationUser.Commands.Update.UpdateUser;
 
 namespace Place4AllBackend.Api.Controllers
 {
@@ -68,14 +69,13 @@ namespace Place4AllBackend.Api.Controllers
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPut("Restaurant/{id:int}")]
-        public async Task<ActionResult<ServiceResult<RestaurantDto>>> UpdateRestaurant(int id,
-            UpdateRestaurantCommand command)
+        public async Task<ActionResult<ServiceResult<RestaurantDto>>> UpdateRestaurant(int id, UpdateRestaurantCommand command)
         {
             command.Id = id;
-            return Ok(await Mediator.Send(new UpdateRestaurantCommand
-            {
-                Id = id,
-                Name = command.Name,
+            return Ok(await Mediator.Send(new UpdateRestaurantCommand 
+            { 
+                Id = id, 
+                Name = command.Name, 
                 Description = command.Description,
                 PhoneNumber = command.PhoneNumber
             }));
@@ -85,11 +85,12 @@ namespace Place4AllBackend.Api.Controllers
         /// Delete Restaurant by id
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="command"></param>
         /// <returns></returns>
         [HttpDelete("Restaurant/{id:int}")]
         public async Task<ActionResult<ServiceResult<RestaurantDto>>> DeleteRestaurant(int id)
         {
-            return Ok(await Mediator.Send(new DeleteRestaurantCommand() { Id = id }));
+            return Ok(await Mediator.Send(new DeleteRestaurantCommand() {Id = id}));
         }
 
         /// <summary>
@@ -103,7 +104,7 @@ namespace Place4AllBackend.Api.Controllers
         }
 
         /// <summary>
-        /// Gets user by its id
+        /// Get User by Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -111,6 +112,29 @@ namespace Place4AllBackend.Api.Controllers
         public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> GetUserById(string id)
         {
             return Ok(await Mediator.Send(new GetUserByIdQuery() { UserId = id }));
+        }
+
+        /// <summary>
+        /// Update User by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPut("User/{id:int}")]
+        public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> UpdateUser(string id, UpdateUserCommand command)
+        {
+            command.Id = id;
+            return Ok(await Mediator.Send(new UpdateUserCommand
+            {
+                Id = id,
+                Name = command.Name,
+                LastName = command.LastName,
+                //Gender = command.Gender, //TODO: IEnumerable
+                BirthDate = command.BirthDate,
+                HasDisability = command.HasDisability,
+                //DisabilityType = command.DisabilityType, //TODO: IEnumerable
+                DisabilityDegree = command.DisabilityDegree
+            }));
         }
 
         /// <summary>

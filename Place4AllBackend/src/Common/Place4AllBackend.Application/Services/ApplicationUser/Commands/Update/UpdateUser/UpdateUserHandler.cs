@@ -11,24 +11,36 @@ using System.Threading.Tasks;
 
 namespace Place4AllBackend.Application.Services.ApplicationUser.Commands.Update.UpdateUser
 {
-    internal class UpdateUserHandler : IRequestHandlerWrapper<UpdateUserCommand, ApplicationUserDto>
+    public class UpdateUserHandler : IRequestHandlerWrapper<UpdateUserCommand, ApplicationUserDto>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private readonly ICurrentUserService _currentUserService;
         private readonly IIdentityService _identityService;
 
         public UpdateUserHandler (IApplicationDbContext context, IMapper mapper, ICurrentUserService currentUserService, IIdentityService identityService)
         {
             _context = context;
             _mapper = mapper;
-            _currentUserService = currentUserService;
             _identityService = identityService;
         }
 
         public async Task<ServiceResult<ApplicationUserDto>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var userToUpdate = await _identityService.
+            var userToUpdate = await _identityService.GetUserById(request.Id);
+            if (userToUpdate == null)
+            {
+                return ServiceResult.Failed<ApplicationUserDto>(ServiceError.NotFound);
+            }
+            userToUpdate.Name = request.Name;
+            userToUpdate.LastName = request.LastName;
+            //userToUpdate.Gender = request.Gender;
+            userToUpdate.BirthDate = request.BirthDate;
+            userToUpdate.HasDisability = request.HasDisability;
+            //userToUpdate.DisabilityType = request.DisabilityType;
+            userToUpdate.DisabilityDegree = request.DisabilityDegree;
+
+            await _context.SaveChangesAsync(cancellationToken);
+            return ServiceResult.Success<ApplicationUserDto>(_mapper.Map<ApplicationUserDto>(userToUpdate));
         }
     }
 }
