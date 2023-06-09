@@ -30,7 +30,7 @@ namespace Place4AllBackend.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("Restaurants")]
-        public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetAllRestaurants()
+        public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetAllRestaurantsFull()
         {
             return Ok(await Mediator.Send(new GetAllRestaurantsQuery()));
         }
@@ -46,7 +46,7 @@ namespace Place4AllBackend.Api.Controllers
         /// <param name="query"></param>
         /// <returns></returns>
         [HttpPost("Restaurants/Features")]
-        public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetRestaurantsByFeature(
+        public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetRestaurantsByFeatureFull(
             GetRestaurantsByFeatureQuery query)
         {
             return Ok(await Mediator.Send(new GetRestaurantsByFeatureQuery()));
