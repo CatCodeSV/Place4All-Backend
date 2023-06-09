@@ -14,15 +14,15 @@ namespace Place4AllBackend.Application.Services.ApplicationUser.Commands.Update.
         private readonly IApplicationDbContext _context;
         private readonly IIdentityService _identityService;
 
-        public UpdateUserValidator(IApplicationDbContext context)
+        public UpdateUserValidator(IApplicationDbContext context, IIdentityService identityService)
         {
             _context = context;
+            _identityService = identityService;
             AddValidationRules();
         }
 
         private void AddValidationRules()
         {
-            throw new NotImplementedException();
         }
     }
 }

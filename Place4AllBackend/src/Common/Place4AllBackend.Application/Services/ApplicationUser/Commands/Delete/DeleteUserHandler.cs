@@ -27,11 +27,11 @@ namespace Place4AllBackend.Application.Services.ApplicationUser.Commands.Delete
         public async Task<ServiceResult<ApplicationUserDto>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             var userToDelete = await _identityService.GetUserById(request.Id);
-            if (userToDelete != null)
+            if (userToDelete == null)
             {
                 return ServiceResult.Failed<ApplicationUserDto>(ServiceError.NotFound);
             }
-            _identityService.DeleteUserAsync(userToDelete.Id);
+            await _identityService.DeleteUserAsync(userToDelete.Id);
             await _context.SaveChangesAsync(cancellationToken);
             return ServiceResult.Success(_mapper.Map<ApplicationUserDto>(userToDelete));
         }

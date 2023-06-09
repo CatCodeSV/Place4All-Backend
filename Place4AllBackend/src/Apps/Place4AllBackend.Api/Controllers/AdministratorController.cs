@@ -86,7 +86,6 @@ namespace Place4AllBackend.Api.Controllers
         /// Delete Restaurant by id
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="command"></param>
         /// <returns></returns>
         [HttpDelete("Restaurant/{id:int}")]
         public async Task<ActionResult<ServiceResult<RestaurantDto>>> DeleteRestaurant(int id)
@@ -109,7 +108,7 @@ namespace Place4AllBackend.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("User/{id:string}")]
+        [HttpGet("User/{id}")]
         public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> GetUserById(string id)
         {
             return Ok(await Mediator.Send(new GetUserByIdQuery() { UserId = id }));
@@ -121,7 +120,7 @@ namespace Place4AllBackend.Api.Controllers
         /// <param name="id"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        [HttpPut("User/{id:string}")]
+        [HttpPut("User/{id}")]
         public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> UpdateUser(string id, UpdateUserCommand command)
         {
             command.Id = id;
@@ -176,7 +175,7 @@ namespace Place4AllBackend.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpDelete("User/{id:string}")]
+        [HttpDelete("User/{id}")]
         public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> DeleteUser(string id)
         {
             return Ok(await Mediator.Send(new DeleteUserCommand() { Id = id }));
