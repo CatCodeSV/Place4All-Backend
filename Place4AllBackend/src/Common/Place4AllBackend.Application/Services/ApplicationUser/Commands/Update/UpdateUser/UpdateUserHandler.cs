@@ -33,10 +33,10 @@ namespace Place4AllBackend.Application.Services.ApplicationUser.Commands.Update.
             }
             userToUpdate.Name = request.Name;
             userToUpdate.LastName = request.LastName;
-            //userToUpdate.Gender = request.Gender;
+            userToUpdate.Gender = request.Gender.ToString();
             userToUpdate.BirthDate = request.BirthDate;
             userToUpdate.HasDisability = request.HasDisability;
-            //userToUpdate.DisabilityType = request.DisabilityType;
+            userToUpdate.DisabilityType = request.DisabilityType;
             userToUpdate.DisabilityDegree = request.DisabilityDegree;
 
             await _context.SaveChangesAsync(cancellationToken);

@@ -35,17 +35,6 @@ namespace Place4AllBackend.Api.Controllers
             return Ok(await Mediator.Send(new GetAllRestaurantsQuery()));
         }
 
-        /// <summary>
-        /// Get restaurant by Id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet("Restaurant/{id:int}")]
-        public async Task<ActionResult<ServiceResult<RestaurantDto>>> GetRestaurantById(int id)
-        {
-            return Ok(await Mediator.Send(new GetRestaurantByIdQuery { RestaurantId = id }));
-        }
-
 
         //TODO: Get Restaurants by name
         //Hacer Query GetRestaurants by name
@@ -129,10 +118,10 @@ namespace Place4AllBackend.Api.Controllers
                 Id = id,
                 Name = command.Name,
                 LastName = command.LastName,
-                //Gender = command.Gender, //TODO: IEnumerable
+                Gender = command.Gender,
                 BirthDate = command.BirthDate,
                 HasDisability = command.HasDisability,
-                //DisabilityType = command.DisabilityType, //TODO: IEnumerable
+                DisabilityType = command.DisabilityType,
                 DisabilityDegree = command.DisabilityDegree
             }));
         }

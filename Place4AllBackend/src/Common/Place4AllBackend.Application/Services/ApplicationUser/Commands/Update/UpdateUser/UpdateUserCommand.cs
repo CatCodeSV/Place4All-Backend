@@ -14,10 +14,10 @@ namespace Place4AllBackend.Application.Services.ApplicationUser.Commands.Update.
         public string Id { get; set; } 
         public string Name { get; set; }
         public string LastName { get; set; }
-        //public Gender Gender { get; set; } //TODO: IEnumerable
+        public Gender Gender { get; set; }
         public DateTime BirthDate { get; set; }
         public bool HasDisability { get; set; }
-        //public DisabilityType? DisabilityType { get; set; } //TODO: IEnumerable
+        public DisabilityType DisabilityType { get; set; }
         public int? DisabilityDegree { get; set; }
     }
 }
