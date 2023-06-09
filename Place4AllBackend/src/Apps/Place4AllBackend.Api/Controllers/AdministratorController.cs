@@ -2,21 +2,15 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Place4AllBackend.Application.Common.Models;
-using Place4AllBackend.Application.Dto;
-using Place4AllBackend.Application.Services.ApplicationUser.Queries.GetAllUsers;
-using Microsoft.AspNetCore.Mvc;
-using Place4AllBackend.Application.Common.Models;
-using Place4AllBackend.Application.Dto;
-using Place4AllBackend.Application.Restaurants.Queries.GetRestaurants;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Threading;
-using Place4AllBackend.Application.Restaurants.Queries.GetRestaurantsByFeatures;
-using Place4AllBackend.Application.Restaurants.Queries.GetRestaurantById;
-using Place4AllBackend.Application.Restaurants.Queries.GetFavoritesRestaurants;
 using Place4AllBackend.Application.ApplicationUser.Commands.Update.AddFavoriteRestaurant;
 using Place4AllBackend.Application.ApplicationUser.Commands.Update.RemoveFavoriteRestaurant;
+using Place4AllBackend.Application.Common.Models;
+using Place4AllBackend.Application.Dto;
+using Place4AllBackend.Application.Restaurants.Queries.GetFavoritesRestaurants;
+using Place4AllBackend.Application.Restaurants.Queries.GetRestaurantById;
+using Place4AllBackend.Application.Restaurants.Queries.GetRestaurants;
+using Place4AllBackend.Application.Restaurants.Queries.GetRestaurantsByFeatures;
+using Place4AllBackend.Application.Services.ApplicationUser.Queries.GetAllUsers;
 
 namespace Place4AllBackend.Api.Controllers
 {
@@ -30,7 +24,7 @@ namespace Place4AllBackend.Api.Controllers
         /// Get all Restaurants
         /// </summary>
         /// <returns></returns>
-        [HttpGet("/restaurants")]
+        [HttpGet("Restaurants")]
         public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetAllRestaurants_admin()
         {
             return Ok(await Mediator.Send(new GetAllRestaurantsQuery()));
@@ -41,7 +35,7 @@ namespace Place4AllBackend.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("/restaurants/{id:int}")]
+        [HttpGet("Restaurants/{id:int}")]
         public async Task<ActionResult<ServiceResult<RestaurantDto>>> GetRestaurantById_admin(int id)
         {
             return Ok(await Mediator.Send(new GetRestaurantByIdQuery { RestaurantId = id }));
@@ -52,7 +46,7 @@ namespace Place4AllBackend.Api.Controllers
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-        [HttpPost("features")]
+        [HttpPost("Features")]
         public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetRestaurantsByFeature_admin(
             GetRestaurantsByFeatureQuery query)
         {
@@ -63,7 +57,7 @@ namespace Place4AllBackend.Api.Controllers
         /// Get Favorite Restaurants
         /// </summary>
         /// <returns></returns>
-        [HttpGet("/users")]
+        [HttpGet("Restaurants/Users")]
         public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetUserFavoriteRestaurants_admin()
         {
             return Ok(await Mediator.Send(new GetFavoriteRestaurantsQuery()));
@@ -74,7 +68,7 @@ namespace Place4AllBackend.Api.Controllers
         /// Get all Users
         /// </summary>
         /// <returns></returns>
-        [HttpGet("/users")]
+        [HttpGet("Users")]
         public async Task<ActionResult<ServiceResult<List<ApplicationUserDto>>>> AddFavoriteRestaurant()
         {
             return Ok(await Mediator.Send(new GetAllUsersQuery()));
@@ -86,7 +80,7 @@ namespace Place4AllBackend.Api.Controllers
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        [HttpPut("/users")]
+        [HttpPut("Restaurants/Users")]
         public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> AddFavoriteRestaurant(
             AddFavoriteRestaurantCommand command)
         {
@@ -98,7 +92,7 @@ namespace Place4AllBackend.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpDelete("/restaurants/{id:int}")]
+        [HttpDelete("Restaurants/{id:int}")]
         public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> DeleteFavoriteRestaurant(int id)
         {
             return Ok(await Mediator.Send(new DeleteFavoriteRestaurantCommand { FavoriteRestaurantId = id }));
