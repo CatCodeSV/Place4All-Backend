@@ -2,15 +2,20 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Place4AllBackend.Application.ApplicationUser.Commands.Update.AddFavoriteRestaurant;
-using Place4AllBackend.Application.ApplicationUser.Commands.Update.RemoveFavoriteRestaurant;
 using Place4AllBackend.Application.Common.Models;
 using Place4AllBackend.Application.Dto;
-using Place4AllBackend.Application.Restaurants.Queries.GetFavoritesRestaurants;
-using Place4AllBackend.Application.Restaurants.Queries.GetRestaurantById;
+using Place4AllBackend.Application.Services.ApplicationUser.Queries.GetAllUsers;
 using Place4AllBackend.Application.Restaurants.Queries.GetRestaurants;
 using Place4AllBackend.Application.Restaurants.Queries.GetRestaurantsByFeatures;
-using Place4AllBackend.Application.Services.ApplicationUser.Queries.GetAllUsers;
+using Place4AllBackend.Application.Restaurants.Queries.GetRestaurantById;
+using Place4AllBackend.Application.Restaurants.Queries.GetFavoritesRestaurants;
+using Place4AllBackend.Application.ApplicationUser.Commands.Update.AddFavoriteRestaurant;
+using Place4AllBackend.Application.ApplicationUser.Commands.Update.RemoveFavoriteRestaurant;
+using Place4AllBackend.Application.Services.Restaurants.Commands.Update;
+using Place4AllBackend.Application.Services.Restaurants.Commands.Delete;
+using Place4AllBackend.Application.Services.ApplicationUser.Queries.GetUserById;
+using Place4AllBackend.Application.Services.ApplicationUser.Commands.Update.UpdateUser;
+using Place4AllBackend.Application.Services.ApplicationUser.Commands.Delete;
 
 namespace Place4AllBackend.Api.Controllers
 {
@@ -25,7 +30,7 @@ namespace Place4AllBackend.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("Restaurants")]
-        public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetAllRestaurants_admin()
+        public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetAllRestaurants()
         {
             return Ok(await Mediator.Send(new GetAllRestaurantsQuery()));
         }
@@ -35,22 +40,102 @@ namespace Place4AllBackend.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("Restaurants/{id:int}")]
-        public async Task<ActionResult<ServiceResult<RestaurantDto>>> GetRestaurantById_admin(int id)
+        [HttpGet("Restaurant/{id:int}")]
+        public async Task<ActionResult<ServiceResult<RestaurantDto>>> GetRestaurantById(int id)
         {
             return Ok(await Mediator.Send(new GetRestaurantByIdQuery { RestaurantId = id }));
         }
 
+
+        //TODO: Get Restaurants by name
+        //Hacer Query GetRestaurants by name
+
+
         /// <summary>
-        /// TODO: ¿este controller no sería de tipo Get?
+        /// GetRestaurants by Feature
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-        [HttpPost("Features")]
-        public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetRestaurantsByFeature_admin(
+        [HttpPost("Restaurants/Features")]
+        public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetRestaurantsByFeature(
             GetRestaurantsByFeatureQuery query)
         {
             return Ok(await Mediator.Send(new GetRestaurantsByFeatureQuery()));
+        }
+
+        /// <summary>
+        /// Update Restaurant by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPut("Restaurant/{id:int}")]
+        public async Task<ActionResult<ServiceResult<RestaurantDto>>> UpdateRestaurant(int id, UpdateRestaurantCommand command)
+        {
+            command.Id = id;
+            return Ok(await Mediator.Send(new UpdateRestaurantCommand 
+            { 
+                Id = id, 
+                Name = command.Name, 
+                Description = command.Description,
+                PhoneNumber = command.PhoneNumber
+            }));
+        }
+
+        /// <summary>
+        /// Delete Restaurant by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpDelete("Restaurant/{id:int}")]
+        public async Task<ActionResult<ServiceResult<RestaurantDto>>> DeleteRestaurant(int id)
+        {
+            return Ok(await Mediator.Send(new DeleteRestaurantCommand() {Id = id}));
+        }
+
+        /// <summary>
+        /// Get all Users
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Users")]
+        public async Task<ActionResult<ServiceResult<List<ApplicationUserDto>>>> GetAllUsers()
+        {
+            return Ok(await Mediator.Send(new GetAllUsersQuery()));
+        }
+
+        /// <summary>
+        /// Get User by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("User/{id:string}")]
+        public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> GetUserById(string id)
+        {
+            return Ok(await Mediator.Send(new GetUserByIdQuery() { UserId = id }));
+        }
+
+        /// <summary>
+        /// Update User by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPut("User/{id:string}")]
+        public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> UpdateUser(string id, UpdateUserCommand command)
+        {
+            command.Id = id;
+            return Ok(await Mediator.Send(new UpdateUserCommand
+            {
+                Id = id,
+                Name = command.Name,
+                LastName = command.LastName,
+                //Gender = command.Gender, //TODO: IEnumerable
+                BirthDate = command.BirthDate,
+                HasDisability = command.HasDisability,
+                //DisabilityType = command.DisabilityType, //TODO: IEnumerable
+                DisabilityDegree = command.DisabilityDegree
+            }));
         }
 
         /// <summary>
@@ -58,29 +143,17 @@ namespace Place4AllBackend.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("Restaurants/Users")]
-        public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetUserFavoriteRestaurants_admin()
+        public async Task<ActionResult<ServiceResult<List<RestaurantDto>>>> GetUserFavoriteRestaurants()
         {
             return Ok(await Mediator.Send(new GetFavoriteRestaurantsQuery()));
         }
-
-
-        /// <summary>
-        /// Get all Users
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("Users")]
-        public async Task<ActionResult<ServiceResult<List<ApplicationUserDto>>>> AddFavoriteRestaurant()
-        {
-            return Ok(await Mediator.Send(new GetAllUsersQuery()));
-        }
-
 
         /// <summary>
         /// Add favorite restaurant
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        [HttpPut("Restaurants/Users")]
+        [HttpPut("Users/Restaurants")]
         public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> AddFavoriteRestaurant(
             AddFavoriteRestaurantCommand command)
         {
@@ -92,10 +165,21 @@ namespace Place4AllBackend.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpDelete("Restaurants/{id:int}")]
+        [HttpDelete("Users/Restaurants/{id:int}")]
         public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> DeleteFavoriteRestaurant(int id)
         {
             return Ok(await Mediator.Send(new DeleteFavoriteRestaurantCommand { FavoriteRestaurantId = id }));
+        }
+
+        /// <summary>
+        /// Delete User
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("User/{id:string}")]
+        public async Task<ActionResult<ServiceResult<ApplicationUserDto>>> DeleteUser(string id)
+        {
+            return Ok(await Mediator.Send(new DeleteUserCommand() { Id = id }));
         }
     }
 }
