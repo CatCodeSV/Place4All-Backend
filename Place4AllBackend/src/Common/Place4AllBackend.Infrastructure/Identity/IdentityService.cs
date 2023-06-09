@@ -129,11 +129,23 @@ namespace Place4AllBackend.Infrastructure.Identity
 
             return user ?? null;
         }
+        
+        public async Task<List<ApplicationUserDto>> GetAllUsers()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            return _mapper.Map<List<ApplicationUserDto>>(users);
+        }
 
         public async Task<IList<string>> GetRolesAsync(string userId)
         {
             var user = await GetCurrentUser(userId);
             return await _userManager.GetRolesAsync(user);
+        }
+
+        public async Task<ApplicationUserDto> GetUserById(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            return _mapper.Map<ApplicationUserDto>(user);
         }
     }
 }
