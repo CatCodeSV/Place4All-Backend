@@ -14,9 +14,11 @@ public class RestaurantSeeder
     {
         if (!context.Restaurants.Any())
         {
+            var owner = context.Users.FirstOrDefault(x => x.Email == "mangel@tagliatella.com");
             //1 Restaurante: El Granero
             context.Restaurants.Add(new Restaurant()
             {
+                Creator = owner.Id,
                 Name = "El Granero",
                 Address = new Address
                 {
@@ -41,6 +43,7 @@ public class RestaurantSeeder
             //2 Restaurante: Sushi Kaiten
             context.Restaurants.Add(new Restaurant()
             {
+                Creator = owner.Id,
                 Name = "Sushi Kaiten",
                 Address = new Address
                 {
@@ -65,6 +68,7 @@ public class RestaurantSeeder
             //3 Restaurante: Le Bistrot Parisien
             context.Restaurants.Add(new Restaurant()
             {
+                Creator = owner.Id,
                 Name = "Le Bistrot Parisien",
                 Address = new Address
                 {
@@ -89,6 +93,7 @@ public class RestaurantSeeder
             //4 Restaurante: La Tagliatella
             context.Restaurants.Add(new Restaurant()
             {
+                Creator = owner.Id,
                 Name = "La Tagliatella",
                 Address = new Address
                 {
@@ -113,6 +118,7 @@ public class RestaurantSeeder
             //5 La Taberna del Mar
             context.Restaurants.Add(new Restaurant()
             {
+                Creator = owner.Id,
                 Name = "La Taberna del Mar",
                 Address = new Address
                 {
@@ -138,6 +144,7 @@ public class RestaurantSeeder
             //6 La Parrilla de Juan
             context.Restaurants.Add(new Restaurant()
             {
+                Creator = owner.Id,
                 Name = "La Parrilla de Juan",
                 Address = new Address
                 {
@@ -162,6 +169,7 @@ public class RestaurantSeeder
             //7 La Mamma
             context.Restaurants.Add(new Restaurant()
             {
+                Creator = owner.Id,
                 Name = "La Mamma",
                 Address = new Address
                 {
@@ -186,6 +194,7 @@ public class RestaurantSeeder
             //8 La Casa del Tenedor
             context.Restaurants.Add(new Restaurant()
             {
+                Creator = owner.Id,
                 Name = "La Casa del Tenedor",
                 Address = new Address
                 {
@@ -211,6 +220,7 @@ public class RestaurantSeeder
             //9 El Sabor de México
             context.Restaurants.Add(new Restaurant()
             {
+                Creator = owner.Id,
                 Name = "El Sabor de México",
                 Address = new Address
                 {
@@ -235,6 +245,7 @@ public class RestaurantSeeder
             //10 El Farolito
             context.Restaurants.Add(new Restaurant()
             {
+                Creator = owner.Id,
                 Name = "El Farolito",
                 Address = new Address
                 {
@@ -259,6 +270,7 @@ public class RestaurantSeeder
             //11 El Cangrejo Loco
             context.Restaurants.Add(new Restaurant()
             {
+                Creator = owner.Id,
                 Name = "El Cangrejo Loco",
                 Address = new Address
                 {
