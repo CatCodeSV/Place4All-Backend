@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
+
 namespace Place4AllBackend.Application.Dto;
 
-public class RestaurantDto 
+public class RestaurantDto
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -14,6 +16,8 @@ public class RestaurantDto
     public List<ImageDto> Images { get; set; }
     public List<FeatureDto> Features { get; set; }
     public List<ReviewDto> Reviews { get; set; }
-    public string CreateDate { get; set; }
-
+    public string Creator { get; set; }
+    public DateTime CreateDate { get; set; }
+    public string Modifier { get; set; }
+    public DateTime? ModifyDate { get; set; }
 }

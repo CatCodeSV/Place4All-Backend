@@ -10,11 +10,11 @@ using Place4AllBackend.Application.Dto;
 
 namespace Place4AllBackend.Application.Restaurants.Queries.GetRestaurants
 {
-    public class GetAllRestaurantsQuery : IRequestWrapper<List<RestaurantSummarizedDto>>
+    public class GetAllRestaurantsQuery : IRequestWrapper<List<RestaurantDto>>
     {
     }
 
-    public class GetRestaurantsHandler : IRequestHandlerWrapper<GetAllRestaurantsQuery, List<RestaurantSummarizedDto>>
+    public class GetRestaurantsHandler : IRequestHandlerWrapper<GetAllRestaurantsQuery, List<RestaurantDto>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -26,16 +26,16 @@ namespace Place4AllBackend.Application.Restaurants.Queries.GetRestaurants
         }
 
 
-        public async Task<ServiceResult<List<RestaurantSummarizedDto>>> Handle(GetAllRestaurantsQuery request,
+        public async Task<ServiceResult<List<RestaurantDto>>> Handle(GetAllRestaurantsQuery request,
             CancellationToken cancellationToken)
         {
             var list = await _context.Restaurants.Include(x => x.Features).Include(x => x.Images)
                 .Include(x => x.Address).Include(x => x.Reviews)
-                .ProjectTo<RestaurantSummarizedDto>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
+                .ProjectTo<RestaurantDto>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
 
             return list.Count > 0
                 ? ServiceResult.Success(list)
-                : ServiceResult.Failed<List<RestaurantSummarizedDto>>(ServiceError.NotFound);
+                : ServiceResult.Failed<List<RestaurantDto>>(ServiceError.NotFound);
         }
     }
 }
