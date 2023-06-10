@@ -20,5 +20,9 @@ namespace Place4AllBackend.Application.Dto
         public bool HasDisability { get; set; }
         public DisabilityType DisabilityType { get; set; }
         public int? DisabilityDegree { get; set; }
+        public string Creator { get; set; }
+        public DateTime CreateDate { get; set; }
+        public string Modifier { get; set; }
+        public DateTime? ModifyDate { get; set; }
     }
 }
