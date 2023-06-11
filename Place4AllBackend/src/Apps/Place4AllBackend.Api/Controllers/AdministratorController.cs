@@ -125,7 +125,8 @@ namespace Place4AllBackend.Api.Controllers
                 BirthDate = command.BirthDate,
                 HasDisability = command.HasDisability,
                 DisabilityType = command.DisabilityType,
-                DisabilityDegree = command.DisabilityDegree
+                DisabilityDegree = command.DisabilityDegree,
+                UserName = command.UserName
             }));
         }
 

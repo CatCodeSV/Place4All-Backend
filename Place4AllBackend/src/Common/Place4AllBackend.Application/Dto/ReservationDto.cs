@@ -11,6 +11,7 @@ public class ReservationDto
     }
     public int Id { get; set; }
     public int RestaurantId { get; set; }
+    public string RestaurantName { get; set; }
     public int People { get; set; }
     public IList<FeatureDto> Features { get; set; }
     public string SpecialInstructions { get; set; }
