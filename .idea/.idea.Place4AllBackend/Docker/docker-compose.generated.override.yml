@@ -1,0 +1,20 @@
+# This is a generated file. Not intended for manual editing.
+version: "3.4"
+services:
+  webapi:
+    build:
+      context: "C:\\Users\\keevi\\Developer\\tests\\Place4AllBackend\\Place4AllBackend"
+      dockerfile: "src/Apps/Place4AllBackend.Api/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net6.0/Place4AllBackend.Api.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+    image: "webapi:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\keevi\\Developer\\tests\\Place4AllBackend\\Place4AllBackend\\src\\\
+      Apps\\Place4AllBackend.Api:/app:rw"
+    working_dir: "/app"
