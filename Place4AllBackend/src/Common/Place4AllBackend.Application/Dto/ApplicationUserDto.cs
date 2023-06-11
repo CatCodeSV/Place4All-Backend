@@ -12,7 +12,7 @@ namespace Place4AllBackend.Application.Dto
         public string LastName { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
-        public string Gender { get; set; }
+        public Gender Gender { get; set; }
         public DateTime BirthDate { get; set; }
         public int Age { get; set; }
         public int AddressId { get; set; }
@@ -20,5 +20,9 @@ namespace Place4AllBackend.Application.Dto
         public bool HasDisability { get; set; }
         public DisabilityType DisabilityType { get; set; }
         public int? DisabilityDegree { get; set; }
+        public string Creator { get; set; }
+        public DateTime CreateDate { get; set; }
+        public string Modifier { get; set; }
+        public DateTime? ModifyDate { get; set; }
     }
 }

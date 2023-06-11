@@ -9,6 +9,7 @@ using Place4AllBackend.Application.Dto;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Place4AllBackend.Application.Services.ApplicationUser.Commands.Create;
+using Place4AllBackend.Application.Services.ApplicationUser.Commands.Update.UpdateUser;
 using Place4AllBackend.Domain.Entities;
 
 namespace Place4AllBackend.Infrastructure.Identity
@@ -129,7 +130,7 @@ namespace Place4AllBackend.Infrastructure.Identity
 
             return user ?? null;
         }
-        
+
         public async Task<List<ApplicationUserDto>> GetAllUsers()
         {
             var users = await _userManager.Users.ToListAsync();
@@ -146,6 +147,26 @@ namespace Place4AllBackend.Infrastructure.Identity
         {
             var user = await _userManager.FindByIdAsync(userId);
             return _mapper.Map<ApplicationUserDto>(user);
+        }
+
+        public async Task<ApplicationUserDto> UpdateUser(UpdateUserCommand user)
+        {
+            var userToUpdate = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+
+            if (userToUpdate == null) return null;
+
+            userToUpdate.Name = user.Name;
+            userToUpdate.Name = user.Name;
+            userToUpdate.LastName = user.LastName;
+            userToUpdate.Gender = user.Gender;
+            userToUpdate.BirthDate = user.BirthDate;
+            userToUpdate.HasDisability = user.HasDisability;
+            userToUpdate.DisabilityType = user.DisabilityType;
+            userToUpdate.DisabilityDegree = user.DisabilityDegree;
+            userToUpdate.UserName = user.UserName;
+
+            var result = await _userManager.UpdateAsync(userToUpdate);
+            return result.Succeeded ? _mapper.Map<ApplicationUserDto>(userToUpdate) : null;
         }
     }
 }

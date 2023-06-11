@@ -56,7 +56,8 @@ namespace Place4AllBackend.Infrastructure.Persistence
             }
 
             var result = await base.SaveChangesAsync(cancellationToken);
-
+            
+            
             await DispatchEvents();
 
             return result;

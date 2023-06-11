@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Place4AllBackend.Application.Common.Models;
 using Place4AllBackend.Application.Dto;
 using Place4AllBackend.Application.Services.ApplicationUser.Commands.Create;
+using Place4AllBackend.Application.Services.ApplicationUser.Commands.Update.UpdateUser;
 using Place4AllBackend.Domain.Entities;
 
 namespace Place4AllBackend.Application.Common.Interfaces
@@ -30,5 +31,7 @@ namespace Place4AllBackend.Application.Common.Interfaces
         Task<List<ApplicationUserDto>> GetAllUsers();
 
         Task<ApplicationUserDto> GetUserById(string userId);
+
+        Task<ApplicationUserDto> UpdateUser(UpdateUserCommand user);
     }
 }

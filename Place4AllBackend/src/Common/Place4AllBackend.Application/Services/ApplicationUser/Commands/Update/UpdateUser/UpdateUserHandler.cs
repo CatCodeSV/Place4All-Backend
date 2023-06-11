@@ -17,30 +17,22 @@ namespace Place4AllBackend.Application.Services.ApplicationUser.Commands.Update.
         private readonly IMapper _mapper;
         private readonly IIdentityService _identityService;
 
-        public UpdateUserHandler (IApplicationDbContext context, IMapper mapper, ICurrentUserService currentUserService, IIdentityService identityService)
+        public UpdateUserHandler(IApplicationDbContext context, IMapper mapper, ICurrentUserService currentUserService,
+            IIdentityService identityService)
         {
             _context = context;
             _mapper = mapper;
             _identityService = identityService;
         }
 
-        public async Task<ServiceResult<ApplicationUserDto>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        public async Task<ServiceResult<ApplicationUserDto>> Handle(UpdateUserCommand request,
+            CancellationToken cancellationToken)
         {
-            var userToUpdate = await _identityService.GetUserById(request.Id);
-            if (userToUpdate == null)
-            {
-                return ServiceResult.Failed<ApplicationUserDto>(ServiceError.NotFound);
-            }
-            userToUpdate.Name = request.Name;
-            userToUpdate.LastName = request.LastName;
-            userToUpdate.Gender = request.Gender.ToString();
-            userToUpdate.BirthDate = request.BirthDate;
-            userToUpdate.HasDisability = request.HasDisability;
-            userToUpdate.DisabilityType = request.DisabilityType;
-            userToUpdate.DisabilityDegree = request.DisabilityDegree;
+            var updatedUser = await _identityService.UpdateUser(request);
 
-            await _context.SaveChangesAsync(cancellationToken);
-            return ServiceResult.Success<ApplicationUserDto>(_mapper.Map<ApplicationUserDto>(userToUpdate));
+            return updatedUser != null
+                ? ServiceResult.Success<ApplicationUserDto>(updatedUser)
+                : ServiceResult.Failed<ApplicationUserDto>(ServiceError.UserFailedtoUpdate);
         }
     }
 }

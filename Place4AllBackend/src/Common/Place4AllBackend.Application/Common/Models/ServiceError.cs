@@ -72,6 +72,9 @@ namespace Place4AllBackend.Application.Common.Models
 
         public static ServiceError Validation => new ServiceError("One or more validation errors occurred.", 900);
 
+        public static ServiceError UserFailedtoUpdate =>
+            new ServiceError("Ha habido un error actualizando el usuario.", 899);
+
         public static ServiceError SearchAtLeastOneCharacter =>
             new ServiceError("Search parameter must have at least one character!", 898);
 
