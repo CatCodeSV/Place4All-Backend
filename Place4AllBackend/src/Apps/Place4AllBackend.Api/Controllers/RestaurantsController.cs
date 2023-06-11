@@ -31,19 +31,6 @@ public class RestaurantsController : BaseApiController
     }
 
     /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="query"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    [HttpPost("features")]
-    public async Task<ActionResult<ServiceResult<List<RestaurantSummarizedDto>>>> GetRestaurantsByFeature(
-        GetRestaurantsByFeatureQuery query, CancellationToken cancellationToken)
-    {
-        return Ok(await Mediator.Send(new GetRestaurantsByFeatureQuery(), cancellationToken));
-    }
-
-    /// <summary>
     /// Get restaurant by Id
     /// </summary>
     /// <param name="id"></param>
